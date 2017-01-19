@@ -1,0 +1,4 @@
+- Break out routes into new file
+- Get rid of jade files
+- Figure out a way to template a basic HTML page
+- Add bootstrap for UI
