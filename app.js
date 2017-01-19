@@ -12,33 +12,8 @@ app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
 
 //Routes
-app.get('/', function (req, res) {
-	res.sendFile('home.html', {root: __dirname });
-});
-
-app.get('/watch', function (req, res) {
-	var id = req.query.id;
-	
-	res.render('watch', { videoName: id, videoUrl: "https://s3.amazonaws.com/videos.celiano/" + id + ".mp4" });
-});
-
-app.get('/data/videos', function (req, res) {
-	res.sendFile('data/videos.json', {root: __dirname });
-});
-
-
-//API Calls
-app.get('data/videos', function (req, res) {
-	
-	fs.readFile('data/videos.json', function (err, data) {
-	if (err) {
-		return console.error(err);
-	}
-	console.log("Asynchronous read: " + data.toString());
-});
-	
-});
-
+require('./routes/webpages.js')(app);
+require('./routes/api/data.js')(app);
 
 //App Start
 app.listen(3000, function () {

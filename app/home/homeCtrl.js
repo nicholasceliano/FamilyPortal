@@ -14,7 +14,7 @@ familyPortalApp.controller('homeCtrl', function($scope, homeSvc) {
 		 homeSvc.getVideos().then(function (resp) {
             home.videos = resp.videos;
         }, function () {
-            alert('err');
+            alert('Error: homeSvc.getVideos()');
         });
 	};
 });

@@ -1,4 +1,12 @@
-- Break out routes into new file
+Framework:
 - Get rid of jade files
 - Figure out a way to template a basic HTML page
 - Add bootstrap for UI
+- Need to add some sort of debugging framework
+
+Future:
+- Add tags for videos
+- Allow users to upload videos
+- Create users
+- Require users to log in
+- Rework API route naming once MongoDB is set up
