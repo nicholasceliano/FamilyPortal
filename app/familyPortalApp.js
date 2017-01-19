@@ -1,0 +1,1 @@
+var familyPortalApp = angular.module('familyPortalApp',  ['ngResource']);

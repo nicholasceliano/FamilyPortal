@@ -1,0 +1,1 @@
+var familyPortalApp=angular.module("familyPortalApp",[]);familyPortalApp.controller("homeCtrl",function(a){function b(){$http.get("/data/videos").then(function(a){c.videos=a.data})}var c=a;c.videos=[],c.init=function(){b()}});

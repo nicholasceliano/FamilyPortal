@@ -1,67 +1,15 @@
-<html>
+<html ng-app="familyPortalApp">
 	<head>
 		<title>Celiano Family Videos</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-resource.min.js"></script>
+		<script src="/dist/familyPortal.js"></script>
 	</head>
-	<body>
+	<body ng-controller="homeCtrl" ng-init="init()">
 		<h1>Celiano Family Videos</h1>
 		<h4>Below is a list of links to the videos, in YYYYMMDD format, followed by a short description and the tape number the videos came off of. If you have any problems, please contact Dominic at d.celiano@yahoo.com.</h4>
 		<ul>
-			<li><a href="./watch?id=19890930+Nicholas+and+Old+House+(3)">19890930 Nicholas and Old House (3).mp4</a></li>
-			<li><a href="./watch?id=19891225+Christmas+1989+(3)">19891225 Christmas 1989 (3).mp4</a></li>
-			<li><a href="./watch?id=19910811+Tom+and+Nick+Swimming+(7)">19910811 Tom and Nick Swimming (7).mp4</a></li>
-			<li><a href="./watch?id=19911215+Christmas+1991+(5)">19911215 Christmas 1991 (5).mp4</a></li>
-			<li><a href="./watch?id=19920927+Nicholas+3rd+Birthday+(5)">19920927 Nicholas 3rd Birthday (5).mp4</a></li>
-			<li><a href="./watch?id=19921026+Thomas+4th+Birthday+(5)">19921026 Thomas 4th Birthday (5).mp4</a></li>
-			<li><a href="./watch?id=19921225+Christmas+1992+(5)">19921225 Christmas 1992 (5).mp4</a></li>
-			<li><a href="./watch?id=19931225+Christmas+1993+(6)">19931225 Christmas 1993 (6).mp4</a></li>
-			<li><a href="./watch?id=19940000+Dominic+Baptism+(6)">19940000 Dominic Baptism (6).mp4</a></li>
-			<li><a href="./watch?id=19940824+Dominic+Coming+Home+(6)">19940824 Dominic Coming Home (6).mp4</a></li>
-			<li><a href="./watch?id=19940908+Thomas+1st+Day+of+Kindergarten+(6)">19940908 Thomas 1st Day of Kindergarten (6).mp4</a></li>
-			<li><a href="./watch?id=19941225+Christmas+1994+(6)">19941225 Christmas 1994 (6).mp4</a></li>
-			<li><a href="./watch?id=19941231+New+Year+with+Dominic+(7)">19941231 New Year with Dominic (7).mp4</a></li>
-			<li><a href="./watch?id=19950000+Yankees+Baseball+(7)">19950000 Yankees Baseball (7).mp4</a></li>
-			<li><a href="./watch?id=19950204+Snow+Day+(7)">19950204 Snow Day (7).mp4</a></li>
-			<li><a href="./watch?id=19950225+Thomas+Basketball+(7)">19950225 Thomas Basketball (7).mp4</a></li>
-			<li><a href="./watch?id=19950304+Woodloch+Pines+1995+(7)">19950304 Woodloch Pines 1995 (7).mp4</a></li>
-			<li><a href="./watch?id=19950415+Easter+1995+(7)">19950415 Easter 1995 (7).mp4</a></li>
-			<li><a href="./watch?id=19950422+Baseball+Opening+Day+1995+(7)">19950422 Baseball Opening Day 1995 (7).mp4</a></li>
-			<li><a href="./watch?id=19950529+Memorial+Day+Parade+1995+(3)">19950529 Memorial Day Parade 1995 (3).mp4</a></li>
-			<li><a href="./watch?id=19950811+Dominic+1st+Birthday+(3)">19950811 Dominic 1st Birthday (3).mp4</a></li>
-			<li><a href="./watch?id=19970906+Mulligan+Picnic+(8)">19970906 Mulligan Picnic (8).mp4</a></li>
-			<li><a href="./watch?id=19970916+Dominic+Preschool+(8)">19970916 Dominic Preschool (8).mp4</a></li>
-			<li><a href="./watch?id=19971029+Halloween+1997+(8)">19971029 Halloween 1997 (8).mp4</a></li>
-			<li><a href="./watch?id=19971214+Christmas+Party+1997+(8)">19971214 Christmas Party 1997 (8).mp4</a></li>
-			<li><a href="./watch?id=19971225+Christmas+1997+(8)">19971225 Christmas 1997 (8).mp4</a></li>
-			<li><a href="./watch?id=19980130+Skiing+(8)">19980130 Skiing (8).mp4</a></li>
-			<li><a href="./watch?id=19980208+Nicholas+School+(8)">19980208 Nicholas School (8).mp4</a></li>
-			<li><a href="./watch?id=19980208+Roller+Hockey+(8)">19980208 Roller Hockey (8).mp4</a></li>
-			<li><a href="./watch?id=19980401+Woodloch+Pines+1998+(8)">19980401 Woodloch Pines 1998 (8).mp4</a></li>
-			<li><a href="./watch?id=19980412+Easter+1998+(8)">19980412 Easter 1998 (8).mp4</a></li>
-			<li><a href="./watch?id=19980509+Nicholas+Communion+(2)">19980509 Nicholas Communion (2).mp4</a></li>
-			<li><a href="./watch?id=19980520+Dominic+Show+(2)">19980520 Dominic Show (2).mp4</a></li>
-			<li><a href="./watch?id=19980603+Thomas+Show+(2)">19980603 Thomas Show (2).mp4</a></li>
-			<li><a href="./watch?id=19980609+Nicholas+Show+(2)">19980609 Nicholas Show (2).mp4</a></li>
-			<li><a href="./watch?id=19980708+Thomas+Baseball+(2)">19980708 Thomas Baseball (2).mp4</a></li>
-			<li><a href="./watch?id=19980801+Pool+Party+(2)">19980801 Pool Party (2).mp4</a></li>
-			<li><a href="./watch?id=19980823+Dominic+4th+Birthday+(2)">19980823 Dominic 4th Birthday (2).mp4</a></li>
-			<li><a href="./watch?id=20000826+Mulligan+Family+Get+Together+-+4">20000826 Mulligan Family Get Together - 4.mp4</a></li>
-			<li><a href="./watch?id=20000906+Dominic+1st+Day+(4)">20000906 Dominic 1st Day (4).mp4</a></li>
-			<li><a href="./watch?id=20000923+Dominic+Soccer+(4)">20000923 Dominic Soccer (4).mp4</a></li>
-			<li><a href="./watch?id=20001209+Newport+Job+(4)">20001209 Newport Job (4).mp4</a></li>
-			<li><a href="./watch?id=20001225+Christmas+2000+(4)">20001225 Christmas 2000 (4).mp4</a></li>
-			<li><a href="./watch?id=20001231+Sledding+(4)">20001231 Sledding (4).mp4</a></li>
-			<li><a href="./watch?id=20010113+Thomas+Basketball+(4)">20010113 Thomas Basketball (4).mp4</a></li>
-			<li><a href="./watch?id=20010331+Dominic+Basketball+(4)">20010331 Dominic Basketball (4).mp4</a></li>
-			<li><a href="./watch?id=20010628+Dominic+VBS+(4)">20010628 Dominic VBS (4).mp4</a></li>
-			<li><a href="./watch?id=20010707+Nicholas+Baseball+(4)">20010707 Nicholas Baseball (4).mp4</a></li>
-			<li><a href="./watch?id=20010809+Dominic+Swimming+(4)">20010809 Dominic Swimming (4).mp4</a></li>
-			<li><a href="./watch?id=20060305+Dominic+Hockey+(1)">20060305 Dominic Hockey (1).mp4</a></li>
-			<li><a href="./watch?id=20060622+New+Baptist+Church+Job+(1)">20060622 New Baptist Church Job (1).mp4</a></li>
-			<li><a href="./watch?id=20061225+Christmas+2006+(1)">20061225 Christmas 2006 (1).mp4</a></li>
-			<li><a href="./watch?id=20070000+Dominic+Trumpet+(1)">20070000 Dominic Trumpet (1).mp4</a></li>
-			<li><a href="./watch?id=20070318+Dominic+Hockey++(1)">20070318 Dominic Hockey  (1).mp4</a></li>
-			<li><a href="./watch?id=20071225+Christmas+2007+(1)">20071225 Christmas 2007 (1).mp4</a></li>
-			<li><a href="./watch?id=20110705+Manasquan+House+(1)">20110705 Manasquan House (1).mp4</a></li>
+			<li ng-repeat="video in videos"><a href="./watch?id={{video}}">{{video}}</a></li>
 		</ul>
 	</body>
 </html>
