@@ -16,3 +16,4 @@
 - Client Side JS Framework: Angular.js
 - Client Side CSS Framework: Bootstrap.js(yet to be implemented)
 - Database: MongoDB(yet to be implemented)
+- Pre-Compile Task Runner: Grunt.js
