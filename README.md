@@ -13,6 +13,7 @@
 ##Framework Structure
 - Runtime Enviornment: Node.js
 - Core Server Side Framework: Express.js
+- HTML Templating Engine: pug.js(used to be called JADE.js)
 - Client Side JS Framework: Angular.js
 - Client Side CSS Framework: Bootstrap.js(yet to be implemented)
 - Database: MongoDB(yet to be implemented)
