@@ -1,8 +1,6 @@
 Framework:
-- Get rid of jade files
-- Figure out a way to template a basic HTML page
 - Add bootstrap for UI
-- Need to add some sort of debugging framework
+- Set up MongoDB
 
 Future:
 - Add tags for videos
