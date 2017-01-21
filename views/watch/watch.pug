@@ -1,9 +1,8 @@
-html
-	head
-		title Celiano Family Videos
-	body
-		h1 Celiano Family Videos
-		h4=videoName
+extends /_layout
+
+block content
+	div(ng-controller="watchCtrl" ng-init="init()")
+		h1 Celiano Family Videos - #{videoName}
 		video(controls="")
 			source(src=videoUrl, type="video/mp4", value="Your browser does not support the video tag")
 		h4 Please be patient while the video buffers. You must be using a browser compatible with HTML5 video.

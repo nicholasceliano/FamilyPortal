@@ -7,9 +7,13 @@ var fs = require("fs");
 //Global variables
 var app = express();
 
-app.use('/dist', express.static('dist'));//makes /dist folder accessable from client side
+//Set up PUG view engine
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
+app.locals.basedir = app.get('views');
+
+//Make distribution files public to Client
+app.use('/dist', express.static('dist'));//makes /dist folder accessable from client side
 
 //Routes
 require('./routes/webpages.js')(app);
