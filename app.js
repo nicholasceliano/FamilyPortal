@@ -3,6 +3,7 @@
 //References
 var express = require('express');
 var fs = require("fs");
+var data = require('./data.js');
 
 //Global variables
 var app = express();
@@ -17,8 +18,8 @@ app.use('/dist', express.static('dist'));//makes /dist folder accessable from cl
 app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from client side
 
 //Routes
-require('./routes/webpages.js')(app);
-require('./routes/api/data.js')(app);
+require('./routes/webpages.js')(app, data);
+require('./routes/api/data.js')(app, data);
 
 //App Start
 app.listen(3000, function () {

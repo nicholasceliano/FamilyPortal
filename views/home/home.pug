@@ -6,4 +6,4 @@ block content
 		h4 Below is a list of links to the videos, in YYYYMMDD format, followed by a short description and the tape number the videos came off of. If you have any problems, please contact Dominic at d.celiano@yahoo.com.
 		ul
 			li(ng-repeat="video in videos")
-				a(href="./watch?id={{video}}") {{video}})
+				a(href="./watch?id={{video._id}}") {{video.name}}

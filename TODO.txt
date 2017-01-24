@@ -1,5 +1,9 @@
 Framework:
-- Set up MongoDB
+- Move databasename to config file
+- Move amazons3 url for videos for config file
+- Set up login page
+- Set up splash page
+- Build in secuirty for login page
 
 Future:
 - Add tags for videos
