@@ -14,6 +14,7 @@ app.locals.basedir = app.get('views');
 
 //Make distribution files public to Client
 app.use('/dist', express.static('dist'));//makes /dist folder accessable from client side
+app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from client side
 
 //Routes
 require('./routes/webpages.js')(app);

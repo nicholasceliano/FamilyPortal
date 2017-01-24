@@ -1,5 +1,4 @@
 Framework:
-- Add bootstrap for UI
 - Set up MongoDB
 
 Future:
