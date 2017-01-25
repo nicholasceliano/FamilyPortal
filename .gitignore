@@ -1,5 +1,2 @@
 /dist/
-/data/diagnostic.data/
-/data/logs/
-/data/journal/
-/data/mongod.lock
+/data/
