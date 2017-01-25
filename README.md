@@ -5,14 +5,13 @@
 1. Install MongoDB --> https://www.mongodb.com/download-center
 2. Open windows command prompt
 3. Point command prompt to mongo directory bin folder (ex: cd C:\Program Files\MongoDB\Server\3.4\bin)
-4. Type 'mongod --dbpath C:\git\familyportal\data' where 'C:\git\familyportal\data' is where your project is located
+4. Type 'mongod --dbpath=C:\git\familyportal\data --logpath=C:\git\familyportal\data\logs\log --install' where 'C:\git\familyportal\data' is where your project is located
+5. Navigate to windows service window(services.msc) and start service 'MongoDB'(this service will automatically start from now on)
 
 ###Connecting to FamilyPortal Database
-2. Open windows command prompt
-3. Point command prompt to mongo directory bin folder (ex: cd C:\Program Files\MongoDB\Server\3.4\bin)
-3. Type 'mongo' to connect to the database server
-4. Type 'use familyportal' to connect to familyportal database
-5. Query against database as needed (ex: db.videos.find().pretty())
+1. Install Robomongo which is a GUI for accessing the database --> https://robomongo.org/download
+2. Conect to database at localhost:27017(where the windows service is hosting the database server)
+3. Use 'FamilyPortal' database
 
 ###Starting Website
 1. Install node.js --> https://nodejs.org/en/download/
