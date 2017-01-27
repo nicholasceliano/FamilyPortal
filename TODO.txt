@@ -1,13 +1,11 @@
 Framework:
+- Set up splash page to look better
+- Set up site banner and ui better
 - Move databasename to config file
 - Move amazons3 url for videos for config file
-- Set up login page
-- Set up splash page
-- Build in secuirty for login page
 
 Future:
 - Add tags for videos
 - Allow users to upload videos
-- Create users
-- Require users to log in
-- Rework API route naming once MongoDB is set up
+- enctypt user password in database
+- handle bad routes with a friendly error page(ex. going to  /watch without an id or with an invalid id)
