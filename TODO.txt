@@ -5,7 +5,27 @@ Framework:
 - Move amazons3 url for videos for config file
 
 Future:
-- Add tags for videos
-- Allow users to upload videos
+- Family Calendar
+	- Can integrate to google calendars, aol calendars?
+- Recent comments activity feed
+	- this can be hooked up to twitter/facebook/youtube, etc if we want
+- List of family members with email/phone/mailing addresses/physical addresses
+	- need to extend users table
+- Pictures section
+	- add tags for videos
+	- Allow users to upload images
+	- can integrate to facebook, pisca, etc
+- Videos section
+	- Add tags for videos
+	- Allow users to upload videos
+	- Can integrate to youtube
+- Instant messaging section? not sure
+- Profile Page
+	- Allows users to update their personal info or change password
+- Admin panel
+	- turns off/on integrations
+	- invites users to family
+		- Is allowed to set up additional family member accounts to store contact info
+	- removes user from family?
 - enctypt user password in database
 - handle bad routes with a friendly error page(ex. going to  /watch without an id or with an invalid id)
