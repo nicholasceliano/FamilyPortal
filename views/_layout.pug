@@ -9,4 +9,13 @@ html(ng-app="familyPortalApp")
 		script(src="/dist/thirdPartyJS.js")
 		script(src="/dist/familyPortal.js")
 	body
+		header(ng-controller="headerCtrl" class="col-xs-12 familyScrapbookHeader")
+			div(class="col-xs-6 pull-left header-text")
+				span Family Scrapbook
+			if !accessDenied
+				div(class="row no-gutter col-xs-6 pull-right")
+					div(class="header-icon" title="Logout" ng-click="logout()")
+						i(class="fa fa-power-off" aria-hidden="true")
+					div(class="header-icon")
+						i(class="fa fa-navicon" aria-hidden="true")
 		block content

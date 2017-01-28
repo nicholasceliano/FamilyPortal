@@ -41,7 +41,7 @@ module.exports = function(data) {
 		},
 		
 		sessionExpiredResponse: function(response) {
-			response.render('login/login', { title: 'Login - Family Portal', username: '', password: '', error: 'Timeout: Session Expired'  });
+			response.render('login/login', { title: 'Login - Family Portal', accessDenied: true, username: '', password: '', error: 'Timeout: Session Expired'  });
 		}		
 	}
 	

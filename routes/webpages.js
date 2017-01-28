@@ -4,7 +4,7 @@ module.exports = function(app, data, security){
 		if (security.checkUserAccess(req)) {
 			res.render('splash/splash', { title: 'Celiano Family Videos' });
 		} else {
-			res.render('login/login', { title: 'Login - Family Portal', username: '', password: '', error: ''  });
+			res.render('login/login', { title: 'Login - Family Scrapbook',  accessDenied: true, username: '', password: '', error: ''  });
 		}
 	});
 	
@@ -18,7 +18,8 @@ module.exports = function(app, data, security){
 				res.redirect('/');
 			} else  {
 				res.render('login/login', { 
-					title: 'Login - Family Portal', 
+					title: 'Login - Family Scrapbook', 
+					accessDenied: true,
 					username: user, 
 					password: pwd, 
 					error: 'Error: Username or password incorrect'  
@@ -31,13 +32,21 @@ module.exports = function(app, data, security){
 		security.logout(req);
 		res.redirect('/');
 	});
+	
+	app.get('/videos', function(req, res) {
+		if (security.checkUserAccess(req)) {
+			res.render('videos/videos', { title: 'Videos - Family Scrapbook' });
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
 
 	app.get('/watch', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			var id = req.query.id;
 			
 			data.getVideoByID(id).then(function(video) {			
-				res.render('watch/watch', { title: 'Celiano Family Videos - ' + video.name, videoName: video.name, videoUrl: "https://s3.amazonaws.com/videos.celiano/" + video.url });
+				res.render('watch/watch', { title: 'Videos - ' + video.name, videoName: video.name, videoUrl: "https://s3.amazonaws.com/videos.celiano/" + video.url });
 			});
 		} else {
 			security.sessionExpiredResponse(res);

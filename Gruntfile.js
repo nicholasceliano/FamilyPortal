@@ -30,6 +30,7 @@ module.exports = function(grunt) {
 				src: [
 						'content/thirdParty/css/bootstrap.css'
 						, 'content/thirdParty/css/bootstrap-theme.css'
+						, 'content/thirdParty/css/font-awesome.css'
 					],
 				dest: 'dist/thirdPartyCSS.css'
 			}

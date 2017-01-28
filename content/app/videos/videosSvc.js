@@ -1,4 +1,4 @@
-familyPortalApp.factory('homeSvc', function ($q, portalApiSvc) {
+familyPortalApp.factory('videosSvc', function ($q, portalApiSvc) {
     'use strict';
 
     var service = {};

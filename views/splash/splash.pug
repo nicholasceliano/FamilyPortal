@@ -1,9 +1,16 @@
 extends /_layout
 
 block content
-	div(ng-controller="homeCtrl" ng-init="init()")
+	div(class="col-md-10" style="float:none;margin:auto;" ng-controller="splashCtrl" ng-init="init()")
 		h1 Celiano Family Videos
-		h4 Below is a list of links to the videos, in YYYYMMDD format, followed by a short description and the tape number the videos came off of. If you have any problems, please contact Dominic at d.celiano@yahoo.com.
-		ul
-			li(ng-repeat="video in videos")
-				a(href="./watch?id={{video._id}}") {{video.name}}
+		div(class="col-md-8" style="height:200px;")
+			p news feed / chat
+		div(class="col-md-4" style="height:200px;")
+			p calendar
+		div(class="col-md-4" style="height:400px;")
+			p videos
+			a(href="/videos") temporary link to page
+		div(class="col-md-4" style="height:400px;")
+			p images
+		div(class="col-md-4" style="height:200px;")
+			p family members
