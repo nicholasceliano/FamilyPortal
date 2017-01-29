@@ -1,16 +1,38 @@
 extends /_layout
 
 block content
-	div(class="col-md-10" style="float:none;margin:auto;" ng-controller="splashCtrl" ng-init="init()")
-		h1 Celiano Family Videos
-		div(class="col-md-8" style="height:200px;")
-			p news feed / chat
-		div(class="col-md-4" style="height:200px;")
-			p calendar
-		div(class="col-md-4" style="height:400px;")
-			p videos
-			a(href="/videos") temporary link to page
-		div(class="col-md-4" style="height:400px;")
-			p images
-		div(class="col-md-4" style="height:200px;")
-			p family members
+	div(class="div-centered col-md-10" ng-controller="splashCtrl" ng-init="init()" ng-cloak)
+		div(class="panel-group")
+			div(class="panel-container-sm col-md-8")
+				div(class="panel panel-default")
+					div(class="panel-heading") 
+						a(class="panel-title") News Feed / Chat
+					div(class="panel-body")
+						p blank
+			div(class="panel-container-sm col-md-4")
+				div(class="panel panel-default")
+					div(class="panel-heading") 
+						a(class="panel-title"  href ="/calendar") Calendar
+					div(class="panel-body")
+						p blank
+			div(class="panel-container-lg col-md-4")
+				div(class="panel panel-default")
+					div(class="panel-heading") 
+						a(class="panel-title" href ="/videos") Recent Videos
+					div(class="panel-body")
+						ul(class="list-group")
+							li(class="list-group-item" ng-repeat="video in videosArray")
+								a(href="./videos/watch?id={{video._id}}") {{video.name}}
+								span(class="badge") {{video.dateDiff}}
+			div(class="panel-container-lg col-md-4")
+				div(class="panel panel-default")
+					div(class="panel-heading") 
+						a(class="panel-title"  href ="/images") Images
+					div(class="panel-body")
+						p blank
+			div(class="panel-container-sm col-md-4")
+				div(class="panel panel-default")
+					div(class="panel-heading") 
+						a(class="panel-title"  href ="/family") Family Members
+					div(class="panel-body")
+						p blank

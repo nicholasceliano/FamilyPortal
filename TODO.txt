@@ -1,11 +1,9 @@
 Framework:
-- Set up splash page to look better
-- Link recent videos from main page
+- Add breadcrumbs
+- Build out navigation buttons
 - Set up site banner and ui better
 - Move databasename to config file
 - Move amazons3 url for videos for config file
-- Need to add breadcrumbs
-- Need to build out navigation buttons
 
 Branding/Design:
 - Name: Scrapbook, Family Scrapbook

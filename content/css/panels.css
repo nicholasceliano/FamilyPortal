@@ -1,0 +1,35 @@
+/* CSS for panels only(currently only used on splash) */
+
+.panel-group {
+	margin-top:50px;
+	padding-top:50px;
+}
+
+.panel-container-sm {
+	height:200px;
+	margin-bottom:15px;
+}
+
+.panel-container-sm .panel {
+	height:200px;
+}
+
+.panel-container-lg {
+	height:400px;
+	margin-bottom:15px;	
+}
+
+.panel-container-lg .panel {
+	height:400px;
+}
+
+.panel > .panel-heading {
+    background-image: none;
+    background:linear-gradient(to bottom right, #dbe8ff, #fff);
+}
+
+a.panel-title {
+	color: #121872;
+	font-weight:bold;
+	text-decoration: none;
+}

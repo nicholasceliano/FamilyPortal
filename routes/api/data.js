@@ -3,8 +3,10 @@
 
 module.exports = function(app, data, security){
 	app.get('/api/data/videos', function (req, res) {
-		if (security.checkUserAccess(req)) {			
-			data.getVideos.then(function(videoArray) {
+		if (security.checkUserAccess(req)) {	
+			var ct = req.query.ct;
+			
+			data.getVideos(ct).then(function(videoArray) {
 				res.send(JSON.stringify({ videos: videoArray }));
 			});
 		} else {

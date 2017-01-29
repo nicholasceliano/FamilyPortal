@@ -41,12 +41,12 @@ module.exports = function(app, data, security){
 		}
 	});
 
-	app.get('/watch', function (req, res) {
+	app.get('/videos/watch', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			var id = req.query.id;
 			
 			data.getVideoByID(id).then(function(video) {			
-				res.render('watch/watch', { title: 'Videos - ' + video.name, videoName: video.name, videoUrl: "https://s3.amazonaws.com/videos.celiano/" + video.url });
+				res.render('videos/watch/watch', { title: 'Videos - ' + video.name, videoName: video.name, videoUrl: "https://s3.amazonaws.com/videos.celiano/" + video.url });
 			});
 		} else {
 			security.sessionExpiredResponse(res);

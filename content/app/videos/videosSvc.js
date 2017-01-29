@@ -15,5 +15,16 @@ familyPortalApp.factory('videosSvc', function ($q, portalApiSvc) {
         return deffered.promise;
     };
 	
+	service.getRecentVideos = function (ct) {
+		var deffered = $q.defer();
+		
+        portalApiSvc.Get('/api/data/videos?ct=' + ct).get(
+			function (resp) { deffered.resolve(resp); },
+			function () { deffered.reject(); }
+		);
+
+        return deffered.promise;
+    };
+	
 	return service;
 });

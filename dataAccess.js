@@ -13,11 +13,17 @@ module.exports = {
 		})
 	},
 	
-	getVideos: mongoClient.connect(dbURL).then(function(db) {
-		return db.collection('videos').find().toArray();
-	}).then(function(data) {
-		return data;
-	}), 
+	getVideos: function (ct) {
+		 return mongoClient.connect(dbURL).then(function(db) {
+			 if (ct) {
+				 return db.collection('videos').find().sort({createDate:1}).limit(parseInt(ct)).toArray();
+			 } else {
+				return db.collection('videos').find().toArray();
+			 }
+		}).then(function(data) {
+			return data;
+		})
+	}, 
 	
 	getVideoByID: function (id) { 
 		return mongoClient.connect(dbURL).then(function(db) {
