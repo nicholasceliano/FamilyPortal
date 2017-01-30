@@ -1,6 +1,5 @@
 Framework:
 - Add breadcrumbs
-- Build out navigation buttons
 - Set up site banner and ui better
 - Move databasename to config file
 - Move amazons3 url for videos for config file

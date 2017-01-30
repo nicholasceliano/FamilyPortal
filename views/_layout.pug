@@ -9,13 +9,41 @@ html(ng-app="familyPortalApp")
 		script(src="/dist/thirdPartyJS.js")
 		script(src="/dist/familyPortal.js")
 	body
-		header(ng-controller="headerCtrl" class="col-xs-12 familyScrapbookHeader")
+		header(ng-controller="headerCtrl" ng-init="init()" class="col-xs-12 familyScrapbookHeader")
 			div(class="col-xs-6 pull-left header-text")
-				span Family Scrapbook
+				span(ng-click="home()") Family Scrapbook
 			if !accessDenied
 				div(class="row no-gutter col-xs-6 pull-right")
-					div(class="header-icon" title="Logout" ng-click="logout()")
-						i(class="fa fa-power-off" aria-hidden="true")
-					div(class="header-icon")
-						i(class="fa fa-navicon" aria-hidden="true")
+					div(class="header-icon" title="Logout")
+						i(class="fa fa-power-off" aria-hidden="true" ng-click="logout()")
+					div(class="dropdown header-icon")
+						i(class="dropdown fa fa-navicon" aria-hidden="true" data-toggle="dropdown")
+						div(class="dropdown-menu pull-right nav-dropdown-menu")
+							ul(class="nav nav-pills nav-stacked")
+								li
+									a(href="/") 
+										i(class="fa fa-home")
+											span Home
+								li
+									a(href="/videos") 
+										i(class="fa fa-video-camera")
+											span Videos
+								li
+									a(href="/images") 
+										i(class="fa fa-file-image-o")
+											span Images
+								li
+									a(href="/calendar") 
+										i(class="fa fa-calendar")
+											span Calendar
+								li
+									a(href="/family")
+										i(class="fa fa-group")
+											span Family Members
+								li(class="divider")
+								li
+									a(href="/profile")
+										i(class="fa fa-user")
+											span Profile
+					
 		block content

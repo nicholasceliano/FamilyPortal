@@ -16,7 +16,7 @@ module.exports = {
 	getVideos: function (ct) {
 		 return mongoClient.connect(dbURL).then(function(db) {
 			 if (ct) {
-				 return db.collection('videos').find().sort({createDate:1}).limit(parseInt(ct)).toArray();
+				 return db.collection('videos').find().sort({createDate:-1}).limit(parseInt(ct)).toArray();
 			 } else {
 				return db.collection('videos').find().toArray();
 			 }

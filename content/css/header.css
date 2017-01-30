@@ -3,9 +3,8 @@
 .familyScrapbookHeader {
 	padding:0;
 	height:60px;
-	background:linear-gradient(to bottom right, #d8bc06, #fff);
+	background:linear-gradient(to bottom right, #d8bc06, #f4f4f4);
 	border:0;border-radius: 0px 0px 5px 5px;
-	box-shadow: 1px 1px 15px #888888;
 }
 
 .header-logo {
@@ -18,16 +17,66 @@
 	font-size:30px;
 }
 
+.header-text span {
+	cursor: pointer;
+}
+
 .header-icon {
 	float:right;
-	border-left:2px solid;
+	border-left:1px solid;
+	border-bottom:1px solid;
 	height:60px;
 	width:60px;
 	text-align:center;
 	padding-top:15px;
 	color:#121872;
+}
+
+.header-icon:last-of-type {
+	border-radius: 0 0 0 10px;
+}
+
+.header-icon i {
 	cursor: pointer;
 }
+
 .header-icon i {
 	font-size:30px;
+}
+
+.nav-dropdown-menu {
+	padding:0;
+	margin:0;
+}
+
+.nav-pills {
+	width:200px;
+	background-color:#f4f4f4;
+}
+
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+	color: #f4f4f4;
+	background-color: #121872;
+}
+
+.nav-pills li a {
+	color:#121872;
+}
+
+.nav-pills li a i {
+	font-size: 20px;
+}
+
+.nav-pills li a i span {
+	padding-left:5px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.dropdown-menu .divider {
+	background-color: #121872;
 }
