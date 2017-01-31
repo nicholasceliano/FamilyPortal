@@ -80,3 +80,12 @@
 .dropdown-menu .divider {
 	background-color: #121872;
 }
+
+.breadcrumb li {
+	text-transform:capitalize;
+	font-weight:bold; 
+}
+
+.breadcrumb li a {
+	font-weight:normal; 
+}

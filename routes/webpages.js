@@ -52,4 +52,36 @@ module.exports = function(app, data, security){
 			security.sessionExpiredResponse(res);
 		}
 	});
+	
+	app.get('/calendar', function(req, res) {
+		if (security.checkUserAccess(req)) {
+			res.render('calendar/calendar', { title: 'Calendar - Family Scrapbook' });
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
+	app.get('/images', function(req, res) {
+		if (security.checkUserAccess(req)) {
+			res.render('images/images', { title: 'Images - Family Scrapbook' });
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
+	app.get('/family', function(req, res) {
+		if (security.checkUserAccess(req)) {
+			res.render('family/family', { title: 'Family Members - Family Scrapbook' });
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
+	app.get('/profile', function(req, res) {
+		if (security.checkUserAccess(req)) {
+			res.render('profile/profile', { title: 'Profile - Family Scrapbook' });
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
 };

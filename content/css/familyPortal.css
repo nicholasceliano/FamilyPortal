@@ -9,7 +9,7 @@ h1 {
     margin-top: 0;
 }
 
-.div-centered {
-	float:none;
-	margin:auto;
+.no-side-padding {
+	padding-left:0;
+	padding-right:0;	
 }

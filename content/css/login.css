@@ -3,3 +3,8 @@
 .login-ctrl {
 	padding-top:250px;
 }
+
+.login-centered {
+	float:none;
+	margin:auto;
+}

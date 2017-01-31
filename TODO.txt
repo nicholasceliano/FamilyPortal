@@ -1,6 +1,12 @@
-Framework:
-- Add breadcrumbs
-- Set up site banner and ui better
+Short Term:
+- Set up news feed
+- Set up live chat
+- Set up images
+- Set up Calendar
+- Set up Family Members
+- Issue with login name being in CAPS??
+- Fix UI on Videos page
+- Fix UI on Watch page
 - Move databasename to config file
 - Move amazons3 url for videos for config file
 

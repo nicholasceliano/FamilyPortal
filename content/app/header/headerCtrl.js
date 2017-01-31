@@ -1,10 +1,11 @@
-familyPortalApp.controller('headerCtrl', function($scope, headerSvc) {
+familyPortalApp.controller('headerCtrl', function($scope, headerSvc, arraySvc) {
     'use strict';
 	
 	var header = $scope;
 	
 	header.init = function () {
 		setActiveNavItem();
+		setBreadcrumbs()
 	}
 	
 	header.home = function () {
@@ -23,6 +24,20 @@ familyPortalApp.controller('headerCtrl', function($scope, headerSvc) {
 				$(this).parent().addClass("active");
 			else 
 				$(this).parent().removeClass("active");
+		});
+	}
+	
+	function setBreadcrumbs() {
+		var breadcrumbArray = window.location.pathname.split('/');
+		breadcrumbArray = arraySvc.makeArrayUnique(breadcrumbArray);
+		
+		$(breadcrumbArray).each(function(i,e) {
+			var currentRoute = false;
+			
+			if (i === (breadcrumbArray.length - 1))
+				currentRoute = true;
+			
+			$('.breadcrumb').append(headerSvc.buildBreadcrumbItem(e, currentRoute));
 		});
 	}
 });

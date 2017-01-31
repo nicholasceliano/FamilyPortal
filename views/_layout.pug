@@ -1,4 +1,4 @@
-html(ng-app="familyPortalApp")
+html(ng-app="familyPortalApp" ng-cloak)
 	head
 		title=title
 		link(rel="stylesheet" href="/dist/thirdPartyCSS.css")
@@ -45,5 +45,7 @@ html(ng-app="familyPortalApp")
 									a(href="/profile")
 										i(class="fa fa-user")
 											span Profile
-					
+		if !accessDenied
+			div(class="col-md-10 col-md-offset-1 no-side-padding")
+				ul(class="breadcrumb")
 		block content
