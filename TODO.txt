@@ -9,6 +9,7 @@ Short Term:
 - Fix UI on Watch page
 - Move databasename to config file
 - Move amazons3 url for videos for config file
+- Set up Jasime and Karama
 
 Branding/Design:
 - Name: Scrapbook, Family Scrapbook
