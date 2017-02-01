@@ -77,6 +77,18 @@ module.exports = function(app, data, security){
 		}
 	});
 	
+	app.get('/family/profile', function(req, res) {
+		if (security.checkUserAccess(req)) {
+			var id = req.query.id;
+			
+			data.getFamilyMemberByID(id).then(function(familyMember) {			
+				res.render('family/profile/profile', { title: familyMember.firstName + ' ' + familyMember.lastName + ' -  Family Scrapbook' });
+			});
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
 	app.get('/profile', function(req, res) {
 		if (security.checkUserAccess(req)) {
 			res.render('profile/profile', { title: 'Profile - Family Scrapbook' });

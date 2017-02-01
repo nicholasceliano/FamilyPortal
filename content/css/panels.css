@@ -9,6 +9,15 @@
 	height:200px;
 }
 
+.panel-container-md {
+	height:280px;
+	margin-bottom:15px;
+}
+
+.panel-container-md .panel {
+	height:280px;
+}
+
 .panel-container-lg {
 	height:400px;
 	margin-bottom:15px;	

@@ -29,9 +29,12 @@ block content
 					a(class="panel-title"  href ="/images") Images
 				div(class="panel-body")
 					p blank
-		div(class="panel-container-sm col-md-4")
+		div(class="panel-container-md col-md-4")
 			div(class="panel panel-default")
 				div(class="panel-heading") 
 					a(class="panel-title"  href ="/family") Family Members
 				div(class="panel-body")
-					p blank
+					ul(class="list-group")
+						li(class="list-group-item" ng-repeat="familyMember in familyMembersArray")
+							a(href="./family/profile?id={{familyMember._id}}") {{familyMember.firstName}} {{familyMember.lastName}}
+							

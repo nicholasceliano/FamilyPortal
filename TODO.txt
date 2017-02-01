@@ -1,9 +1,12 @@
 Short Term:
+- Set up family profile page 
+	- Pass full familymember info back in respones
+	- move member info formatting to new service(out of familymembersvc)
+		- format response
 - Set up news feed
 - Set up live chat
 - Set up images
 - Set up Calendar
-- Set up Family Members
 - Issue with login name being in CAPS??
 - Fix UI on Videos page
 - Fix UI on Watch page

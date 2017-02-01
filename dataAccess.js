@@ -35,5 +35,29 @@ module.exports = {
 			else
 				return data;
 		})
+	},
+	
+	getFamilyMembers: function (ct) {
+		 return mongoClient.connect(dbURL).then(function(db) {
+			 if (ct) {
+				 return db.collection('users').find().sort({updateDate:-1}).limit(parseInt(ct)).toArray();
+			 } else {
+				return db.collection('users').find().toArray();
+			 }
+		}).then(function(data) {
+			return data;
+		})
+	}, 
+	
+	getFamilyMemberByID: function (id) { 
+		return mongoClient.connect(dbURL).then(function(db) {
+			var mongoId = new mongo.ObjectID(id);
+			return db.collection('users').findOne({ _id: mongoId });
+		}).then(function(data) {
+			if (data === null)
+				return 'Error Retrieving User By ID';
+			else
+				return data;
+		})
 	}
 };

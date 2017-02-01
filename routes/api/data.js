@@ -13,4 +13,16 @@ module.exports = function(app, data, security){
 			security.sessionExpiredResponse(res);
 		}
 	});
+	
+	app.get('/api/data/familymembers', function (req, res) {
+		if (security.checkUserAccess(req)) {	
+			var ct = req.query.ct;
+			
+			data.getFamilyMembers(ct).then(function(familyMemberArray) {
+				res.send(JSON.stringify({ familyMembers: familyMemberArray }));
+			});
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
 };
