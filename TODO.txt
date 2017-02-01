@@ -1,6 +1,7 @@
 Short Term:
 - Set up family profile page 
 	- Pass full familymember info back in respones
+		 - need to fix this for watch contorller too
 	- move member info formatting to new service(out of familymembersvc)
 		- format response
 - Set up news feed
