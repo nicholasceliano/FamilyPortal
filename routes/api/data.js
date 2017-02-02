@@ -2,12 +2,36 @@
 // /api/data/{dataContent}.json
 
 module.exports = function(app, data, security){
+	app.get('/api/data/video', function (req, res) {
+		if (security.checkUserAccess(req)) {	
+			var id = req.query.id;
+			
+			data.getVideoByID(id).then(function(video) {
+				res.send(JSON.stringify({ video: video }));
+			});
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
 	app.get('/api/data/videos', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			var ct = req.query.ct;
 			
 			data.getVideos(ct).then(function(videoArray) {
 				res.send(JSON.stringify({ videos: videoArray }));
+			});
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
+	app.get('/api/data/familymember', function (req, res) {
+		if (security.checkUserAccess(req)) {	
+			var id = req.query.id;
+			
+			data.getFamilyMemberByID(id).then(function(familyMember) {
+				res.send(JSON.stringify({ familyMember: familyMember }));
 			});
 		} else {
 			security.sessionExpiredResponse(res);

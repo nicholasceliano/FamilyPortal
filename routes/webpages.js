@@ -46,7 +46,8 @@ module.exports = function(app, data, security){
 			var id = req.query.id;
 			
 			data.getVideoByID(id).then(function(video) {			
-				res.render('videos/watch/watch', { title: 'Videos - ' + video.name, videoName: video.name, videoUrl: "https://s3.amazonaws.com/videos.celiano/" + video.url });
+				//videoUrl in response is a work around - ng-src doesnt work on video objects in angular
+				res.render('videos/watch/watch', { title: 'Watch - Family Scrapbook', videoId: id, videoUrl: "https://s3.amazonaws.com/videos.celiano/" + video.url });
 			});
 		} else {
 			security.sessionExpiredResponse(res);
@@ -81,9 +82,7 @@ module.exports = function(app, data, security){
 		if (security.checkUserAccess(req)) {
 			var id = req.query.id;
 			
-			data.getFamilyMemberByID(id).then(function(familyMember) {			
-				res.render('family/profile/profile', { title: familyMember.firstName + ' ' + familyMember.lastName + ' -  Family Scrapbook' });
-			});
+			res.render('family/profile/profile', { title: 'Family Member Profile - Family Scrapbook', userId: id });
 		} else {
 			security.sessionExpiredResponse(res);
 		}
