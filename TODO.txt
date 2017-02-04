@@ -3,7 +3,6 @@ Short Term:
 - Set up live chat
 - Set up images
 - Set up Calendar
-- Issue with login name being in CAPS??
 - Fix UI on Videos page
 - Fix UI on Watch page
 - Move databasename to config file

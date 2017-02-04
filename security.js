@@ -6,12 +6,14 @@ module.exports = function(data) {
 		activeUsers: activeUserArray,
 		
 		login: function (user, pwd) { 
-			var validUser = data.login(user, pwd);
+			user = user.toLowerCase();
 			
-			if (validUser)
-				AddActiveUser(user);
-		
-			return validUser;
+			return data.login(user, pwd).then(function(validUser) {
+				if (validUser)
+					AddActiveUser(user);
+				
+				return validUser;
+			});
 		},
 		
 		logout: function(request) {
