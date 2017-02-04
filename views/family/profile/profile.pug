@@ -4,30 +4,6 @@ block content
 	div(class="col-md-10 col-md-offset-1 no-side-padding" ng-controller="familyMemberProfileCtrl" ng-init="init('" + userId + "')")
 		img(class="col-md-2 col-md-offset-2" src="https://lh3.googleusercontent.com/-okWSLDKqNHY/VswG6dBYjTI/AAAAAAAABU8/8ymnInz-040/w900-h900/YT%2BDefault%2BBig.png")
 		div(class="col-md-6")
-			table(class="table table-condensed table-bordered family-table")
-				tr
-					th(colspan="2")
-						h3 {{info.fullName}}
-				tr
-					td Birth Date:
-					td {{info.birthDate}} ({{info.age}})
-				tr
-					td Phone Number:
-					td {{info.phone}}
-				tr
-					td Email Address: 
-					td {{info.email}}
-				tr
-					td Full Address
-					td
-						span {{info.fullAddress}}
-						br
-						span {{info.fullAddressStateInfo}}
-				tr(ng-hide="info.fullShippingAddress == null")
-					td Shipping Address: 
-					td
-						span {{info.fullShippingAddress}}
-						br
-						span {{info.fullShippingAddressStateInfo}}
+			<family-member-info is-profile="true" watch=info familymember={{info}}></family-member-info>
 		div(class="col-md-8 col-md-offset-2")
 			h3 Recent User Activity(to be implemented)

@@ -2,6 +2,7 @@ module.exports = function(grunt) {
 	
 	grunt.loadNpmTasks('grunt-contrib-uglify');//for minifying and combining files
 	grunt.loadNpmTasks('grunt-contrib-concat');//for combining files
+	grunt.loadNpmTasks('grunt-contrib-copy');//for copying files
 
 	//Configure Grunt Tasks
 	grunt.initConfig({
@@ -34,6 +35,17 @@ module.exports = function(grunt) {
 					],
 				dest: 'dist/thirdPartyCSS.css'
 			}
+		},
+		copy: {
+			angularJS_Dev: {
+			expand: true,
+			flatten: true,
+			src:  [
+						'content/app/**/*.html'
+						, 'content/app/*/*.html'
+					],
+				dest: 'dist/templates/'
+		  }
 		}
   });
 
@@ -42,4 +54,6 @@ module.exports = function(grunt) {
 										,'concat:familyPortalCSS_Dev'
 										,'concat:thirdPartyJS_Dev'
 										,'concat:thirdPartyCSS_Dev']);
+										
+	grunt.registerTask('copyDevFiles', ['copy:angularJS_Dev']);
 };

@@ -3,29 +3,5 @@ extends /_layout
 block content
 	div(class="col-md-10 col-md-offset-1" ng-controller="familyMembersCtrl" ng-init="init()")
 		h1 Family Members
-		div(class="family-table-container col-md-4" ng-repeat="familyMember in familyMembersArray")
-			table(class="table table-condensed table-bordered family-table")
-				tr
-					th(colspan="2")
-						a(href="./family/profile?id={{familyMember._id}}") {{familyMember.fullName}}
-				tr
-					td Birth Date:
-					td {{familyMember.birthDate}} ({{familyMember.age}})
-				tr
-					td Phone Number:
-					td {{familyMember.phone}}
-				tr
-					td Email Address: 
-					td {{familyMember.email}}
-				tr
-					td Full Address
-					td
-						span {{familyMember.fullAddress}}
-						br
-						span {{familyMember.fullAddressStateInfo}}
-				tr(ng-hide="familyMember.fullShippingAddress == null")
-					td Shipping Address: 
-					td
-						span {{familyMember.fullShippingAddress}}
-						br
-						span {{familyMember.fullShippingAddressStateInfo}}
+		div(class="family-table-container col-md-4" ng-repeat="fm in familyMembersArray")
+			<family-member-info is-profile="false" watch=fm familymember={{fm}}></family-member-info>

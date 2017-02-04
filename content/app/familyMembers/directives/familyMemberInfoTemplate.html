@@ -1,0 +1,36 @@
+<table class="table table-condensed table-bordered family-table">
+	<tr>
+		<th colspan="2">
+			<a ng-hide="isProfile == 'true'" href="./family/profile?id={{_id}}">{{fullName}}<a/>
+			<h3 ng-hide="isProfile == 'false'">{{fullName}}</h3>
+		</th>
+	</tr>
+	<tr>
+		<td>Birth Date:</td>
+		<td>{{birthDate}} ({{age}})</td>
+	</tr>
+	<tr>
+		<td>Phone Number:</td>
+		<td>{{phone}}</td>
+	</tr>
+	<tr>
+		<td>Email Address:</td>
+		<td>{{email}}</td>
+	</tr>
+	<tr>
+		<td>Full Address</td>
+		<td>
+			<span>{{fullAddress}}</span>
+			<br />
+			<span>{{fullAddressStateInfo}}</span>
+		</td>
+	</tr>
+	<tr ng-hide="fullShippingAddress == null">
+		<td>Shipping Address:</td>
+		<td>
+			<span>{{fullShippingAddress}}</span>
+			<br />
+			<span>{{fullShippingAddressStateInfo}}</span>
+		</td>
+	</tr>
+</table>
