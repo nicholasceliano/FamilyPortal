@@ -4,4 +4,4 @@ block content
 	div(class="col-md-10 col-md-offset-1" ng-controller="familyMembersCtrl" ng-init="init()")
 		h1 Family Members
 		div(class="family-table-container col-md-4" ng-repeat="fm in familyMembersArray")
-			<family-member-info is-profile="false" watch=fm familymember={{fm}}></family-member-info>
+			family-member-info(is-profile="false" watch="fm" familymember="{{fm}}")

@@ -4,6 +4,6 @@ block content
 	div(class="col-md-10 col-md-offset-1 no-side-padding" ng-controller="familyMemberProfileCtrl" ng-init="init('" + userId + "')")
 		img(class="col-md-2 col-md-offset-2" src="https://lh3.googleusercontent.com/-okWSLDKqNHY/VswG6dBYjTI/AAAAAAAABU8/8ymnInz-040/w900-h900/YT%2BDefault%2BBig.png")
 		div(class="col-md-6")
-			<family-member-info is-profile="true" watch=info familymember={{info}}></family-member-info>
+			family-member-info(is-profile="true" watch="info" familymember="{{info}}")
 		div(class="col-md-8 col-md-offset-2")
 			h3 Recent User Activity(to be implemented)
