@@ -12,6 +12,7 @@ var app = express();
 
 //App Configuration
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //Set up PUG view engine
 app.set('view engine', 'pug');

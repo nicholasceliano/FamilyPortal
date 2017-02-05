@@ -23,7 +23,8 @@ module.exports = function(grunt) {
 			}
 			, thirdPartyJS_Dev : {
 				src: [
-						'content/thirdParty/js/bootstrap.js'
+						'content/thirdParty/js/angular-pnotify.js'
+						, 'content/thirdParty/js/bootstrap.js'
 					],
 				dest: 'dist/thirdPartyJS.js'
 			}

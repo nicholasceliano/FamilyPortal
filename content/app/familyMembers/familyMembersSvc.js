@@ -7,7 +7,7 @@ familyPortalApp.factory('familyMembersSvc', function ($q, portalApiSvc, userInfo
     service.getFamilyMembers = function () {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Get('/api/data/familymembers').get(
+        portalApiSvc.Api('/api/data/familymembers').get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -18,7 +18,7 @@ familyPortalApp.factory('familyMembersSvc', function ($q, portalApiSvc, userInfo
 	service.getRecentFamilyMembers = function (ct) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Get('/api/data/familymembers?ct=' + ct).get(
+        portalApiSvc.Api('/api/data/familymembers', { ct: ct}).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

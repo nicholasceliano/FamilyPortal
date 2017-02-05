@@ -38,6 +38,18 @@ module.exports = function(app, data, security){
 		}
 	});
 	
+	app.post('/api/data/familymember', function (req, res) {
+		if (security.checkUserAccess(req)) {	
+			var userInfo = req.body;
+			
+			data.saveFamilyMemberByID(userInfo).then(function(responseMsg) {
+				res.send(JSON.stringify({ msg: responseMsg }));
+			});
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
 	app.get('/api/data/familymembers', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			var ct = req.query.ct;

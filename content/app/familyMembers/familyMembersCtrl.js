@@ -1,4 +1,4 @@
-familyPortalApp.controller('familyMembersCtrl', function($scope, familyMembersSvc) {
+familyPortalApp.controller('familyMembersCtrl', function($scope, familyMembersSvc, notificationService) {
     'use strict';
 	
 	var familyMembers = $scope;
@@ -14,7 +14,7 @@ familyPortalApp.controller('familyMembersCtrl', function($scope, familyMembersSv
 		 familyMembersSvc.getFamilyMembers().then(function (resp) {
             familyMembers.familyMembersArray = familyMembersSvc.formatFamilyMemberData(resp.familyMembers);
         }, function () {
-            alert('Error: familyMembers.familyMembersArray()');
+            notificationService.error('Error: familyMembers.familyMembersArray()');
         });
 	};
 });

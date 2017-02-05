@@ -37,7 +37,9 @@ familyPortalApp.controller('headerCtrl', function($scope, headerSvc, arraySvc) {
 			if (i === (breadcrumbArray.length - 1))
 				currentRoute = true;
 			
-			$('.breadcrumb').append(headerSvc.buildBreadcrumbItem(e, currentRoute));
+			e = e.replace(/\_/g, ' ');
+			
+			$('.breadcrumb').append(headerSvc.buildBreadcrumbItem(, currentRoute));
 		});
 	}
 });

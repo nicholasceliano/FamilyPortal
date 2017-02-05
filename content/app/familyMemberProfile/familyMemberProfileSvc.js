@@ -7,7 +7,7 @@ familyPortalApp.factory('familyMemberProfileSvc', function ($q, portalApiSvc) {
     service.getFamilyMemberById = function (id) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Get('/api/data/familymember?id=' + id).get(
+        portalApiSvc.Api('/api/data/familymember', { id: id }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

@@ -1,4 +1,4 @@
-familyPortalApp.controller('videosCtrl', function($scope, videosSvc) {
+familyPortalApp.controller('videosCtrl', function($scope, videosSvc, notificationService) {
     'use strict';
 	
 	var videos = $scope;
@@ -14,7 +14,7 @@ familyPortalApp.controller('videosCtrl', function($scope, videosSvc) {
 		 videosSvc.getVideos().then(function (resp) {
             videos.videosArray = resp.videos;
         }, function () {
-            alert('Error: videoSvc.getVideos()');
+            notificationService.error('Error: videoSvc.getVideos()');
         });
 	};
 });

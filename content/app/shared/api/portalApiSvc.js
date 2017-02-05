@@ -3,12 +3,8 @@ familyPortalApp.factory('portalApiSvc', function ($resource, $http, $q) {
 
     var service = {};
 
-    service.Get = function (uriPath) {
-        return $resource(location.origin + uriPath, null);
-    };
-
-    service.Post = function (uriPath) {
-        return $resource(location.origin + uriPath, null, { save: { method: 'POST' } });
+    service.Api = function (uriPath, parameters) {
+        return $resource(location.origin + uriPath, parameters);
     };
 
     return service;

@@ -1,4 +1,4 @@
-familyPortalApp.controller('familyMemberProfileCtrl', function($scope, familyMemberProfileSvc, userInfoFormattingSvc) {
+familyPortalApp.controller('familyMemberProfileCtrl', function($scope, familyMemberProfileSvc, userInfoFormattingSvc, notificationService) {
     'use strict';
 	
 	var profile = $scope;
@@ -13,7 +13,7 @@ familyPortalApp.controller('familyMemberProfileCtrl', function($scope, familyMem
 		 familyMemberProfileSvc.getFamilyMemberById(userId).then(function (resp) {
             profile.info = userInfoFormattingSvc.formatUserProfileInfo(resp.familyMember);
         }, function () {
-            alert('Error: familyMemberProfileSvc.getFamilyMemberById(userId)');
+            notificationService.error('Error: familyMemberProfileSvc.getFamilyMemberById(userId)');
         });
 	};
 });

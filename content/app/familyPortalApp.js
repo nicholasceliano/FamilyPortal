@@ -1,1 +1,1 @@
-var familyPortalApp = angular.module('familyPortalApp',  ['ngResource']);
+var familyPortalApp = angular.module('familyPortalApp',  ['ngResource', 'jlareau.pnotify']);

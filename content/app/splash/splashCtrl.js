@@ -1,4 +1,4 @@
-familyPortalApp.controller('splashCtrl', function($scope, splashSvc, videosSvc, familyMembersSvc) {
+familyPortalApp.controller('splashCtrl', function($scope, splashSvc, videosSvc, familyMembersSvc, notificationService) {
     'use strict';
 	
 	var splash = $scope;
@@ -18,7 +18,7 @@ familyPortalApp.controller('splashCtrl', function($scope, splashSvc, videosSvc, 
 		videosSvc.getRecentVideos(numRecentVideos).then(function (resp) {
             splash.videosArray = splashSvc.calculateDayDiff(resp.videos);
         }, function () {
-            alert('Error: videoSvc.getRecentVideos(numRecentVideos)');
+            notificationService.error('Error: videoSvc.getRecentVideos(numRecentVideos)');
         });
 	}
 	
@@ -26,7 +26,7 @@ familyPortalApp.controller('splashCtrl', function($scope, splashSvc, videosSvc, 
 		familyMembersSvc.getRecentFamilyMembers(numRecentFamilyMembers).then(function (resp) {
             splash.familyMembersArray = resp.familyMembers;
         }, function () {
-            alert('Error: familyMembersSvc.getRecentFamilyMembers(numRecentFamilyMembers)');
+            notificationService.error('Error: familyMembersSvc.getRecentFamilyMembers(numRecentFamilyMembers)');
         });
 	}
 	

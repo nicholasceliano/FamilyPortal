@@ -4,7 +4,9 @@ block content
 	div(class="col-md-10 col-md-offset-1" ng-controller="profileCtrl" ng-init="init('" + userId + "')")
 		div(class="col-md-10 col-md-offset-1")
 			h1 Profile 
-				i(class="fa fa-pencil")
+				i(class="profile-btn" ng-hide="editMode" ng-click="toggleEditMode()" class="fa fa-pencil")
+				i(class="profile-btn" ng-hide="!editMode" ng-click="save()" class="fa fa-save")
+				i(class="profile-btn" ng-hide="!editMode" ng-click="toggleEditMode()" class="fa fa-close")
 		div(class="col-md-10 col-md-offset-1")
 			div(class="profile-image col-md-2 no-side-padding")
 				img(src="https://lh3.googleusercontent.com/-okWSLDKqNHY/VswG6dBYjTI/AAAAAAAABU8/8ymnInz-040/w900-h900/YT%2BDefault%2BBig.png")
@@ -15,42 +17,68 @@ block content
 					tr
 						th(colspan="2") Personal Info
 					tr
+						td Username:
+						td
+							span {{info.username}}
+					tr
 						td First Name:
-						td {{info.firstName}}
+						td
+							span(ng-hide="editMode") {{info.firstName}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.firstName")
 					tr
 						td Middle Name:
-						td {{info.middleName}}
+						td
+							span(ng-hide="editMode") {{info.middleName}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.middleName")
 					tr
 						td Last Name:
-						td {{info.lastName}}
+						td
+							span(ng-hide="editMode") {{info.lastName}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.lastName")
 					tr
 						td Email Address:
-						td {{info.email}}
+						td
+							span(ng-hide="editMode") {{info.email}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.email")
 					tr
 						td Phone Number:
-						td {{info.phone}}
+						td
+							span(ng-hide="editMode") {{info.phone}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.phone")
 					tr
 						td Birth Date:
-						td {{info.birthDate}}
+						td
+							span(ng-hide="editMode") {{info.birthDate}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.birthDate")
 						
 				table(class="table-condensed table-bordered family-table profile-table")
 					tr
 						th(colspan="2") Address Info
 					tr
 						td Line 1:
-						td {{info.line1}}
+						td
+							span(ng-hide="editMode") {{info.line1}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.line1")
 					tr
 						td Line 2:
-						td {{info.line2}}
+						td
+							span(ng-hide="editMode") {{info.line2}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.line2")
 					tr
 						td City:
-						td {{info.city}}
+						td
+							span(ng-hide="editMode") {{info.city}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.city")
 					tr
 						td State:
-						td {{info.state}}
+						td
+							span(ng-hide="editMode") {{info.state}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.state")
 					tr
 						td Postal Code:
-						td {{info.postalCode}}
+						td
+							span(ng-hide="editMode") {{info.postalCode}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.postalCode")
 				table(class="table-condensed table-bordered family-table profile-table")
 					tr
 						th(colspan="2")
@@ -60,16 +88,26 @@ block content
 								span Same as Address Info
 					tr
 						td Line 1:
-						td {{info.shipLine1}}
+						td
+							span(ng-hide="editMode") {{info.shipLine1}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.shipLine1")
 					tr
 						td Line 2:
-						td {{info.shipLine2}}
+						td
+							span(ng-hide="editMode") {{info.shipLine2}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.shipLine2")
 					tr
 						td City:
-						td {{info.shipCity}}
+						td
+							span(ng-hide="editMode") {{info.shipCity}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.shipCity")
 					tr
 						td State:
-						td {{info.shipState}}
+						td
+							span(ng-hide="editMode") {{info.shipState}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.shipState")
 					tr
 						td Postal Code:
-						td {{info.shipPostalCode}}
+						td
+							span(ng-hide="editMode") {{info.shipPostalCode}}
+							input(ng-hide="!editMode" type="textbox" ng-model="info.shipPostalCode")

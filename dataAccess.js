@@ -21,7 +21,7 @@ module.exports = {
 				return db.collection('videos').find().toArray();
 			 }
 		}).then(function(data) {
-			return data;
+			return (data === null) ? 'Error Retrieving Videos' : data;
 		})
 	}, 
 	
@@ -30,10 +30,7 @@ module.exports = {
 			var mongoId = new mongo.ObjectID(id);
 			return db.collection('videos').findOne({ _id: mongoId });
 		}).then(function(data) {
-			if (data === null)
-				return 'Error Retrieving Video By ID';
-			else
-				return data;
+			return (data === null) ? 'Error Retrieving Video By ID' : data;
 		})
 	},
 	
@@ -45,7 +42,7 @@ module.exports = {
 				return db.collection('users').find().toArray();
 			 }
 		}).then(function(data) {
-			return data;
+			return (data === null) ? 'Error Retrieving Family Members' : removeUserPasswordObj(data);
 		})
 	}, 
 	
@@ -54,10 +51,48 @@ module.exports = {
 			var mongoId = new mongo.ObjectID(id);
 			return db.collection('users').findOne({ _id: mongoId });
 		}).then(function(data) {
-			if (data === null)
-				return 'Error Retrieving User By ID';
-			else
-				return data;
+			return (data === null) ? 'Error Retrieving Family Member by Id' : removeUserPasswordObj(data);
+		})
+	},
+	
+	saveFamilyMemberByID: function (userInfo) {
+		return mongoClient.connect(dbURL).then(function(db) {
+			var mongoId = new mongo.ObjectID(userInfo._id);
+			return db.collection('users').update({ _id: mongoId }, { $set: saveUserInfo(userInfo) });
+		}).then(function(data) {
+			return (data === null) ? 'Error saving Family Member by Id' : 'Success';
 		})
 	}
 };
+
+function removeUserPasswordObj(u) {
+	if (Array.isArray(u))
+		u.forEach(function (i, e){ delete i['password']; });
+	else 
+		delete u['password'];
+	
+	return u;
+}
+
+function saveUserInfo(u) {
+	return {
+		firstName: u.firstName
+		, middleName: u.middleName
+		, middleName: u.middleName
+		, lastName: u.lastName
+		, email: u.email
+		, phone: u.phone
+		, birthDate: u.birthDate
+		, line1: u.line1
+		, line2: u.line2
+		, city: u.city
+		, state: u.state
+		, postalCode: u.postalCode
+		, shipLine1: u.shipLine1
+		, shipLine2: u.shipLine2
+		, shipCity: u.shipCity
+		, shipState: u.shipState
+		, shipPostalCode: u.shipPostalCode
+		, updateDate: new Date()
+	}
+}

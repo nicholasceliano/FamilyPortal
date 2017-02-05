@@ -12,7 +12,15 @@
 	width:15%;
 }
 
+.profile-table tr td:nth-child(2) {
+	padding-top:0 !important;
+	padding-bottom:0 !important;
+}
+
 .profile-table .duplicate-address-info {
 	float:right;
 	font-weight:normal
+}
+.profile-btn {
+	margin-right:5px;
 }

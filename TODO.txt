@@ -1,6 +1,6 @@
 Short Term:
 - Set up Profile page
-	- Allow edit user info
+	- Set up 'same as address' checkbox correctly
 	- Allow users to load profile picture
 	- Allow users to add new family members(set up HoH account)
 - Set up news feed
