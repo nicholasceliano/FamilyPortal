@@ -1,3 +1,75 @@
 extends /_layout
 
 block content
+	div(class="col-md-10 col-md-offset-1" ng-controller="profileCtrl" ng-init="init('" + userId + "')")
+		div(class="col-md-10 col-md-offset-1")
+			h1 Profile 
+				i(class="fa fa-pencil")
+		div(class="col-md-10 col-md-offset-1")
+			div(class="profile-image col-md-2 no-side-padding")
+				img(src="https://lh3.googleusercontent.com/-okWSLDKqNHY/VswG6dBYjTI/AAAAAAAABU8/8ymnInz-040/w900-h900/YT%2BDefault%2BBig.png")
+				input(type="file" name="fileToUpload" id="fileToUpload")
+				input(type="submit" value="Upload Image" name="submit")
+			div(class="col-md-10")
+				table(class="table-condensed table-bordered profile-table")
+					tr
+						th(colspan="2") Personal Info
+					tr
+						td First Name:
+						td {{info.firstName}}
+					tr
+						td Middle Name:
+						td {{info.middleName}}
+					tr
+						td Last Name:
+						td {{info.lastName}}
+					tr
+						td Email Address:
+						td {{info.email}}
+					tr
+						td Phone Number:
+						td {{info.phone}}
+					tr
+						td Birth Date:
+						td {{info.birthDate}}
+						
+				table(class="table-condensed table-bordered family-table profile-table")
+					tr
+						th(colspan="2") Address Info
+					tr
+						td Line 1:
+						td {{info.line1}}
+					tr
+						td Line 2:
+						td {{info.line2}}
+					tr
+						td City:
+						td {{info.city}}
+					tr
+						td State:
+						td {{info.state}}
+					tr
+						td Postal Code:
+						td {{info.postalCode}}
+				table(class="table-condensed table-bordered family-table profile-table")
+					tr
+						th(colspan="2")
+							span Shipping Info
+							div(class="duplicate-address-info")
+								input(type="checkbox") 
+								span Same as Address Info
+					tr
+						td Line 1:
+						td {{info.shipLine1}}
+					tr
+						td Line 2:
+						td {{info.shipLine2}}
+					tr
+						td City:
+						td {{info.shipCity}}
+					tr
+						td State:
+						td {{info.shipState}}
+					tr
+						td Postal Code:
+						td {{info.shipPostalCode}}

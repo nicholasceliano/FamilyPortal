@@ -12,9 +12,9 @@ module.exports = function(app, data, security){
 		var user = req.body.username;
 		var pwd = req.body.pwd;
 		
-		security.login(user, pwd).then(function(validUser) {
-			if (validUser) {
-				res.cookie('user',user);
+		security.login(user, pwd).then(function(validUserId) {
+			if (validUserId !== undefined) {
+				res.cookie('userId',validUserId);
 				res.redirect('/');
 			} else  {
 				res.render('login/login', { 
@@ -90,7 +90,9 @@ module.exports = function(app, data, security){
 	
 	app.get('/profile', function(req, res) {
 		if (security.checkUserAccess(req)) {
-			res.render('profile/profile', { title: 'Profile - Family Scrapbook' });
+			var userId = security.getUserIdCookie(req);
+			
+			res.render('profile/profile', { title: 'Profile - Family Scrapbook', userId: userId });
 		} else {
 			security.sessionExpiredResponse(res);
 		}

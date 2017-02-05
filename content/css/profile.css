@@ -1,0 +1,18 @@
+.profile-image img {
+	width:100%;
+}
+
+.profile-table {
+	margin-bottom:20px;
+	width:100%;
+	background-color:#fff;
+}
+
+.profile-table tr td:first-child {
+	width:15%;
+}
+
+.profile-table .duplicate-address-info {
+	float:right;
+	font-weight:normal
+}

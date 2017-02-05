@@ -9,7 +9,7 @@ module.exports = {
 		return mongoClient.connect(dbURL).then(function(db) {
 			return db.collection('users').findOne({ username: user, password: pwd });
 		}).then(function(data) {
-			return (data === null) ? false : true;
+			return (data === null) ? undefined : data._id.toString();
 		})
 	},
 	

@@ -8,20 +8,20 @@ module.exports = function(data) {
 		login: function (user, pwd) { 
 			user = user.toLowerCase();
 			
-			return data.login(user, pwd).then(function(validUser) {
-				if (validUser)
-					AddActiveUser(user);
+			return data.login(user, pwd).then(function(validUserId) {
+				if (validUserId !== undefined)
+					AddActiveUser(validUserId);
 				
-				return validUser;
+				return validUserId;
 			});
 		},
 		
 		logout: function(request) {
 			var cookies = parseCookies(request);
-			var user = cookies.user
+			var userId = cookies.userId
 			
-			if (user !== undefined)
-				RemoveActiveUser(user);
+			if (userId !== undefined)
+				RemoveActiveUser(userId);
 		},
 		
 		removeInactiveUsers: function() {
@@ -33,13 +33,18 @@ module.exports = function(data) {
 		
 		checkUserAccess: function (request) {
 			var cookies = parseCookies(request);
-			var user = cookies.user
+			var userId = cookies.userId;
 			var hasAccess = false;
 			
-			if (user !== undefined)
-				hasAccess = UpdateUserSession(user);
+			if (userId !== undefined)
+				hasAccess = UpdateUserSession(userId);
 			
 			return hasAccess;
+		},
+		
+		getUserIdCookie: function(request) {
+			var cookies = parseCookies(request);
+			return cookies.userId;
 		},
 		
 		sessionExpiredResponse: function(response) {
@@ -47,27 +52,25 @@ module.exports = function(data) {
 		}		
 	}
 	
-	function AddActiveUser(user) {
-		user = user.toLowerCase();
-		
+	function AddActiveUser(userId) {
 		if (activeUserArray.length === 0) {
-			activeUserArray.push({ username: user, sessionExp: newSessionExpTime() });
+			activeUserArray.push({ userId: userId, sessionExp: newSessionExpTime() });
+			//set cookie
 		} else {		
 			for(var i = 0; i < activeUserArray.length; i++){
-				if (activeUserArray[i].toLowerCase() != user)
-					activeUserArray.push({ username: user, sessionExp: newSessionExpTime() });
+				if (activeUserArray[i] != userId)
+					activeUserArray.push({ userId: userId, sessionExp: newSessionExpTime() });
 			}
 		}
 	}
 	
-	function RemoveActiveUser(user) {
+	function RemoveActiveUser(userId) {
 		var index = -1;
-		user = user.toLowerCase();
 		
 		for(var i = 0; i < activeUserArray.length; i++){
-			var username = activeUserArray[i].username;
+			var arrayUserId = activeUserArray[i].userId;
 			
-			if (username == user) {
+			if (arrayUserId == userId) {
 				index = i;
 				break;
 			}
@@ -77,14 +80,13 @@ module.exports = function(data) {
 			activeUserArray.splice(index, 1);
 	}
 	
-	function UpdateUserSession(user) {
+	function UpdateUserSession(userId) {
 		var validUser = false;
-		user = user.toLowerCase();
 		
 		for(var i = 0; i < activeUserArray.length; i++){
-			var username = activeUserArray[i].username;
+			var arrayUserId = activeUserArray[i].userId;
 			
-			if (username == user) {
+			if (arrayUserId == userId) {
 				activeUserArray[i].sessionExp = newSessionExpTime();
 				validUser = true;
 				break;
