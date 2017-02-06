@@ -39,7 +39,7 @@ familyPortalApp.controller('headerCtrl', function($scope, headerSvc, arraySvc) {
 			
 			e = e.replace(/\_/g, ' ');
 			
-			$('.breadcrumb').append(headerSvc.buildBreadcrumbItem(, currentRoute));
+			$('.breadcrumb').append(headerSvc.buildBreadcrumbItem(e, currentRoute));
 		});
 	}
 });
