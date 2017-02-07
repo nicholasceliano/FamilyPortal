@@ -14,8 +14,13 @@ Short Term:
 - Set up Jasime and Karama
 - Add user photo to database
 - Move data helper functions to stored procs in database
-
 - Add recent user activity on profile page
+
+AWS
+- Create scheule to run BackupData.sh nightly
+- Configure web server on machine and deploy web project
+- Set up DNS for website (celiano.com? familyscrapbook.io?)
+- Set up Jenkins type job to automatically deploy web project when something gets checked into 'master' branch
 
 Branding/Design:
 - Name: Scrapbook, Family Scrapbook
