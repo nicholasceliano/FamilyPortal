@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 	
-	grunt.loadNpmTasks('grunt-contrib-uglify');//for minifying and combining files
+	grunt.loadNpmTasks('grunt-contrib-uglify');//for minifying and combining js files
+	grunt.loadNpmTasks('grunt-contrib-cssmin');//for minifying and css files
 	grunt.loadNpmTasks('grunt-contrib-concat');//for combining files
 	grunt.loadNpmTasks('grunt-contrib-copy');//for copying files
 
@@ -38,7 +39,7 @@ module.exports = function(grunt) {
 			}
 		},
 		copy: {
-			angularJS_Dev: {
+			angularJS_Templates: {
 			expand: true,
 			flatten: true,
 			src:  [
@@ -47,6 +48,41 @@ module.exports = function(grunt) {
 					],
 				dest: 'dist/templates/'
 		  }
+		},
+		uglify: {
+			angularJS_Prod: {
+				mangle: true,
+				src: [
+						'content/app/familyPortalApp.js'
+						, 'content/app/**/*.js'
+						, 'content/app/*/*.js'
+					],
+				dest: 'dist/familyPortal.js'
+			}
+			
+			, thirdPartyJS_Prod : {
+				src: [
+						'content/thirdParty/js/angular-pnotify.js'
+						, 'content/thirdParty/js/bootstrap.js'
+					],
+				dest: 'dist/thirdPartyJS.js'
+			}
+		},
+		cssmin: {
+			familyPortalCSS_Prod: {
+				src: [
+						'content/css/*.css'
+					],
+				dest: 'dist/familyPortal.css'
+			}
+			, thirdPartyCSS_Prod: {
+				src: [
+						'content/thirdParty/css/bootstrap.css'
+						, 'content/thirdParty/css/bootstrap-theme.css'
+						, 'content/thirdParty/css/font-awesome.css'
+					],
+				dest: 'dist/thirdPartyCSS.css'
+			}
 		}
   });
 
@@ -56,5 +92,10 @@ module.exports = function(grunt) {
 										,'concat:thirdPartyJS_Dev'
 										,'concat:thirdPartyCSS_Dev']);
 										
-	grunt.registerTask('copyDevFiles', ['copy:angularJS_Dev']);
+	grunt.registerTask('minifyProdFiles', ['uglify:angularJS_Prod'
+										,'cssmin:familyPortalCSS_Prod'
+										,'uglify:thirdPartyJS_Prod'
+										,'cssmin:thirdPartyCSS_Prod']);
+										
+	grunt.registerTask('copyTemplateFiles', ['copy:angularJS_Templates']);
 };
