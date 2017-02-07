@@ -2,7 +2,7 @@
 
 var mongo = require('mongodb')
 var mongoClient = mongo.MongoClient;
-var dbURL = 'mongodb://localhost:27017/familyportal';
+var dbURL = 'mongodb://familyPortalUser:celiano@ec2-52-55-164-103.compute-1.amazonaws.com/familyportal';
 
 module.exports = {
 	login: function (user, pwd) {
