@@ -1,11 +1,11 @@
-familyPortalApp.controller('headerCtrl', function($scope, headerSvc, arraySvc) {
+familyPortalApp.controller('headerCtrl', ['$scope', 'headerSvc', 'arraySvc', function($scope, headerSvc, arraySvc) {
     'use strict';
 	
 	var header = $scope;
 	
 	header.init = function () {
 		setActiveNavItem();
-		setBreadcrumbs()
+		setBreadcrumbs();
 	}
 	
 	header.home = function () {
@@ -42,4 +42,4 @@ familyPortalApp.controller('headerCtrl', function($scope, headerSvc, arraySvc) {
 			$('.breadcrumb').append(headerSvc.buildBreadcrumbItem(e, currentRoute));
 		});
 	}
-});
+}]);

@@ -1,4 +1,4 @@
-familyPortalApp.factory('portalApiSvc', function ($resource, $http, $q) {
+familyPortalApp.factory('portalApiSvc', ['$resource', '$http', '$q', function ($resource, $http, $q) {
     'use strict';
 
     var service = {};
@@ -8,4 +8,4 @@ familyPortalApp.factory('portalApiSvc', function ($resource, $http, $q) {
     };
 
     return service;
-});
+}]);

@@ -1,4 +1,4 @@
-familyPortalApp.controller('watchCtrl', function($scope, watchSvc, notificationService) {
+familyPortalApp.controller('watchCtrl', ['$scope', 'watchSvc', 'notificationService', function($scope, watchSvc, notificationService) {
     'use strict';
 	
 	var watch = $scope;
@@ -16,4 +16,4 @@ familyPortalApp.controller('watchCtrl', function($scope, watchSvc, notificationS
             notificationService.error('Error: watchSvc.getVideoById(videoId)');
         });
 	};
-});
+}]);

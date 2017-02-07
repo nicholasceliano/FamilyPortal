@@ -1,4 +1,4 @@
-familyPortalApp.factory('profileSvc', function ($q, portalApiSvc) {
+familyPortalApp.factory('profileSvc', ['$q', 'portalApiSvc', function ($q, portalApiSvc) {
     'use strict';
 
     var service = {};
@@ -27,4 +27,4 @@ familyPortalApp.factory('profileSvc', function ($q, portalApiSvc) {
     };
 	
 	return service;
-});
+}]);

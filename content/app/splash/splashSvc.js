@@ -1,4 +1,4 @@
-familyPortalApp.factory('splashSvc', function ($q, msToTimeDiffFilter) {
+familyPortalApp.factory('splashSvc', ['$q', 'msToTimeDiffFilter', function ($q, msToTimeDiffFilter) {
     'use strict';
 
     var service = {};
@@ -17,4 +17,4 @@ familyPortalApp.factory('splashSvc', function ($q, msToTimeDiffFilter) {
 	}
 	
 	return service;
-});
+}]);

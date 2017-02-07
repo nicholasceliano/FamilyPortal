@@ -1,4 +1,4 @@
-familyPortalApp.controller('familyMemberProfileCtrl', function($scope, familyMemberProfileSvc, userInfoFormattingSvc, notificationService) {
+familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMemberProfileSvc', 'userInfoFormattingSvc', 'notificationService', function($scope, familyMemberProfileSvc, userInfoFormattingSvc, notificationService) {
     'use strict';
 	
 	var profile = $scope;
@@ -16,4 +16,4 @@ familyPortalApp.controller('familyMemberProfileCtrl', function($scope, familyMem
             notificationService.error('Error: familyMemberProfileSvc.getFamilyMemberById(userId)');
         });
 	};
-});
+}]);

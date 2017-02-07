@@ -1,4 +1,4 @@
-familyPortalApp.controller('splashCtrl', function($scope, splashSvc, videosSvc, familyMembersSvc, notificationService) {
+familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'familyMembersSvc', 'notificationService', function($scope, splashSvc, videosSvc, familyMembersSvc, notificationService) {
     'use strict';
 	
 	var splash = $scope;
@@ -30,4 +30,4 @@ familyPortalApp.controller('splashCtrl', function($scope, splashSvc, videosSvc, 
         });
 	}
 	
-});
+}]);

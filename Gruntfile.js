@@ -59,8 +59,8 @@ module.exports = function(grunt) {
 					],
 				dest: 'dist/familyPortal.js'
 			}
-			
 			, thirdPartyJS_Prod : {
+				mangle: true,
 				src: [
 						'content/thirdParty/js/angular-pnotify.js'
 						, 'content/thirdParty/js/bootstrap.js'

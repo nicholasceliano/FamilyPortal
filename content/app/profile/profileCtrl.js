@@ -1,4 +1,4 @@
-familyPortalApp.controller('profileCtrl', function($scope, profileSvc, notificationService) {
+familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'notificationService', function($scope, profileSvc, notificationService) {
     'use strict';
 	
 	var profile = $scope;
@@ -38,4 +38,4 @@ familyPortalApp.controller('profileCtrl', function($scope, profileSvc, notificat
         });
 	};
 	
-});
+}]);
