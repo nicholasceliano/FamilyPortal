@@ -1,67 +1,71 @@
 //lets require/import the mongodb native drivers.
 
 var mongo = require('mongodb')
-var mongoClient = mongo.MongoClient;
-var dbURL = 'mongodb://familyPortalUser:celiano@ec2-52-55-164-103.compute-1.amazonaws.com/familyportal';
 
-module.exports = {
-	login: function (user, pwd) {
-		return mongoClient.connect(dbURL).then(function(db) {
-			return db.collection('users').findOne({ username: user, password: pwd });
-		}).then(function(data) {
-			return (data === null) ? undefined : data._id.toString();
-		})
-	},
+module.exports = function(config) {
 	
-	getVideos: function (ct) {
-		 return mongoClient.connect(dbURL).then(function(db) {
-			 if (ct) {
-				 return db.collection('videos').find().sort({createDate:-1}).limit(parseInt(ct)).toArray();
-			 } else {
-				return db.collection('videos').find().toArray();
-			 }
-		}).then(function(data) {
-			return (data === null) ? 'Error Retrieving Videos' : data;
-		})
-	}, 
+	var mongoClient = mongo.MongoClient;
+	var dbURL = config.db;
 	
-	getVideoByID: function (id) { 
-		return mongoClient.connect(dbURL).then(function(db) {
-			var mongoId = new mongo.ObjectID(id);
-			return db.collection('videos').findOne({ _id: mongoId });
-		}).then(function(data) {
-			return (data === null) ? 'Error Retrieving Video By ID' : data;
-		})
-	},
-	
-	getFamilyMembers: function (ct) {
-		 return mongoClient.connect(dbURL).then(function(db) {
-			 if (ct) {
-				 return db.collection('users').find().sort({updateDate:-1}).limit(parseInt(ct)).toArray();
-			 } else {
-				return db.collection('users').find().toArray();
-			 }
-		}).then(function(data) {
-			return (data === null) ? 'Error Retrieving Family Members' : removeUserPasswordObj(data);
-		})
-	}, 
-	
-	getFamilyMemberByID: function (id) { 
-		return mongoClient.connect(dbURL).then(function(db) {
-			var mongoId = new mongo.ObjectID(id);
-			return db.collection('users').findOne({ _id: mongoId });
-		}).then(function(data) {
-			return (data === null) ? 'Error Retrieving Family Member by Id' : removeUserPasswordObj(data);
-		})
-	},
-	
-	saveFamilyMemberByID: function (userInfo) {
-		return mongoClient.connect(dbURL).then(function(db) {
-			var mongoId = new mongo.ObjectID(userInfo._id);
-			return db.collection('users').update({ _id: mongoId }, { $set: saveUserInfo(userInfo) });
-		}).then(function(data) {
-			return (data === null) ? 'Error saving Family Member by Id' : 'Success';
-		})
+	return {
+		login: function (user, pwd) {
+			return mongoClient.connect(dbURL).then(function(db) {
+				return db.collection('users').findOne({ username: user, password: pwd });
+			}).then(function(data) {
+				return (data === null) ? undefined : data._id.toString();
+			})
+		},
+		
+		getVideos: function (ct) {
+			 return mongoClient.connect(dbURL).then(function(db) {
+				 if (ct) {
+					 return db.collection('videos').find().sort({createDate:-1}).limit(parseInt(ct)).toArray();
+				 } else {
+					return db.collection('videos').find().toArray();
+				 }
+			}).then(function(data) {
+				return (data === null) ? 'Error Retrieving Videos' : data;
+			})
+		}, 
+		
+		getVideoByID: function (id) { 
+			return mongoClient.connect(dbURL).then(function(db) {
+				var mongoId = new mongo.ObjectID(id);
+				return db.collection('videos').findOne({ _id: mongoId });
+			}).then(function(data) {
+				return (data === null) ? 'Error Retrieving Video By ID' : data;
+			})
+		},
+		
+		getFamilyMembers: function (ct) {
+			 return mongoClient.connect(dbURL).then(function(db) {
+				 if (ct) {
+					 return db.collection('users').find().sort({updateDate:-1}).limit(parseInt(ct)).toArray();
+				 } else {
+					return db.collection('users').find().toArray();
+				 }
+			}).then(function(data) {
+				return (data === null) ? 'Error Retrieving Family Members' : removeUserPasswordObj(data);
+			})
+		}, 
+		
+		getFamilyMemberByID: function (id) { 
+			return mongoClient.connect(dbURL).then(function(db) {
+				var mongoId = new mongo.ObjectID(id);
+				return db.collection('users').findOne({ _id: mongoId });
+			}).then(function(data) {
+				return (data === null) ? 'Error Retrieving Family Member by Id' : removeUserPasswordObj(data);
+			})
+		},
+		
+		saveFamilyMemberByID: function (userInfo) {
+			return mongoClient.connect(dbURL).then(function(db) {
+				var mongoId = new mongo.ObjectID(userInfo._id);
+				return db.collection('users').update({ _id: mongoId }, { $set: saveUserInfo(userInfo) });
+			}).then(function(data) {
+				return (data === null) ? 'Error saving Family Member by Id' : 'Success';
+			})
+		}
 	}
 };
 

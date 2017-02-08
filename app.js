@@ -4,7 +4,8 @@
 var express = require('express');
 var fs = require("fs");
 var bodyParser = require('body-parser');
-var data = require('./dataAccess.js');
+var config = (process.env.NODE_ENV.toLowerCase() === 'prod' ? require('./config.js').prod : require('./config.js').dev);
+var data = require('./dataAccess.js')(config);
 var security = require('./security.js')(data);
 
 //Global variables
@@ -24,13 +25,13 @@ app.use('/dist', express.static('dist'));//makes /dist folder accessable from cl
 app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from client side
 
 //Routes
-require('./routes/webpages.js')(app, data, security);
+require('./routes/webpages.js')(app, data, security, config);
 require('./routes/api/data.js')(app, data, security);
 
 //App Start
-app.listen(3000, function () {
+app.listen(config.port, function () {
 	var userCheckInterval_InSeconds = 3;
 	
 	setInterval(function() { security.removeInactiveUsers(); }, userCheckInterval_InSeconds*1000);
-	console.log('App listening on port 3000');
+	console.log('App listening on port ' + config.port);
 });

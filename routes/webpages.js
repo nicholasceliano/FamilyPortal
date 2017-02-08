@@ -1,5 +1,5 @@
 //Webpage Routes Only
-module.exports = function(app, data, security){
+module.exports = function(app, data, security, config){
 	app.get('/', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			res.render('splash/splash', { title: 'Celiano Family Videos' });
@@ -47,7 +47,7 @@ module.exports = function(app, data, security){
 			
 			data.getVideoByID(id).then(function(video) {			
 				//videoUrl in response is a work around - ng-src doesnt work on video objects in angular
-				res.render('videos/watch/watch', { title: 'Watch - Family Scrapbook', videoId: id, videoUrl: "https://s3.amazonaws.com/videos.celiano/" + video.url });
+				res.render('videos/watch/watch', { title: 'Watch - Family Scrapbook', videoId: id, videoUrl: config.videosBaseUri + video.url });
 			});
 		} else {
 			security.sessionExpiredResponse(res);
