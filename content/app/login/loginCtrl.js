@@ -1,4 +1,4 @@
-familyPortalApp.controller('loginCtrl', ['scope', function($scope) {
+familyPortalApp.controller('loginCtrl', ['$scope', function($scope) {
     'use strict';
 	
 	var login = $scope;
