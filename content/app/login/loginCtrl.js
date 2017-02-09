@@ -1,4 +1,4 @@
-familyPortalApp.controller('loginCtrl', function($scope) {
+familyPortalApp.controller('loginCtrl', ['scope', function($scope) {
     'use strict';
 	
 	var login = $scope;
@@ -6,4 +6,4 @@ familyPortalApp.controller('loginCtrl', function($scope) {
 	login.init = function () {
 		//do something here
 	};
-});
+}]);
