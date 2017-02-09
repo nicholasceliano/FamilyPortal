@@ -15,7 +15,6 @@ Short Term:
 - Add recent user activity on profile page
 
 AWS
-- Set up Jenkins type job to automatically deploy web project when something gets checked into 'master' branch
 - Set up DNS for website (celiano.com? familyscrapbook.io?)
 - Make site HTTPS
 - Set up dev. subdomain
