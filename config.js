@@ -7,7 +7,7 @@ module.exports = {
 	
 	prod: {
 		db: 'mongodb://familyPortalUser:celiano@ec2-52-55-164-103.compute-1.amazonaws.com/familyportal',
-		port: 80,
+		port: 3000,
 		videosBaseUri: 'https://s3.amazonaws.com/videos.celiano/'
 	}
 };
