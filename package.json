@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "grunt concatDevFiles & grunt copyTemplateFiles & SET NODE_ENV='dev' & start http://localhost:3000 & node app.js",
+    "start": "grunt concatDevFiles & grunt copyTemplateFiles & SET NODE_ENV='dev' & start http://localhost:3333 & node app.js",
 	"prod_start": "grunt minifyProdFiles & grunt copyTemplateFiles & export NODE_ENV=prod & forever stopall & forever start app.js"
   },
   "repository": {
