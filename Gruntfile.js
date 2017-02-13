@@ -46,7 +46,16 @@ module.exports = function(grunt) {
 						'content/app/**/*.html'
 						, 'content/app/*/*.html'
 					],
-				dest: 'dist/templates/'
+			dest: 'dist/templates/'
+		  },
+		  images: {
+			expand: true,
+			flatten: true,
+			src : [
+				'content/images/*.png'
+				, 'content/images/*.ico'
+			],
+			dest: 'dist/images/'
 		  }
 		},
 		uglify: {
@@ -97,5 +106,6 @@ module.exports = function(grunt) {
 										,'uglify:thirdPartyJS_Prod'
 										,'cssmin:thirdPartyCSS_Prod']);
 										
-	grunt.registerTask('copyTemplateFiles', ['copy:angularJS_Templates']);
+	grunt.registerTask('copyFiles', ['copy:angularJS_Templates'
+											,'copy:images']);
 };

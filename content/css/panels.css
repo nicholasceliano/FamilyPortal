@@ -29,7 +29,7 @@
 
 .panel > .panel-heading {
     background-image: none;
-    background:linear-gradient(to bottom right, #dbe8ff, #fff);
+    background:linear-gradient(to bottom right, #f7941e, #d8bc06);
 }
 
 a.panel-title {

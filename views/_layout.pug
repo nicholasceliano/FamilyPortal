@@ -4,6 +4,7 @@ html(ng-app="familyPortalApp" ng-cloak)
 		link(rel="stylesheet" href="/dist/thirdPartyCSS.css")
 		link(rel="stylesheet" href="/dist/familyPortal.css")
 		link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/3.0.0/pnotify.min.css")
+		link(rel="shortcut icon" href="/dist/images/favicon.ico" type="image/x-icon")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/pnotify/3.0.0/pnotify.min.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js")
@@ -12,8 +13,8 @@ html(ng-app="familyPortalApp" ng-cloak)
 		script(src="/dist/familyPortal.js")
 	body
 		header(ng-controller="headerCtrl" ng-init="init()" class="col-xs-12 familyScrapbookHeader")
-			div(class="col-xs-6 pull-left header-text")
-				span(ng-click="home()") Family Scrapbook
+			div(class="col-xs-6 pull-left header-logo")
+				img(src="/dist/images/header.png" ng-click="home()")
 			if !accessDenied
 				div(class="row no-gutter col-xs-6 pull-right")
 					div(class="header-icon" title="Logout")
