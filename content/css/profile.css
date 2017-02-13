@@ -24,3 +24,7 @@
 .profile-btn {
 	margin-right:5px;
 }
+
+.disabled-table {
+	background: #dddddd;
+}

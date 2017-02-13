@@ -79,35 +79,35 @@ block content
 						td
 							span(ng-hide="editMode") {{info.postalCode}}
 							input(ng-hide="!editMode" type="textbox" ng-model="info.postalCode")
-				table(class="table-condensed table-bordered family-table profile-table")
+				table(class="table-condensed table-bordered family-table profile-table" ng-class="{'disabled-table':shippingAddressSameToggle, 'test':'!shippingAddressSameToggle'}")
 					tr
 						th(colspan="2")
 							span Shipping Info
 							div(class="duplicate-address-info")
-								input(type="checkbox") 
+								input(type="checkbox" ng-checked="shippingAddressSameToggle" ng-disabled="!editMode" ng-click="toggleSameShippingAddress()") 
 								span Same as Address Info
 					tr
 						td Line 1:
 						td
-							span(ng-hide="editMode") {{info.shipLine1}}
-							input(ng-hide="!editMode" type="textbox" ng-model="info.shipLine1")
+							span(ng-hide="editMode || shippingAddressSameToggle") {{info.shipLine1}}
+							input(ng-hide="!editMode || shippingAddressSameToggle" type="textbox" ng-model="info.shipLine1")
 					tr
 						td Line 2:
 						td
-							span(ng-hide="editMode") {{info.shipLine2}}
-							input(ng-hide="!editMode" type="textbox" ng-model="info.shipLine2")
+							span(ng-hide="editMode || shippingAddressSameToggle") {{info.shipLine2}}
+							input(ng-hide="!editMode || shippingAddressSameToggle" type="textbox" ng-model="info.shipLine2")
 					tr
 						td City:
 						td
-							span(ng-hide="editMode") {{info.shipCity}}
-							input(ng-hide="!editMode" type="textbox" ng-model="info.shipCity")
+							span(ng-hide="editMode || shippingAddressSameToggle") {{info.shipCity}}
+							input(ng-hide="!editMode || shippingAddressSameToggle" type="textbox" ng-model="info.shipCity")
 					tr
 						td State:
 						td
-							span(ng-hide="editMode") {{info.shipState}}
-							input(ng-hide="!editMode" type="textbox" ng-model="info.shipState")
+							span(ng-hide="editMode || shippingAddressSameToggle") {{info.shipState}}
+							input(ng-hide="!editMode || shippingAddressSameToggle" type="textbox" ng-model="info.shipState")
 					tr
 						td Postal Code:
 						td
-							span(ng-hide="editMode") {{info.shipPostalCode}}
-							input(ng-hide="!editMode" type="textbox" ng-model="info.shipPostalCode")
+							span(ng-hide="editMode || shippingAddressSameToggle") {{info.shipPostalCode}}
+							input(ng-hide="!editMode || shippingAddressSameToggle" type="textbox" ng-model="info.shipPostalCode")

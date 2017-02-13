@@ -1,8 +1,8 @@
 Short Term:
 - Set up Profile page
-	- Set up 'same as address' checkbox correctly
 	- Allow users to load profile picture
 	- Allow users to add new family members(set up HoH account)
+- Add loading image while waiting for API calls
 - Set up news feed
 - Set up live chat
 - Set up images
