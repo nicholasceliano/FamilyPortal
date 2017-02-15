@@ -18,9 +18,10 @@
 
 ###Web Servers:
 ####Prod
-- Url: http://ec2-52-55-164-103.compute-1.amazonaws.com:3000/
+- Url: http://ec2-52-55-164-103.compute-1.amazonaws.com
+
 ####Dev
-- Url: TBD
+- Url: http://ec2-52-55-164-103.compute-1.amazonaws.com:3333/ <-- Must be started manually
 
 ###Server Tasks:
 Scheduler(Crontab)
