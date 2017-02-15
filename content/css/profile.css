@@ -1,7 +1,8 @@
 .profile-image img {
+	max-height:225px;
 	width:100%;
 }
-
+	
 .profile-table {
 	margin-bottom:20px;
 	width:100%;

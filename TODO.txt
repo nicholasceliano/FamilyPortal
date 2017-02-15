@@ -1,7 +1,6 @@
 Short Term:
 - Set up Profile page
 	- Allow users to add new family members(set up HoH account)
-- Add loading gif while waiting for API calls
 - Set up news feed
 - Set up live chat
 - Set up images to file system

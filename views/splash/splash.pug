@@ -19,7 +19,9 @@ block content
 				div(class="panel-heading") 
 					a(class="panel-title" href ="/videos") Recent Videos
 				div(class="panel-body")
-					ul(class="list-group")
+					div(ng-hide="!videosLoading" class="panel-loading")
+						img(src="/dist/images/loading.gif")
+					ul(ng-hide="videosLoading" class="list-group")
 						li(class="list-group-item" ng-repeat="video in videosArray")
 							a(href="./videos/watch?id={{video._id}}") {{video.name}}
 							span(class="badge") {{video.dateDiff}}
@@ -34,7 +36,9 @@ block content
 				div(class="panel-heading") 
 					a(class="panel-title"  href ="/family") Family Members
 				div(class="panel-body")
-					ul(class="list-group")
+					div(ng-hide="!familyMembersLoading" class="panel-loading")
+						img(src="/dist/images/loading.gif")
+					ul(ng-hide="familyMembersLoading" class="list-group")
 						li(class="list-group-item" ng-repeat="familyMember in familyMembersArray")
 							a(href="./family/family_member_profile?id={{familyMember._id}}") {{familyMember.firstName}} {{familyMember.lastName}}
 							

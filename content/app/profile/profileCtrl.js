@@ -9,6 +9,7 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'imageSvc', '
 	profile.fileToUpload;
 	profile.editMode = false;
 	profile.shippingAddressSameToggle = false;
+	profile.profileInfoLoading = true;
 		
 	profile.init = function (userId) {
 		getProfileInfo(userId);
@@ -69,6 +70,8 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'imageSvc', '
 			
 			if (profileSvc.checkIfAddressesMatch(profile.info))
 				profile.shippingAddressSameToggle = true;
+			
+			profile.profileInfoLoading = false;
         }, function () {
             notificationService.error('Error: profileSvc.getFamilyMemberById(userId)');
         });

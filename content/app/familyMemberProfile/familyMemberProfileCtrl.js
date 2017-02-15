@@ -4,6 +4,7 @@ familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMemberPr
 	var profile = $scope;
 	
 	profile.info;
+	profile.profileInfoLoading = true;
 		
 	profile.init = function (userId) {
 		getProfileInfo(userId);
@@ -12,6 +13,7 @@ familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMemberPr
 	function getProfileInfo(userId) {
 		 familyMemberProfileSvc.getFamilyMemberById(userId).then(function (resp) {
             profile.info = userInfoFormattingSvc.formatUserProfileInfo(resp.familyMember);
+			profile.profileInfoLoading = false;
         }, function () {
             notificationService.error('Error: familyMemberProfileSvc.getFamilyMemberById(userId)');
         });

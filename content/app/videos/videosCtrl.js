@@ -4,6 +4,7 @@ familyPortalApp.controller('videosCtrl', ['$scope', 'videosSvc', 'notificationSe
 	var videos = $scope;
 	
 	videos.videosArray = [];
+	videos.videosLoading = true;
 		
 	videos.init = function () {
 		//get json data through api
@@ -13,6 +14,7 @@ familyPortalApp.controller('videosCtrl', ['$scope', 'videosSvc', 'notificationSe
 	function getVideos() {
 		 videosSvc.getVideos().then(function (resp) {
             videos.videosArray = resp.videos;
+			videos.videosLoading = false;
         }, function () {
             notificationService.error('Error: videoSvc.getVideos()');
         });
