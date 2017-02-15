@@ -1,4 +1,4 @@
-familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'notificationService', function($scope, profileSvc, notificationService) {
+familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'imageSvc', 'notificationService', function($scope, profileSvc, imageSvc, notificationService) {
     'use strict';
 	
 	var profile = $scope;
@@ -6,6 +6,7 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'notification
 	var savedInfo;
 	
 	profile.info;
+	profile.fileToUpload;
 	profile.editMode = false;
 	profile.shippingAddressSameToggle = false;
 		
@@ -34,8 +35,33 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'notification
 			profile.shippingAddressSameToggle = false;
 		else 
 			profile.shippingAddressSameToggle = true;
-	}
+	};
+	
+	profile.saveImage = function () {
+		var originalImgBlob = imageSvc.dataURItoBlob(profile.fileToUpload);
 		
+		//Converts image size and saves
+		var reader = new FileReader();  
+		reader.onload = function(e) {
+			var imageFormData = new FormData();
+			var resizedImgUri = imageSvc.convertImageSize(e, 225,225)
+			var resizedImgBlob = imageSvc.dataURItoBlob(resizedImgUri);
+			imageFormData.append('file', resizedImgBlob);
+			saveProfileImage(savedInfo._id, imageFormData);
+		}
+		reader.readAsDataURL(originalImgBlob);
+	};
+	
+	function saveProfileImage(id, postData) {
+		profileSvc.saveProfileImage(id, postData).then(function (resp) {
+			notificationService.success('Profile Image Successfully Updated');
+			profile.info.userImage = resp.userImage;
+			savedInfo = angular.copy(profile.info);
+		}, function () {
+			notificationService.error('Error: profileSvc.saveProfileImage(id, postData)');
+		});
+	}
+			
 	function getProfileInfo(userId) {
 		 profileSvc.getFamilyMemberById(userId).then(function (resp) {
 			profile.info = resp.familyMember;
@@ -49,12 +75,12 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'notification
 	};
 	
 	function saveProfileInfo(profileInfo) {
-		 profileSvc.saveFamilyMemberById(profileInfo._id, profileInfo).then(function (resp) {
+		 profileSvc.saveFamilyMemberById(profileInfo).then(function (resp) {
 			notificationService.success('Profile Update Successful');
             savedInfo = angular.copy(profile.info);
 			profile.editMode = false;
         }, function () {
-            notificationService.error('Error: profileSvc.saveFamilyMemberById(userId, info)');
+            notificationService.error('Error: profileSvc.saveFamilyMemberById(info)');
         });
 	};
 	

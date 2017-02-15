@@ -1,6 +1,8 @@
 //API Routes - Data - Naming will be reworked once MongoDB is set up
 // /api/data/{dataContent}.json
 
+var apiUploadsHelper = require('./apiUploadsHelper.js')
+
 module.exports = function(app, data, security){
 	app.get('/api/data/video', function (req, res) {
 		if (security.checkUserAccess(req)) {	
@@ -56,6 +58,19 @@ module.exports = function(app, data, security){
 			
 			data.getFamilyMembers(ct).then(function(familyMemberArray) {
 				res.send(JSON.stringify({ familyMembers: familyMemberArray }));
+			});
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
+	app.post('/api/data/saveimage', apiUploadsHelper().tempImgUpload.single('file'), function (req, res) {
+		if (security.checkUserAccess(req)) {	
+			var id = req.query.id;
+			var buffer = req.file.buffer;
+			
+			data.saveFamilyMemberPhotoById(id, buffer).then(function(imgBase64) {
+				res.send(JSON.stringify({ userImage: imgBase64 }));	
 			});
 		} else {
 			security.sessionExpiredResponse(res);

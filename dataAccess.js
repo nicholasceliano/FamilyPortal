@@ -65,6 +65,18 @@ module.exports = function(config) {
 			}).then(function(data) {
 				return (data === null) ? 'Error saving Family Member by Id' : 'Success';
 			})
+		},
+		
+		saveFamilyMemberPhotoById: function(id, buffer) {
+			return mongoClient.connect(dbURL).then(function(db) {
+				var mongoId = new mongo.ObjectID(id);
+				
+				return db.collection('users').update({ _id: mongoId }, {$set: {userImage: mongo.Binary(buffer, 0)}});
+			}).then(function(data) {
+				var imgBase64 = buffer.toString('base64');
+				
+				return (data === null) ? 'Error saving Family Member Photo by Id' : imgBase64;
+			})
 		}
 	}
 };

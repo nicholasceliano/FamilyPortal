@@ -15,10 +15,21 @@ familyPortalApp.factory('profileSvc', ['$q', 'portalApiSvc', function ($q, porta
         return deffered.promise;
     };
 	
-	service.saveFamilyMemberById = function (id, postData) {
+	service.saveFamilyMemberById = function (postData) {
 		var deffered = $q.defer();
 		
         portalApiSvc.Api('/api/data/familymember').save({}, postData,
+			function (resp) { deffered.resolve(resp); },
+			function () { deffered.reject(); }
+		);
+
+        return deffered.promise;
+    };
+	
+	service.saveProfileImage = function (id, postData) {
+		var deffered = $q.defer();
+		
+        portalApiSvc.ImageApi('/api/data/saveimage').saveImage({ id: id }, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

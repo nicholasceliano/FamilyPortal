@@ -1,16 +1,14 @@
 Short Term:
 - Set up Profile page
-	- Allow users to load profile picture
 	- Allow users to add new family members(set up HoH account)
-- Add loading image while waiting for API calls
+- Add loading gif while waiting for API calls
 - Set up news feed
 - Set up live chat
-- Set up images
+- Set up images to file system
 - Set up Calendar
 - Fix UI on Videos page
 - Fix UI on Watch page
 - Set up Jasime and Karama
-- Add user photo to database
 - Move data helper functions to stored procs in database
 - Add recent user activity on profile page
 
@@ -18,10 +16,6 @@ AWS
 - Set up DNS for website (celiano.com? familyscrapbook.io?)
 - Make site HTTPS
 - Set up dev. subdomain
-
-Branding/Design:
-- Name: Scrapbook, Family Scrapbook
-- Colors: yellow/orange banner/heaers. offwhite background
 
 Future:
 - Family Calendar

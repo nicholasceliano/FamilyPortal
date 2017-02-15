@@ -28,3 +28,7 @@
 .disabled-table {
 	background: #dddddd;
 }
+
+.image-input {
+	width:100%;
+}
