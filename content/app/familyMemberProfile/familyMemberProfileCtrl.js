@@ -1,21 +1,34 @@
-familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMemberProfileSvc', 'userInfoFormattingSvc', 'notificationService', function($scope, familyMemberProfileSvc, userInfoFormattingSvc, notificationService) {
+familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'profileSvc', 'userInfoFormattingSvc', 'notificationService', function($scope, profileSvc, userInfoFormattingSvc, notificationService) {
     'use strict';
 	
 	var profile = $scope;
 	
 	profile.info;
+	profile.photoInfo;
 	profile.profileInfoLoading = true;
+	profile.profilePhotoLoading = true;
 		
 	profile.init = function (userId) {
 		getProfileInfo(userId);
+		getProfilePhoto(userId);
 	};
 		
 	function getProfileInfo(userId) {
-		 familyMemberProfileSvc.getFamilyMemberById(userId).then(function (resp) {
+		 profileSvc.getFamilyMemberById(userId).then(function (resp) {
             profile.info = userInfoFormattingSvc.formatUserProfileInfo(resp.familyMember);
 			profile.profileInfoLoading = false;
         }, function () {
-            notificationService.error('Error: familyMemberProfileSvc.getFamilyMemberById(userId)');
+            notificationService.error('Error: profileSvc.getFamilyMemberById(userId)');
+        });
+	};
+	
+	function getProfilePhoto(userId) {
+		 profileSvc.getFamilyMemberPhotoById(userId).then(function (resp) {
+			profile.photoInfo = resp.familyMember;
+			
+			profile.profilePhotoLoading = false;
+        }, function () {
+            notificationService.error('Error: profileSvc.getFamilyMemberById(userId)');
         });
 	};
 }]);

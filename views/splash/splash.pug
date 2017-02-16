@@ -1,7 +1,7 @@
 extends /_layout
 
 block content
-	div(class="col-md-10 col-md-offset-1 no-side-padding" ng-controller="splashCtrl" ng-init="init()")
+	div(class="col-md-10 col-xs-12 col-xs-offset-0 col-md-offset-1 no-side-padding" ng-controller="splashCtrl" ng-init="init()")
 		div(class="panel-container-sm col-md-8")
 			div(class="panel panel-default")
 				div(class="panel-heading") 
@@ -23,8 +23,9 @@ block content
 						img(src="/dist/images/loading.gif")
 					ul(ng-hide="videosLoading" class="list-group")
 						li(class="list-group-item" ng-repeat="video in videosArray")
-							a(href="./videos/watch?id={{video._id}}") {{video.name}}
-							span(class="badge") {{video.dateDiff}}
+							div(class="list-item-withbadge-text")
+								a(href="./videos/watch?id={{video._id}}") {{video.name}}
+							span(class="badge list-item-withbadge-badge") {{video.dateDiff}}
 		div(class="panel-container-lg col-md-4")
 			div(class="panel panel-default")
 				div(class="panel-heading") 

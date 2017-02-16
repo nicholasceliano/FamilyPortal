@@ -40,21 +40,30 @@ module.exports = function(config) {
 		getFamilyMembers: function (ct) {
 			 return mongoClient.connect(dbURL).then(function(db) {
 				 if (ct) {
-					 return db.collection('users').find().sort({updateDate:-1}).limit(parseInt(ct)).toArray();
+					 return db.collection('users').find({}, getUserInfoNoImage()).limit(parseInt(ct)).toArray();
 				 } else {
 					return db.collection('users').find().toArray();
 				 }
 			}).then(function(data) {
-				return (data === null) ? 'Error Retrieving Family Members' : removeUserPasswordObj(data);
+				return (data === null) ? 'Error Retrieving Family Members' : data;
 			})
 		}, 
+		
+		getFamilyMemberPhotoById: function(id) {
+			return mongoClient.connect(dbURL).then(function(db) {
+				var mongoId = new mongo.ObjectID(id);
+			return db.collection('users').findOne({ _id: mongoId }, { userImage: 1, updateDate: 1 });
+			}).then(function(data) {
+				return (data === null) ? 'Error Retrieving Family Member Photo by Id' : data;
+			})
+		},
 		
 		getFamilyMemberByID: function (id) { 
 			return mongoClient.connect(dbURL).then(function(db) {
 				var mongoId = new mongo.ObjectID(id);
-				return db.collection('users').findOne({ _id: mongoId });
+			return db.collection('users').findOne({ _id: mongoId }, getUserInfoNoImage());
 			}).then(function(data) {
-				return (data === null) ? 'Error Retrieving Family Member by Id' : removeUserPasswordObj(data);
+				return (data === null) ? 'Error Retrieving Family Member by Id' : data;
 			})
 		},
 		
@@ -71,7 +80,7 @@ module.exports = function(config) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				var mongoId = new mongo.ObjectID(id);
 				
-				return db.collection('users').update({ _id: mongoId }, {$set: {userImage: mongo.Binary(buffer, 0)}});
+				return db.collection('users').update({ _id: mongoId }, {$set: {userImage: mongo.Binary(buffer, 0), updateDate: new Date()}});
 			}).then(function(data) {
 				var imgBase64 = buffer.toString('base64');
 				
@@ -81,19 +90,13 @@ module.exports = function(config) {
 	}
 };
 
-function removeUserPasswordObj(u) {
-	if (Array.isArray(u))
-		u.forEach(function (i, e){ delete i['password']; });
-	else 
-		delete u['password'];
-	
-	return u;
+function getUserInfoNoImage() {
+	return { userImage:0, password:0 };
 }
 
 function saveUserInfo(u) {
 	return {
 		firstName: u.firstName
-		, middleName: u.middleName
 		, middleName: u.middleName
 		, lastName: u.lastName
 		, email: u.email

@@ -1,9 +1,8 @@
 extends /_layout
 
 block content
-	div(class="col-md-10 col-md-offset-1" ng-controller="videosCtrl" ng-init="init()")
+	div(class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1" ng-controller="videosCtrl" ng-init="init()")
 		h1 Celiano Family Videos
-		h4 Below is a list of links to the videos, in YYYYMMDD format, followed by a short description and the tape number the videos came off of. If you have any problems, please contact Dominic at d.celiano@yahoo.com.
 		div(class="panel-loading-cover-page" ng-hide="!videosLoading")
 			img(src="/dist/images/loading.gif")
 		ul(ng-hide="videosLoading")

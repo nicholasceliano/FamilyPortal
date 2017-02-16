@@ -11,6 +11,13 @@
 	cursor:pointer;
 }
 
+@media (max-width:540px) { 
+	.header-logo img {
+		padding-top: 8px;
+		width:250px;
+	}
+ }
+
 .header-text {
 	padding-top:10px;
 	color:#414042;

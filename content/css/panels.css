@@ -59,3 +59,20 @@ a.panel-title {
 	left:0;
 	right:0;
 }
+
+.list-item-withbadge-text {
+	width:75%;
+	display:inline-block;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;	
+}
+
+.list-item-withbadge-badge {
+	width:25%;
+	max-width:100px;
+	float:right;
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}

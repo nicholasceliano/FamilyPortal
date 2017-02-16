@@ -12,10 +12,6 @@ familyPortalApp.controller('headerCtrl', ['$scope', 'headerSvc', 'arraySvc', fun
 		window.location.replace("/");
 	}
 	
-	header.logout = function () {
-		window.location.replace("/logout");
-	}
-	
 	function setActiveNavItem() {
 		var route = window.location.pathname;
 		

@@ -2,11 +2,11 @@ extends /_layout
 
 block content
 	div(class="col-md-10 col-md-offset-1 no-side-padding" ng-controller="familyMemberProfileCtrl" ng-init="init('" + userId + "')")
-		div(ng-hide="!profileInfoLoading" class="panel-loading-cover-page")
+		div(ng-hide="!profileInfoLoading && !profilePhotoLoading" class="panel-loading-cover-page")
 			img(src="/dist/images/loading.gif")
-		div(ng-hide="profileInfoLoading" class="profile-image col-md-2 col-md-offset-2 no-side-padding")
-			img(ng-src="data:image/jpeg;base64,{{info.userImage}}")
-		div(ng-hide="profileInfoLoading" class="col-md-6")
+		div(ng-hide="profileInfoLoading || profilePhotoLoading" class="profile-image col-xs-12 col-xs-offset-0 col-md-2 col-md-offset-2")
+			img(ng-src="data:image/jpeg;base64,{{photoInfo.userImage}}")
+		div(ng-hide="profileInfoLoading || profilePhotoLoading" class=" col-xs-12 col-md-6")
 			family-member-info(is-profile="true" watch="info" familymember="{{info}}")
-		div(ng-hide="profileInfoLoading" class="col-md-8 col-md-offset-2 no-side-padding")
+		div(ng-hide="profileInfoLoading || profilePhotoLoading" class="col-xs-12 col-md-8 col-md-offset-2")
 			h3 Recent User Activity(to be implemented)

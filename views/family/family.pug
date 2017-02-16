@@ -1,9 +1,9 @@
 extends /_layout
 
 block content
-	div(class="col-md-10 col-md-offset-1" ng-controller="familyMembersCtrl" ng-init="init()")
+	div(class=" col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1" ng-controller="familyMembersCtrl" ng-init="init()")
 		h1 Family Members
 		div(class="panel-loading-cover-page" ng-hide="!familyMembersLoading")
 				img(src="/dist/images/loading.gif")
-		div(ng-hide="familyMembersLoading" class="family-table-container col-md-4" ng-repeat="fm in familyMembersArray")
+		div(ng-hide="familyMembersLoading" class="family-table-container col-xs-12 col-md-4" ng-repeat="fm in familyMembersArray")
 			family-member-info(is-profile="false" watch="fm" familymember="{{fm}}")

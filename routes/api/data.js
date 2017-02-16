@@ -64,6 +64,18 @@ module.exports = function(app, data, security){
 		}
 	});
 	
+	app.get('/api/data/familymemberphoto', function (req, res) {
+		if (security.checkUserAccess(req)) {	
+			var id = req.query.id;
+			
+			data.getFamilyMemberPhotoById(id).then(function(familyMemberImageData) {
+				res.send(JSON.stringify({ familyMember: familyMemberImageData }));
+			});
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
 	app.post('/api/data/saveimage', apiUploadsHelper().tempImgUpload.single('file'), function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			var id = req.query.id;

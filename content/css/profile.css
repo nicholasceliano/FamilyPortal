@@ -1,6 +1,18 @@
+.profile-image {
+	padding-bottom:10px;
+}
+
 .profile-image img {
-	max-height:225px;
 	width:100%;
+}
+
+@media (min-width:992px) { 
+	.profile-image {
+		padding-right:10px;
+	}
+	.profile-image img {
+		max-height:225px;
+	}
 }
 	
 .profile-table {
@@ -9,13 +21,27 @@
 	background-color:#fff;
 }
 
+@media (max-width:540px) { 
+	.profile-table {
+		table-layout:fixed;
+	}
+ }
+
 .profile-table tr td:first-child {
 	width:15%;
+	white-space:nowrap;
 }
 
 .profile-table tr td:nth-child(2) {
 	padding-top:0 !important;
 	padding-bottom:0 !important;
+	text-overflow: ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}
+
+.profile-table tr td:nth-child(2) input {
+	width:100%;
 }
 
 .profile-table .duplicate-address-info {

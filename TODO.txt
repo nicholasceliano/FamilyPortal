@@ -10,6 +10,7 @@ Short Term:
 - Set up Jasime and Karama
 - Move data helper functions to stored procs in database
 - Add recent user activity on profile page
+- Tags/Video info in db, referencing file location where videos live - same for images
 
 AWS
 - Set up DNS for website (celiano.com? familyscrapbook.io?)
