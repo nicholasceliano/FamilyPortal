@@ -1,4 +1,4 @@
-familyPortalApp.factory('imageSvc', [function () {
+familyPortalApp.factory('imageHelperSvc', [function () {
     'use strict';
 
     var service = {};

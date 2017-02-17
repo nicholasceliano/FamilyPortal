@@ -15,7 +15,7 @@ module.exports = function() {
 	});
 	
 	return {
-		upload: multer({ storage: storage })
+		saveImg: multer({ storage: storage })
 		, tempImgUpload: multer({ storage: tempStorage })
 	}
 }

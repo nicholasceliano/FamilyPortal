@@ -1,4 +1,4 @@
-familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'imageSvc', 'notificationService', function($scope, profileSvc, imageSvc, notificationService) {
+familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'imageHelperSvc', 'notificationService', function($scope, profileSvc, imageHelperSvc, notificationService) {
     'use strict';
 	
 	var profile = $scope;
@@ -42,14 +42,14 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'imageSvc', '
 	};
 	
 	profile.saveImage = function () {
-		var originalImgBlob = imageSvc.dataURItoBlob(profile.fileToUpload);
+		var originalImgBlob = imageHelperSvc.dataURItoBlob(profile.fileToUpload);
 		
 		//Converts image size and saves
 		var reader = new FileReader();  
 		reader.onload = function(e) {
 			var imageFormData = new FormData();
-			var resizedImgUri = imageSvc.convertImageSize(e, 225,225)
-			var resizedImgBlob = imageSvc.dataURItoBlob(resizedImgUri);
+			var resizedImgUri = imageHelperSvc.convertImageSize(e, 225,225)
+			var resizedImgBlob = imageHelperSvc.dataURItoBlob(resizedImgUri);
 			imageFormData.append('file', resizedImgBlob);
 			saveProfileImage(profile.photoInfo._id, imageFormData);
 		}

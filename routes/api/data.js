@@ -64,7 +64,7 @@ module.exports = function(app, data, security){
 		}
 	});
 	
-	app.get('/api/data/familymemberphoto', function (req, res) {
+	app.get('/api/data/familymember/photo', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			var id = req.query.id;
 			
@@ -76,7 +76,7 @@ module.exports = function(app, data, security){
 		}
 	});
 	
-	app.post('/api/data/saveimage', apiUploadsHelper().tempImgUpload.single('file'), function (req, res) {
+	app.post('/api/data/familymember/photo', apiUploadsHelper().tempImgUpload.single('file'), function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			var id = req.query.id;
 			var buffer = req.file.buffer;
@@ -84,6 +84,19 @@ module.exports = function(app, data, security){
 			data.saveFamilyMemberPhotoById(id, buffer).then(function(imgBase64) {
 				res.send(JSON.stringify({ userImage: imgBase64 }));	
 			});
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
+	app.post('/api/data/image', apiUploadsHelper().saveImg.single('file'), function (req, res) {
+		if (security.checkUserAccess(req)) {	
+			//need to save it in a certain file location
+				//get folder name, etc
+			//need to save data in database
+						
+			res.send(JSON.stringify({ userImage: 'test' }));	
+			
 		} else {
 			security.sessionExpiredResponse(res);
 		}

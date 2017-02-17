@@ -1,0 +1,34 @@
+.image-container-outer {
+	padding:10px;
+}
+
+.add-image-container-inner,
+.add-folder-container-inner,
+.image-container-inner {
+	background-color: #e8e8e8;
+	height:100%;
+	border:none;
+}
+
+.image-container-inner:hover {
+	border: 1px solid #414042;
+	cursor: initial;
+}
+
+.image-container-outer i.full-height,
+.image-container-inner i.full-height {
+	text-align:center;
+}
+
+.add-folder-container-inner i::before,
+.add-image-container-inner i::before,
+.image-container-inner i.full-height::before {
+	cursor: pointer;
+}
+
+.add-folder-container-inner i,
+.add-image-container-inner i {
+	padding:0;
+	margin-top:10px;
+	margin-bottom:10px;
+}

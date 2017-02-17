@@ -1,3 +1,39 @@
 extends /_layout
 
 block content
+	div(class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1" ng-controller="imagesCtrl" ng-init="init()")
+		div(class="col-xs-12 no-side-padding")
+			h1 Images
+		div(class="col-xs-12 no-side-padding")
+		div(class="image-container-outer col-xs-12 col-sm-6 col-md-4 col-lg-2")
+				div(class="image-container-inner col-xs-12")
+				
+			div(class="image-container-outer col-xs-12 col-sm-6 col-md-4 col-lg-2" ng-mouseenter="hoverAdd($event, 1)" ng-mouseleave="hoverAdd($event, 0)")
+				i(class="col-xs-12" class="fa fa-plus fa-5x full-height")
+				div(class="image-container-inner col-xs-12" style="display:none;")
+					i(class="col-xs-6" ng-click="addObject($event, 1)" class="fa fa-photo fa-4x full-height")
+					i(class="col-xs-6" ng-click="addObject($event, 0)" class="fa fa-folder-o fa-4x full-height")
+				div(class="add-image-container-inner col-xs-12" style="display:none;")
+					i(class="col-xs-6" ng-click="cancelAdd($event)" class="fa fa-arrow-left fa-2x")
+					i(class="col-xs-6" ng-click="saveImage()" class="fa fa-save fa-2x text-right")
+					div(class="control-group")
+						label(class="control-label") Image Name:
+						input(class="form-control" type="text" ng-model="saveImageName")
+						label Image Tags(seperate with ,):
+						input(class="form-control" type="text" ng-model="saveImageTags")
+						input(id="saveImageFileInput" type="file" accept="image/*" inputfileread="saveImageFile" class="image-input" style="padding-top:5px;")
+						span(class="control-label" for="folderNameError" ng-bind="saveImageError")
+				div(class="add-folder-container-inner col-xs-12" style="display:none;")
+					i(class="col-xs-6" ng-click="cancelAdd($event)" class="fa fa-arrow-left fa-2x")
+					i(class="col-xs-6" ng-click="saveFolder()" class="fa fa-save fa-2x text-right")
+					div(class="control-group")
+						label(class="control-label") Folder Name:
+						input(id="folderNameError" class="form-control" type="text" ng-model="saveFolderName")
+						span(class="control-label" for="folderNameError" ng-bind="saveFolderError")
+		h3 allow users to make folders
+		h3 allow users to upload images
+		h3 allow users to drag and drop images to folders
+		h3 need to create image collection to hold image metadata
+		h3 allow users to add tags of people in the images
+		
+		h3 maybe mirror all this for the video page

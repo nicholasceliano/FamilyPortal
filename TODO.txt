@@ -1,4 +1,8 @@
 Short Term:
+- Images
+	- Make 'completePageStyles()' resize whenever page size is changed
+	- Build in backend of apis
+	- bring back image/folder structure
 - Set up Profile page
 	- Allow users to add new family members(set up HoH account)
 - Set up news feed
@@ -11,6 +15,10 @@ Short Term:
 - Move data helper functions to stored procs in database
 - Add recent user activity on profile page
 - Tags/Video info in db, referencing file location where videos live - same for images
+
+Structure
+- Replace Grunt with Gulp and Browserify to serve JS to front end from node packages
+- Configure package.json with correct packages and try npm prune to remove unused packages
 
 AWS
 - Set up DNS for website (celiano.com? familyscrapbook.io?)
