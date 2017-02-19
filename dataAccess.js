@@ -86,12 +86,49 @@ module.exports = function(config) {
 				
 				return (data === null) ? 'Error saving Family Member Photo by Id' : imgBase64;
 			})
+		},
+		
+		getImageMetaData:  function (ct) {
+			return mongoClient.connect(dbURL).then(function(db) {
+				if (ct)
+					return db.collection('images').aggregate(getImageMetadataAggregate()).sort({createDate:-1}).limit(parseInt(ct)).toArray();
+				else 
+					return db.collection('images').aggregate(getImageMetadataAggregate()).toArray();
+			}).then(function(data) {
+				return (data === null) ? 'Error Retrieving Images' : data;
+			})
+		},
+		
+		getImageMetaDataById: function (id) {
+			return mongoClient.connect(dbURL).then(function(db) {
+				var mongoId = new mongo.ObjectID(id);
+				return db.collection('images').aggregate(getImageMetadataAggregateById(mongoId)).toArray();
+			}).then(function(data) {
+				return (data === null) ? 'Error Retrieving Image By Id' : data;
+			})			
 		}
 	}
 };
 
 function getUserInfoNoImage() {
 	return { userImage:0, password:0 };
+}
+
+function getImageMetadataAggregateById(mongoId) {
+	return [
+			{$match:{ _id: mongoId }},
+			{$lookup:{ from: "users", localField: "createdBy", foreignField: "_id", as: "createUser" }},
+			{$lookup:{ from: "users", localField: "updatedBy", foreignField: "_id", as: "updateUser" }},
+			{$project:{ _id:1, name:1, tags:1, fileLocation:1, fileName:1, imageThumbnail:1, createDate:1, updateDate:1, updatedBy:1, "createUser.username":1, "updateUser.username":1 }}
+		];
+}
+
+function getImageMetadataAggregate() {
+	return [
+			{$lookup:{ from: "users", localField: "createdBy", foreignField: "_id", as: "createUser" }},
+			{$lookup:{ from: "users", localField: "updatedBy", foreignField: "_id", as: "updateUser" }},
+			{$project:{ _id:1, name:1, tags:1, fileLocation:1, fileName:1, imageThumbnail:1, createDate:1, updateDate:1, updatedBy:1, "createUser.username":1, "updateUser.username":1 }}
+		];
 }
 
 function saveUserInfo(u) {

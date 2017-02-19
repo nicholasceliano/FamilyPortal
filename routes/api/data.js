@@ -3,7 +3,7 @@
 
 var apiUploadsHelper = require('./apiUploadsHelper.js')
 
-module.exports = function(app, data, security){
+module.exports = function(app, data, security, config, fs){
 	app.get('/api/data/video', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			var id = req.query.id;
@@ -89,6 +89,19 @@ module.exports = function(app, data, security){
 		}
 	});
 	
+	app.get('/api/data/image', function (req, res) {
+		if (security.checkUserAccess(req)) {
+			var path = req.query.path;
+			
+			fs.readFile(config.fileLoc + path, function(err, data) {
+				res.writeHead(200, {'Content-Type': 'image/jpg'});
+				res.end(data);
+			});
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
 	app.post('/api/data/image', apiUploadsHelper().saveImg.single('file'), function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			//need to save it in a certain file location
@@ -97,6 +110,29 @@ module.exports = function(app, data, security){
 						
 			res.send(JSON.stringify({ userImage: 'test' }));	
 			
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
+	app.get('/api/data/image/metadata', function (req, res) {
+		if (security.checkUserAccess(req)) {	
+			var id = req.query.id;
+			var ct = req.query.ct;
+			
+			if (id === undefined && ct === undefined) {
+				res.send(JSON.stringify({ imageInfo: null }));
+			} else {
+				if (id){
+					data.getImageMetaDataById(id).then(function(imageInfoData) {
+						res.send(JSON.stringify({ imageInfo: imageInfoData[0] }));
+					});		
+				} else {
+					data.getImageMetaData(ct).then(function(imageInfoData) {
+						res.send(JSON.stringify({ imageInfo: imageInfoData }));
+					});		
+				}
+			}
 		} else {
 			security.sessionExpiredResponse(res);
 		}

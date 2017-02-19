@@ -3,17 +3,17 @@ familyPortalApp.factory('splashSvc', ['$q', 'msToTimeDiffFilter', function ($q, 
 
     var service = {};
 	
-	service.calculateDayDiff = function (videos) {
+	service.calculateDayDiff = function (array) {
 		
-		$(videos).each(function(i, v) {
+		$(array).each(function(i, v) {
 			var currDate = new Date().getTime();
-			var videoDate = new Date(v.createDate).getTime();
-			var dateDiff = (currDate - videoDate);
+			var createDate = new Date(v.createDate).getTime();
+			var dateDiff = (currDate - createDate);
 			
 			v.dateDiff = msToTimeDiffFilter(dateDiff);
 		});		
 		
-		return videos;
+		return array;
 	}
 	
 	return service;

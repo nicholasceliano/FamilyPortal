@@ -31,7 +31,16 @@ block content
 				div(class="panel-heading") 
 					a(class="panel-title"  href ="/images") Images
 				div(class="panel-body")
-					p blank
+					div(ng-hide="!imageMetaDataLoading" class="panel-loading")
+						img(src="/dist/images/loading.gif")
+					ul(ng-hide="imageMetaDataLoading" class="list-group")
+						li(class="col-xs-12 list-group-item images-list-group-item" ng-repeat="image in imageMetaDataArray")
+							div(class="col-xs-2 no-side-padding")
+								a(href="./images/view?id={{image._id}}")
+									img(ng-src="data:image/jpeg;base64,{{image.imageThumbnail}}")
+							div(class="col-xs-7")
+								a(href="./images/view?id={{image._id}}") {{image.name}}
+							span(class="col-xs-3 badge") {{image.dateDiff}}
 		div(class="panel-container-md col-md-4")
 			div(class="panel panel-default")
 				div(class="panel-heading") 

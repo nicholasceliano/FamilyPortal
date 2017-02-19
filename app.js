@@ -26,7 +26,7 @@ app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from
 
 //Routes
 require('./routes/webpages.js')(app, data, security, config);
-require('./routes/api/data.js')(app, data, security);
+require('./routes/api/data.js')(app, data, security, config, fs);
 
 //App Start
 app.listen(config.port, function () {

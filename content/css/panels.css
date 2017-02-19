@@ -60,6 +60,29 @@ a.panel-title {
 	right:0;
 }
 
+.images-list-group-item {
+	padding-top:2;
+	padding-bottom:2;
+}
+
+.images-list-group-item img { 
+	max-height:36px;
+	display:block;
+	margin:auto;
+}
+
+.images-list-group-item .col-xs-2 {
+	overflow:hidden;
+}
+
+.images-list-group-item .col-xs-7 {
+	padding:8px;
+}
+
+.images-list-group-item .badge {
+	margin-top:10px;
+}
+
 .list-item-withbadge-text {
 	width:75%;
 	display:inline-block;

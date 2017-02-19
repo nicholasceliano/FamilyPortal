@@ -14,3 +14,15 @@ h1 {
 	padding-left:0;
 	padding-right:0;	
 }
+
+.hideOverflow
+{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    display:block;
+}
+
+.font-weight-bold {
+	font-weight:bold;
+}

@@ -4,10 +4,10 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
     var service = {};
 
     //API Calls
-    service.getImages = function () {
+    service.getImageMetaData = function (imgCt) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/data/images').get(
+        portalApiSvc.Api('/api/data/image/metadata', { ct: imgCt }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

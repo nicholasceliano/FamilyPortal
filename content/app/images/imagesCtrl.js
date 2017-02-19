@@ -9,8 +9,11 @@ familyPortalApp.controller('imagesCtrl', ['$scope', 'imagesSvc', 'imageHelperSvc
 		icInner = '.image-container-inner',
 		icInner_AddFolder = '.add-folder-container-inner',
 		icInner_AddImage = '.add-image-container-inner';
+	
+	var imageCt = 15;
 		
-	images.imagesLoading = true;
+	images.imageMetaData = [];
+	images.imageMetaDataLoading = true;
 	
 	images.saveFolderName = '';
 	images.saveFolderError = '';
@@ -21,8 +24,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', 'imagesSvc', 'imageHelperSvc
 	images.saveImageError = '';
 	
 	images.init = function () {
-		completePageStyles();
-		getImages();
+		getImageMetaData(imageCt);
 	};
 	
 	//Btn Click Events
@@ -105,15 +107,6 @@ familyPortalApp.controller('imagesCtrl', ['$scope', 'imagesSvc', 'imageHelperSvc
 			}
 		}
 	}
-
-	//DOM Manipulation
-	function completePageStyles() {
-		$(icOuter).height(function(){
-			var width = $(this).width();
-			$(this).find('.full-height').css('line-height', width + 'px');
-			return width;
-		});
-	}
 	
 	//API Calls
 	function saveImage(imageName, imageTags, imageFile) {
@@ -142,13 +135,12 @@ familyPortalApp.controller('imagesCtrl', ['$scope', 'imagesSvc', 'imageHelperSvc
         });
 	};
 	
-		
-	function getImages() {
-		imagesSvc.getImages().then(function (resp) {
-            
-			images.imagesLoading = false;
+	function getImageMetaData(imgCt) {
+		imagesSvc.getImageMetaData(imgCt).then(function (resp) {
+            images.imageMetaData = resp.imageInfo;
+			images.imageMetaDataLoading = false;
         }, function () {
-            notificationService.error('Error: imagesSvc.getImages()');
+            notificationService.error('Error: imagesSvc.getImageMetaData(imgCt)');
         });
 	};
 }]);

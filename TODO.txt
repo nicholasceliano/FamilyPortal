@@ -1,8 +1,10 @@
 Short Term:
 - Images
-	- Make 'completePageStyles()' resize whenever page size is changed
-	- Build in backend of apis
-	- bring back image/folder structure
+	- Edit image metadata on /images/view
+	- Fix UI on images/views
+	- bring back image/folder structure on /images
+	- Delete image on /images and /images/view
+	- Build in add folder/add image
 - Set up Profile page
 	- Allow users to add new family members(set up HoH account)
 - Set up news feed
