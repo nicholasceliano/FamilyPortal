@@ -91,9 +91,14 @@ module.exports = function(app, data, security, config, fs){
 	
 	app.get('/api/data/image', function (req, res) {
 		if (security.checkUserAccess(req)) {
+			var userId = req.query.userId;
 			var path = req.query.path;
 			
-			fs.readFile(config.fileLoc + path, function(err, data) {
+			var userInfo = security.getActiveUser(userId);
+			var familyId = userInfo.familyId;
+			var fileLocation = config.fileLoc + 'images/' + familyId + path;
+			
+			fs.readFile(fileLocation, function(err, data) {
 				res.writeHead(200, {'Content-Type': 'image/jpg'});
 				res.end(data);
 			});

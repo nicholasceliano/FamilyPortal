@@ -1,9 +1,8 @@
 Short Term:
 - Images
-	- Edit image metadata on /images/view
-	- Fix UI on images/views
+	- Build in /images/view Save
+	- Build in /images/view Delete
 	- bring back image/folder structure on /images
-	- Delete image on /images and /images/view
 	- Build in add folder/add image
 - Set up Profile page
 	- Allow users to add new family members(set up HoH account)

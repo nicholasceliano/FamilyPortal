@@ -3,18 +3,55 @@ extends /_layout
 block content
 	div(class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1" ng-controller="viewImageCtrl" ng-init="init('" + imageId + "')")
 		div(class="col-xs-12 no-side-padding")
-			h1 View Image - {{imageMetaDataInfo.name}}
+			h1 View Image
+				span(ng-hide="imageMetaDataInfoLoading")  - {{imageMetaDataInfo_Original.name}}
 		div(class="panel-loading-cover-page" ng-hide="!imageMetaDataInfoLoading")
 			img(src="/dist/images/loading.gif")
 		div(class="col-xs-12 no-side-padding" ng-hide="imageMetaDataInfoLoading")
 			div(class="col-xs-12 no-side-padding")
-				img(ng-src="/api/data/image?path={{imageMetaDataInfo.fileLocation}}{{imageMetaDataInfo.fileName}}"  style="max-width:100%;")
-			div(class="col-xs-12 no-side-padding")
-				p Name: {{imageMetaDataInfo.name}}
-				p Tags: {{imageMetaDataInfo.tags}}
-				p FileName: {{imageMetaDataInfo.fileName}}
-				p Create Date: {{imageMetaDataInfo.createDate | date:'MM/dd/yyyy'}}
-				p Created By: {{imageMetaDataInfo.createUser[0].username}}
-				p Update Date: {{imageMetaDataInfo.updateDate | date:'MM/dd/yyyy'}}
-				p Updated By: {{imageMetaDataInfo.updateUser[0].username}}
-				
+				img(class="view-image-image" ng-src="/api/data/image?userId={{currentUserId}}&path={{imageMetaDataInfo_Original.fileLocation}}{{imageMetaDataInfo_Original.fileName}}")
+				span(class="col-xs-12 deleteImage" ng-click="deleteImage()") Perimently Delete Image
+			div(class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-2 no-side-padding")
+				div(class="col-xs-12 no-side-padding view-image-buttons")
+					i(class="fa fa-pencil fa-3x" ng-hide="editMode" ng-click="editMetaDataInfoToggle()")
+					i(class="fa fa-save fa-3x" ng-hide="!editMode" ng-click="saveMetaDataInfo()")
+					i(class="fa fa-close fa-3x" ng-hide="!editMode" ng-click="editMetaDataInfoToggle()")
+				table(class="table table-condensed table-bordered profile-table view-image-table")
+					tr
+						td
+							span(class="hideOverflow") Name:
+						td(ng-class="{'no-side-padding': editMode}")
+							span(ng-hide="editMode") {{imageMetaDataInfo_Original.name}}
+							input(class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.name")
+					tr
+						td 
+							span(class="hideOverflow") Tags:
+						td(ng-class="{'no-side-padding': editMode}")
+							span(ng-hide="editMode") {{imageMetaDataInfo_Original.tags}}
+							input(class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.tags")
+					tr
+						td 
+							span(class="hideOverflow") File Name:
+						td(ng-class="{'no-side-padding': editMode}")
+							span(ng-hide="editMode") {{imageMetaDataInfo_Original.fileName}}
+							input(class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.fileName")
+					tr
+						td 
+							span(class="hideOverflow") Create Date:
+						td 
+							span {{imageMetaDataInfo_Original.createDate | date:'MM/dd/yyyy'}}
+					tr
+						td 
+							span(class="hideOverflow") Create By:
+						td 
+							span {{imageMetaDataInfo_Original.createUser[0].username}}
+					tr
+						td 
+							span(class="hideOverflow") Update Date:
+						td 
+							span {{imageMetaDataInfo.updateDate | date:'MM/dd/yyyy'}}
+					tr
+						td 
+							span(class="hideOverflow") Update By:
+						td 
+							span {{imageMetaDataInfo.updateUser[0].username}}

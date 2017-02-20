@@ -53,7 +53,7 @@ block content
 							span(ng-hide="editMode") {{info.birthDate}}
 							input(ng-hide="!editMode" type="textbox" ng-model="info.birthDate")
 						
-				table(class="table-condensed table-bordered family-table profile-table")
+				table(class="table-condensed table-bordered profile-table")
 					tr
 						th(colspan="2") Address Info
 					tr
@@ -81,7 +81,7 @@ block content
 						td
 							span(ng-hide="editMode") {{info.postalCode}}
 							input(ng-hide="!editMode" type="textbox" ng-model="info.postalCode")
-				table(class="table-condensed table-bordered family-table profile-table" ng-class="{'disabled-table':shippingAddressSameToggle, 'test':'!shippingAddressSameToggle'}")
+				table(class="table-condensed table-bordered profile-table" ng-class="{'disabled-table':shippingAddressSameToggle, 'test':'!shippingAddressSameToggle'}")
 					tr
 						th(colspan="2")
 							span Shipping Info

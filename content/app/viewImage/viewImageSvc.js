@@ -14,6 +14,17 @@ familyPortalApp.factory('viewImageSvc', ['$q', 'portalApiSvc', function ($q, por
 
         return deffered.promise;
     };
+	
+	service.saveMetaDataInfo = function (imageId, postData) {
+		var deffered = $q.defer();
+		
+        portalApiSvc.Api('/api/data/image/metadata').save({ id: imageId}, postData,
+			function (resp) { deffered.resolve(resp); },
+			function () { deffered.reject(); }
+		);
+
+        return deffered.promise;
+    };
 
 	return service;
 }]);

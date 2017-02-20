@@ -12,7 +12,7 @@ module.exports = function(config) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				return db.collection('users').findOne({ username: user, password: pwd });
 			}).then(function(data) {
-				return (data === null) ? undefined : data._id.toString();
+				return (data === null) ? undefined : data;
 			})
 		},
 		

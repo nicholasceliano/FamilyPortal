@@ -8,11 +8,14 @@ module.exports = function(data) {
 		login: function (user, pwd) { 
 			user = user.toLowerCase();
 			
-			return data.login(user, pwd).then(function(validUserId) {
-				if (validUserId !== undefined)
-					AddActiveUser(validUserId);
+			return data.login(user, pwd).then(function(validUserData) {
+				var userId = validUserData._id.toString();
+				var familyId = validUserData.familyId;
 				
-				return validUserId;
+				if (validUserData !== undefined)
+					AddActiveUser(userId, familyId);
+				
+				return userId;
 			});
 		},
 		
@@ -37,7 +40,7 @@ module.exports = function(data) {
 			var hasAccess = false;
 			
 			if (userId !== undefined)
-				hasAccess = UpdateUserSession(userId);
+				hasAccess = UpdateActiveUserSession(userId);
 			
 			return hasAccess;
 		},
@@ -49,17 +52,45 @@ module.exports = function(data) {
 		
 		sessionExpiredResponse: function(response) {
 			response.render('login/login', { title: 'Login - Family Portal', accessDenied: true, username: '', password: '', error: 'Timeout: Session Expired'  });
-		}		
+		},
+		
+		getActiveUser: function (userId) {
+			var activeUser;
+			
+			for(var i = 0; i < activeUserArray.length; i++){
+				var arrayUserId = activeUserArray[i].userId;
+				
+				if (arrayUserId == userId) {
+					activeUser = activeUserArray[i];
+					break;
+				}
+			}			
+			return activeUser;
+		}
 	}
 	
-	function AddActiveUser(userId) {
+	function GetActiveUser(userId) {
+		var activeUser;
+		
+		for(var i = 0; i < activeUserArray.length; i++){
+			var arrayUserId = activeUserArray[i].userId;
+			
+			if (arrayUserId == userId) {
+				activeUser = activeUserArray[i];
+				break;
+			}
+		}
+		
+		return activeUser;
+	}
+	
+	function AddActiveUser(userId, familyId) {
 		if (activeUserArray.length === 0) {
-			activeUserArray.push({ userId: userId, sessionExp: newSessionExpTime() });
-			//set cookie
+			activeUserArray.push({ userId: userId, familyId: familyId, sessionExp: newSessionExpTime() });
 		} else {		
 			for(var i = 0; i < activeUserArray.length; i++){
 				if (activeUserArray[i] != userId)
-					activeUserArray.push({ userId: userId, sessionExp: newSessionExpTime() });
+					activeUserArray.push({ userId: userId, familyId: familyId, sessionExp: newSessionExpTime() });
 			}
 		}
 	}
@@ -80,7 +111,7 @@ module.exports = function(data) {
 			activeUserArray.splice(index, 1);
 	}
 	
-	function UpdateUserSession(userId) {
+	function UpdateActiveUserSession(userId) {
 		var validUser = false;
 		
 		for(var i = 0; i < activeUserArray.length; i++){

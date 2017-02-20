@@ -1,0 +1,28 @@
+.view-image-buttons {
+	text-align:right;
+}
+
+.view-image-table tr td:first-child {
+	width:100px;
+}
+
+.view-image-table tr td:nth-child(2) {
+	line-height:34px !important;
+}
+
+.view-image-image {
+	max-width:100%;
+	max-height:500px;
+	margin:auto;display:block;
+}
+
+.deleteImage {
+	text-align:center;
+	font-size:12px;
+	color:#cecece;
+	cursor:pointer;
+}
+
+.deleteImage:hover {
+	color: #d9534f;
+}
