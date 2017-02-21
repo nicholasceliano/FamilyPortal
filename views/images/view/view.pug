@@ -9,13 +9,15 @@ block content
 			img(src="/dist/images/loading.gif")
 		div(class="col-xs-12 no-side-padding" ng-hide="imageMetaDataInfoLoading")
 			div(class="col-xs-12 no-side-padding")
-				img(class="view-image-image" ng-src="/api/data/image?userId={{currentUserId}}&path={{imageMetaDataInfo_Original.fileLocation}}{{imageMetaDataInfo_Original.fileName}}")
+				img(class="view-image-image" ng-src="/api/data/image?userId={{currentUserId}}&path={{imageMetaDataInfo_Original.fileLocation}}{{imageMetaDataInfo_Original.fileName}}{{imageMetaDataInfo_Original.fileExt}}")
 				span(class="col-xs-12 deleteImage" ng-click="deleteImage()") Perimently Delete Image
 			div(class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-2 no-side-padding")
 				div(class="col-xs-12 no-side-padding view-image-buttons")
 					i(class="fa fa-pencil fa-3x" ng-hide="editMode" ng-click="editMetaDataInfoToggle()")
-					i(class="fa fa-save fa-3x" ng-hide="!editMode" ng-click="saveMetaDataInfo()")
-					i(class="fa fa-close fa-3x" ng-hide="!editMode" ng-click="editMetaDataInfoToggle()")
+					i(class="fa fa-save fa-3x" ng-hide="!editMode || saving" ng-click="saveMetaDataInfo()")
+					i(class="fa fa-close fa-3x" ng-hide="!editMode || saving" ng-click="editMetaDataInfoToggle()")
+					img(src="/dist/images/loading.gif" ng-show="saving") 
+					span(ng-show="saving") Saving...
 				table(class="table table-condensed table-bordered profile-table view-image-table")
 					tr
 						td
@@ -35,6 +37,11 @@ block content
 						td(ng-class="{'no-side-padding': editMode}")
 							span(ng-hide="editMode") {{imageMetaDataInfo_Original.fileName}}
 							input(class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.fileName")
+					tr
+						td 
+							span(class="hideOverflow") File Extension:
+						td 
+							span {{imageMetaDataInfo_Original.fileExt}}
 					tr
 						td 
 							span(class="hideOverflow") Create Date:

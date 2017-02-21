@@ -1,4 +1,4 @@
-familyPortalApp.controller('imagesCtrl', ['$scope', 'imagesSvc', 'imageHelperSvc', 'notificationService', function($scope, imagesSvc, imageHelperSvc, notificationService) {
+familyPortalApp.controller('imagesCtrl', ['$scope', 'urlHelperSvc', 'imagesSvc', 'imageHelperSvc', 'notificationService', function($scope, urlHelperSvc, imagesSvc, imageHelperSvc, notificationService) {
     'use strict';
 	
 	var images = $scope;
@@ -24,6 +24,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', 'imagesSvc', 'imageHelperSvc
 	images.saveImageError = '';
 	
 	images.init = function () {
+		interpretQueryParams();
 		getImageMetaData(imageCt);
 	};
 	
@@ -107,6 +108,13 @@ familyPortalApp.controller('imagesCtrl', ['$scope', 'imagesSvc', 'imageHelperSvc
 			}
 		}
 	}
+	
+	function interpretQueryParams() {
+		var params = urlHelperSvc.getUrlVars();
+		
+		if (params.msg !== undefined)
+			notificationService.success(decodeURI(params.msg));
+	};
 	
 	//API Calls
 	function saveImage(imageName, imageTags, imageFile) {

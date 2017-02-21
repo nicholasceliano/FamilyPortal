@@ -2,6 +2,19 @@
 	text-align:right;
 }
 
+.view-image-buttons i {
+	cursor: pointer;
+}
+
+.view-image-buttons img  {
+	height:42px;
+	vertical-align:top;
+}
+
+.view-image-buttons span {
+	font-size:30px;	
+}
+
 .view-image-table tr td:first-child {
 	width:100px;
 }
@@ -13,7 +26,8 @@
 .view-image-image {
 	max-width:100%;
 	max-height:500px;
-	margin:auto;display:block;
+	margin:auto;
+	display:block;
 }
 
 .deleteImage {

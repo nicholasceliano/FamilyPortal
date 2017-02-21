@@ -102,10 +102,31 @@ module.exports = function(config) {
 		getImageMetaDataById: function (id) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				var mongoId = new mongo.ObjectID(id);
+				
 				return db.collection('images').aggregate(getImageMetadataAggregateById(mongoId)).toArray();
 			}).then(function(data) {
 				return (data === null) ? 'Error Retrieving Image By Id' : data;
 			})			
+		},
+		
+		saveImageMetaDataById: function (id, userId, imageMetaData) {
+			return mongoClient.connect(dbURL).then(function(db) {
+				var mongoId = new mongo.ObjectID(id);
+				
+				return db.collection('images').update({ _id: mongoId }, { $set: updateImageMetaData(userId, imageMetaData) });
+			}).then(function(data) {
+				return data;
+			})			
+		},
+		
+		deleteImageMetaDataById: function (id) {
+			return mongoClient.connect(dbURL).then(function(db) {
+				var mongoId = new mongo.ObjectID(id);
+				
+				return db.collection('images').remove({ _id: mongoId });
+			}).then(function(data) {
+				return (data === null) ? 'Error Removing Image By Id' : data;
+			})	
 		}
 	}
 };
@@ -119,7 +140,7 @@ function getImageMetadataAggregateById(mongoId) {
 			{$match:{ _id: mongoId }},
 			{$lookup:{ from: "users", localField: "createdBy", foreignField: "_id", as: "createUser" }},
 			{$lookup:{ from: "users", localField: "updatedBy", foreignField: "_id", as: "updateUser" }},
-			{$project:{ _id:1, name:1, tags:1, fileLocation:1, fileName:1, imageThumbnail:1, createDate:1, updateDate:1, updatedBy:1, "createUser.username":1, "updateUser.username":1 }}
+			{$project:{ _id:1, name:1, tags:1, fileLocation:1, fileName:1, fileExt:1, imageThumbnail:1, createDate:1, updateDate:1, updatedBy:1, "createUser.username":1, "updateUser.username":1 }}
 		];
 }
 
@@ -127,8 +148,19 @@ function getImageMetadataAggregate() {
 	return [
 			{$lookup:{ from: "users", localField: "createdBy", foreignField: "_id", as: "createUser" }},
 			{$lookup:{ from: "users", localField: "updatedBy", foreignField: "_id", as: "updateUser" }},
-			{$project:{ _id:1, name:1, tags:1, fileLocation:1, fileName:1, imageThumbnail:1, createDate:1, updateDate:1, updatedBy:1, "createUser.username":1, "updateUser.username":1 }}
+			{$project:{ _id:1, name:1, tags:1, fileLocation:1, fileName:1, fileExt:1, imageThumbnail:1, createDate:1, updateDate:1, updatedBy:1, "createUser.username":1, "updateUser.username":1 }}
 		];
+}
+
+function updateImageMetaData(userId, imageMetaData) {
+	return { 
+		name: imageMetaData.name
+		, tags: imageMetaData.tags
+		, fileName: imageMetaData.fileName
+		, fileExt: imageMetaData.fileExt
+		, updatedBy: new mongo.ObjectID(userId)
+		, updateDate: new Date()
+	}
 }
 
 function saveUserInfo(u) {

@@ -9,6 +9,7 @@ familyPortalApp.controller('viewImageCtrl', ['$scope', '$cookies', 'viewImageSvc
 	view.imageMetaDataInfo_Original;
 	view.imageMetaDataInfoLoading = true;
 	
+	view.saving = false;
 	view.editMode = false;
 	
 	view.init = function (imageId) {
@@ -20,23 +21,48 @@ familyPortalApp.controller('viewImageCtrl', ['$scope', '$cookies', 'viewImageSvc
 	};
 	
 	view.saveMetaDataInfo = function () {
-		saveMetaDataInfo(view.imageMetaDataInfo);
+		saveMetaDataInfo(view.imageMetaDataInfo, view.imageMetaDataInfo_Original);
 	};
 	
 	view.deleteImage = function () {
-		//need to delete image
+		var r = confirm("Are you sure you want to perminantly delete this image?");
+		if (r == true) {
+			deleteImage(view.imageMetaDataInfo._id, view.imageMetaDataInfo_Original);
+		}
 	};
 	
-	function saveMetaDataInfo(imagedMetaDataInfo) {
-		viewImageSvc.saveMetaDataInfo(imagedMetaDataInfo._id, imagedMetaDataInfo).then(function (resp) {
+	function deleteImage(imageId, imageMetaDataInfo_Original) {
+		var fullFileName = imageMetaDataInfo_Original.fileName + imageMetaDataInfo_Original.fileExt;
+		
+		viewImageSvc.deleteImageById(imageId, fullFileName).then(function (resp) {
+			window.location.href = encodeURI('/images?msg=Image Successfully Deleted');
+        }, function () {
+            notificationService.error('Error: viewImageSvc.deleteImageById(imageId, fullFileName)');
+        });
+	}
+	
+	function saveMetaDataInfo(imageMetaDataInfo, imageMetaDataInfo_Original) {
+		view.saving = true;
+		
+		var postData = {
+			name: imageMetaDataInfo.name,
+			tags: imageMetaDataInfo.tags,
+			fileExt: imageMetaDataInfo.fileExt,
+			fileName: imageMetaDataInfo.fileName,
+			fileName_Original: imageMetaDataInfo_Original.fileName
+		};
+		
+		viewImageSvc.saveMetaDataInfoById(imageMetaDataInfo._id, postData).then(function (resp) {
+			view.imageMetaDataInfo = resp.imageInfo;
+			view.imageMetaDataInfo_Original = angular.copy(view.imageMetaDataInfo);
 			
-			//set updated data to data bind
-			
+			view.saving = false;
 			view.editMode = false;
 			notificationService.success('Image Meta Data Info Updated Successfully');
         }, function () {
+			view.saving = false;
 			view.editMode = false;
-            notificationService.error('Error: viewImageSvc.getImageMetaDataById(imageId)');
+            notificationService.error('Error: viewImageSvc.saveMetaDataInfoById(imageMetaDataInfo._id, postData)');
         });
 	}
 	

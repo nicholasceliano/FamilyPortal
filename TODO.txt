@@ -1,11 +1,12 @@
 Short Term:
 - Images
-	- Build in /images/view Save
-	- Build in /images/view Delete
+	- Build in /images Create Image
+	- Build in /images Create Folders
 	- bring back image/folder structure on /images
 	- Build in add folder/add image
 - Set up Profile page
 	- Allow users to add new family members(set up HoH account)
+- Need better error handling for api calls
 - Set up news feed
 - Set up live chat
 - Set up images to file system
