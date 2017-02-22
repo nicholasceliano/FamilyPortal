@@ -6,6 +6,5 @@ module.exports = function(app, security){
 		} else {
 			res.render('login/login', { title: 'Login - Family Scrapbook',  accessDenied: true, username: '', password: '', error: ''  });
 		}
-	});
-	
+	});	
 }

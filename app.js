@@ -28,6 +28,16 @@ app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from
 require('./routes/webRoutes/web.js')(app, dataAccess, security, config);
 require('./routes/apiRoutes/api.js')(app, dataAccess, security, config, fileAccess);
 
+//Error Page Handling
+app.use(function(req, res, next) {
+	res.status(404);
+	if (req.accepts('html')) {
+		var accessDenied = security.checkUserAccess(req) ? false : true;
+		res.render('404', { accessDenied: accessDenied });
+		return;
+	}
+});
+
 //App Start
 app.listen(config.port, function () {
 	var userCheckInterval_InSeconds = 3;
