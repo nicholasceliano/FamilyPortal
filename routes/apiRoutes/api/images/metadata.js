@@ -1,4 +1,4 @@
-module.exports = function(app, data, security, config, fs){	
+module.exports = function(app, data, security, config, fileAccess){	
 
 	app.get('/api/images/metadata', function (req, res) {
 		if (security.checkUserAccess(req)) {	
@@ -26,55 +26,50 @@ module.exports = function(app, data, security, config, fs){
 	app.post('/api/images/metadata', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			var id = req.query.id;
-			var userId = security.getUserIdCookie(req);
-			var userInfo = security.getActiveUser(userId);
-			var familyId = userInfo.familyId;
-			var imageInfoPostData = req.body;
-			var fileLocation = config.fileLoc + familyId + '/images/';
-			var originalFileName = fileLocation + imageInfoPostData.fileName_Original + imageInfoPostData.fileExt;
-			var newFileName = fileLocation + imageInfoPostData.fileName + imageInfoPostData.fileExt;
+			var imgInfo = req.body;
+			var user = security.getActiveUser(req);
+			var originalFileName = config.imagesFileLoc(user.familyId) + imgInfo.fileName_Original + imgInfo.fileExt;
+			var newFileName = config.imagesFileLoc(user.familyId) + imgInfo.fileName + imgInfo.fileExt;
 			
-			data.saveImageMetaDataById(id, userId, imageInfoPostData).then(function(status) {				
-				if (status === null) {
+			data.saveImageMetaDataById(id, user.userId, imgInfo).then(function(status) {				
+				if (status === null)
 					res.send(JSON.stringify({ imageInfo: status }));
-				} else {
-					fs.rename(originalFileName, newFileName, function(err) {//update filename
-						if ( err ) {
-							res.send(JSON.stringify({ imageInfo: err }));
-						} else {
-							data.getImageMetaDataById(id).then(function(imageInfoData) {
-								res.send(JSON.stringify({ imageInfo: imageInfoData[0] }));
-							});
-						}
-					});
-				}
+				else
+					fileAccess.renameFile(originalFileName, newFileName, finishPostImagesMetaData, res, id);
 			});			
 		} else {
 			security.sessionExpiredResponse(res);
 		}
 	});
 	
-	app.delete('/api/data/image/metadata', function (req, res) {
+	app.delete('/api/images/metadata', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			var id = req.query.id;
 			var fileName = req.query.fileName;
-			var userId = security.getUserIdCookie(req);
-			var userInfo = security.getActiveUser(userId);
-			var familyId = userInfo.familyId;
-			var fileLocation = config.fileLoc + familyId + '/images/';
-			var file = fileLocation + fileName;
+			var user = security.getActiveUser(req);
+			var file = config.imagesFileLoc(user.familyId) + fileName;
 			
-			fs.unlink(file, function(err){
-				if (err) {
-					res.send(JSON.stringify({ status: err }));
-				} else {
-					data.deleteImageMetaDataById(id).then(function(status) {
-						res.send(JSON.stringify({ status: status }));
-					});		
-				}				
-			});
+			fileAccess.deleteFile(file, finishDeleteImagesMetaData, res, id);
 		} else {
 			security.sessionExpiredResponse(res);
 		}
 	});
+	
+	function finishPostImagesMetaData(respData, res, id) {
+		if (respData == true) {
+			data.getImageMetaDataById(id).then(function(imageInfoData) {
+				res.send(JSON.stringify({ imageInfo: imageInfoData[0] }));
+			});
+		} else
+			res.send(JSON.stringify({ imageInfo: respData }));
+	}
+
+	function finishDeleteImagesMetaData(respData, res, id) {
+		if (respData == true) {
+			data.deleteImageMetaDataById(id).then(function(status) {
+				res.send(JSON.stringify({ status: status }));
+			});		
+		} else
+			res.send(JSON.stringify({ status: respData }));
+	}
 }

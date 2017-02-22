@@ -3,11 +3,11 @@
 
 var apiUploadsHelper = require('./apiUploadsHelper.js')
 
-module.exports = function(app, data, security, config, fs){	
+module.exports = function(app, dataAccess, security, config, fileAccess){	
 	var fileLoc = './api';
-	require(fileLoc + '/videos.js')(app ,data, security);
-	require(fileLoc + '/images.js')(app, data, security, config, fs , apiUploadsHelper());
-	require(fileLoc + '/images/metadata.js')(app, data, security, config, fs);
-	require(fileLoc + '/familymembers.js')(app, data, security);
-	require(fileLoc + '/familymembers/photo.js')(app, data, security, apiUploadsHelper());
+	require(fileLoc + '/videos.js')(app, dataAccess, security);
+	require(fileLoc + '/images.js')(app, security, config, fileAccess, apiUploadsHelper);
+	require(fileLoc + '/images/metadata.js')(app, dataAccess, security, config, fileAccess);
+	require(fileLoc + '/familymembers.js')(app, dataAccess, security);
+	require(fileLoc + '/familymembers/photo.js')(app, dataAccess, security, apiUploadsHelper);
 };

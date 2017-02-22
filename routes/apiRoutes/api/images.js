@@ -1,17 +1,11 @@
-module.exports = function(app, data, security, config, fs, apiUploadsHelper){	
+module.exports = function(app, security, config, fileAccess, apiUploadsHelper){	
 	app.get('/api/images', function (req, res) {
 		if (security.checkUserAccess(req)) {
-			var userId = req.query.userId;
 			var path = req.query.path;
+			var user = security.getActiveUser(req);
+			var fileLocation = config.imagesFileLoc(user.familyId) + path;
 			
-			var userInfo = security.getActiveUser(userId);
-			var familyId = userInfo.familyId;
-			var fileLocation = config.fileLoc + familyId + '/images/' + path;
-			
-			fs.readFile(fileLocation, function(err, data) {
-				res.writeHead(200, {'Content-Type': 'image/jpg'});
-				res.end(data);
-			});
+			fileAccess.readFile(fileLocation, finishGetImages, res);
 		} else {
 			security.sessionExpiredResponse(res);
 		}
@@ -29,4 +23,9 @@ module.exports = function(app, data, security, config, fs, apiUploadsHelper){
 			security.sessionExpiredResponse(res);
 		}
 	});
+	
+	function finishGetImages(respData, res) {
+		res.writeHead(200, {'Content-Type': 'image/jpg'});
+		res.end(respData);
+	}
 }

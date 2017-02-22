@@ -2,11 +2,11 @@
 
 //References
 var express = require('express');
-var fs = require("fs");
 var bodyParser = require('body-parser');
 var config = (process.env.NODE_ENV.toLowerCase() === 'prod' ? require('./config.js').prod : require('./config.js').dev);
-var data = require('./dataAccess.js')(config);
-var security = require('./security.js')(data);
+var dataAccess = require('./dataAccess.js')(config);
+var fileAccess = require('./fileAccess.js');
+var security = require('./security.js')(dataAccess);
 
 //Global variables
 var app = express();
@@ -25,8 +25,8 @@ app.use('/dist', express.static('dist'));//makes /dist folder accessable from cl
 app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from client side
 
 //Routes
-require('./routes/webRoutes/web.js')(app, data, security, config);
-require('./routes/apiRoutes/api.js')(app, data, security, config, fs);
+require('./routes/webRoutes/web.js')(app, dataAccess, security, config);
+require('./routes/apiRoutes/api.js')(app, dataAccess, security, config, fileAccess);
 
 //App Start
 app.listen(config.port, function () {

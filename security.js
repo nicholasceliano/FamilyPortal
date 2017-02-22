@@ -1,4 +1,4 @@
-module.exports = function(data) {
+module.exports = function(dataAccess) {
 	var sessionLength = 15;
 	var activeUserArray = [];
 	
@@ -8,7 +8,7 @@ module.exports = function(data) {
 		login: function (user, pwd) { 
 			user = user.toLowerCase();
 			
-			return data.login(user, pwd).then(function(validUserData) {
+			return dataAccess.login(user, pwd).then(function(validUserData) {
 				var userId = validUserData._id.toString();
 				var familyId = validUserData.familyId;
 				
@@ -45,16 +45,12 @@ module.exports = function(data) {
 			return hasAccess;
 		},
 		
-		getUserIdCookie: function(request) {
-			var cookies = parseCookies(request);
-			return cookies.userId;
-		},
-		
 		sessionExpiredResponse: function(response) {
 			response.render('login/login', { title: 'Login - Family Portal', accessDenied: true, username: '', password: '', error: 'Timeout: Session Expired'  });
 		},
 		
-		getActiveUser: function (userId) {
+		getActiveUser: function (req) {
+			var userId = GetUserIdCookie(req);
 			var activeUser;
 			
 			for(var i = 0; i < activeUserArray.length; i++){
@@ -67,6 +63,11 @@ module.exports = function(data) {
 			}			
 			return activeUser;
 		}
+	}
+	
+	function GetUserIdCookie(request) {
+		var cookies = parseCookies(request);
+		return cookies.userId;
 	}
 	
 	function GetActiveUser(userId) {

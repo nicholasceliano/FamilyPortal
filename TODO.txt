@@ -1,6 +1,4 @@
 Short Term:
-- Break out file access methods into new file filAccess.js
-- Cheap up routes/webRoutes/web calls and break them out into proper file structure
 - Images
 	- Build in /images Create Image
 	- Build in /images Create Folders
