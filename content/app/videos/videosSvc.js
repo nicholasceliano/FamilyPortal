@@ -3,11 +3,11 @@ familyPortalApp.factory('videosSvc', ['$q', 'portalApiSvc', function ($q, portal
 
     var service = {};
 
-    //API Calls
-    service.getVideos = function () {
+    //API Calls	
+	service.getVideos = function (ct) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/data/videos').get(
+        portalApiSvc.Api('/api/videos', { ct: ct }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -15,10 +15,10 @@ familyPortalApp.factory('videosSvc', ['$q', 'portalApiSvc', function ($q, portal
         return deffered.promise;
     };
 	
-	service.getRecentVideos = function (ct) {
+	service.getVideoById = function (id) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/data/videos', { ct: ct }).get(
+        portalApiSvc.Api('/api/videos', { id: id }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

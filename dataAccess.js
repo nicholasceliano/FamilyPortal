@@ -18,7 +18,7 @@ module.exports = function(config) {
 		
 		getVideos: function (ct) {
 			 return mongoClient.connect(dbURL).then(function(db) {
-				 if (ct) {
+				 if (ct > 0) {
 					 return db.collection('videos').find().sort({createDate:-1}).limit(parseInt(ct)).toArray();
 				 } else {
 					return db.collection('videos').find().toArray();
@@ -39,7 +39,7 @@ module.exports = function(config) {
 		
 		getFamilyMembers: function (ct) {
 			 return mongoClient.connect(dbURL).then(function(db) {
-				 if (ct) {
+				 if (ct > 0) {
 					 return db.collection('users').find({}, getUserInfoNoImage()).limit(parseInt(ct)).toArray();
 				 } else {
 					return db.collection('users').find().toArray();
@@ -90,7 +90,7 @@ module.exports = function(config) {
 		
 		getImageMetaData:  function (ct) {
 			return mongoClient.connect(dbURL).then(function(db) {
-				if (ct)
+				if (ct > 0)
 					return db.collection('images').aggregate(getImageMetadataAggregate()).sort({createDate:-1}).limit(parseInt(ct)).toArray();
 				else 
 					return db.collection('images').aggregate(getImageMetadataAggregate()).toArray();

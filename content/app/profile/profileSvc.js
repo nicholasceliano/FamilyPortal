@@ -1,52 +1,7 @@
-familyPortalApp.factory('profileSvc', ['$q', 'portalApiSvc', function ($q, portalApiSvc) {
+familyPortalApp.factory('profileSvc', [function () {
     'use strict';
 
     var service = {};
-
-    //API Calls
-    service.getFamilyMemberById = function (id) {
-		var deffered = $q.defer();
-		
-        portalApiSvc.Api('/api/data/familymember', { id: id }).get(
-			function (resp) { deffered.resolve(resp); },
-			function () { deffered.reject(); }
-		);
-
-        return deffered.promise;
-    };
-	
-	service.getFamilyMemberPhotoById = function (id) {
-		var deffered = $q.defer();
-		
-        portalApiSvc.Api('/api/data/familymember/photo', { id: id }).get(
-			function (resp) { deffered.resolve(resp); },
-			function () { deffered.reject(); }
-		);
-
-        return deffered.promise;
-    };
-	
-	service.saveFamilyMemberById = function (postData) {
-		var deffered = $q.defer();
-		
-        portalApiSvc.Api('/api/data/familymember').save({}, postData,
-			function (resp) { deffered.resolve(resp); },
-			function () { deffered.reject(); }
-		);
-
-        return deffered.promise;
-    };
-	
-	service.saveProfileImage = function (id, postData) {
-		var deffered = $q.defer();
-		
-        portalApiSvc.ImageApi('/api/data/familymember/photo').saveImage({ id: id }, postData,
-			function (resp) { deffered.resolve(resp); },
-			function () { deffered.reject(); }
-		);
-
-        return deffered.promise;
-    };
 	
 	//Data Functions
 	service.checkIfAddressesMatch = function (info) {

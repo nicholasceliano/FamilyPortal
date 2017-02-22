@@ -1,7 +1,7 @@
 extends /_layout
 
 block content
-	div(class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1" ng-controller="viewImageCtrl" ng-init="init('" + imageId + "')")
+	div(class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1" ng-controller="viewImagesCtrl" ng-init="init('" + imageId + "')")
 		div(class="col-xs-12 no-side-padding")
 			h1 View Image
 				span(ng-hide="imageMetaDataInfoLoading")  - {{imageMetaDataInfo_Original.name}}
@@ -9,7 +9,7 @@ block content
 			img(src="/dist/images/loading.gif")
 		div(class="col-xs-12 no-side-padding" ng-hide="imageMetaDataInfoLoading")
 			div(class="col-xs-12 no-side-padding")
-				img(class="view-image-image" ng-src="/api/data/image?userId={{currentUserId}}&path={{imageMetaDataInfo_Original.fileLocation}}{{imageMetaDataInfo_Original.fileName}}{{imageMetaDataInfo_Original.fileExt}}")
+				img(class="view-image-image" ng-src="/api/images?userId={{currentUserId}}&path={{imageMetaDataInfo_Original.fileLocation}}{{imageMetaDataInfo_Original.fileName}}{{imageMetaDataInfo_Original.fileExt}}")
 				span(class="col-xs-12 deleteImage" ng-click="deleteImage()") Perimently Delete Image
 			div(class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-2 no-side-padding")
 				div(class="col-xs-12 no-side-padding view-image-buttons")

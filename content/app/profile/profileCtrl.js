@@ -1,4 +1,4 @@
-familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'imageHelperSvc', 'notificationService', function($scope, profileSvc, imageHelperSvc, notificationService) {
+familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMembersSvc', 'imageHelperSvc', 'notificationService', function($scope, profileSvc, familyMembersSvc, imageHelperSvc, notificationService) {
     'use strict';
 	
 	var profile = $scope;
@@ -57,17 +57,17 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'imageHelperS
 	};
 	
 	function saveProfileImage(id, postData) {
-		profileSvc.saveProfileImage(id, postData).then(function (resp) {
+		familyMembersSvc.saveFamilyMemberProfileImageById(id, postData).then(function (resp) {
 			notificationService.success('Profile Image Successfully Updated');
 			profile.photoInfo.userImage = resp.userImage;
 		}, function () {
-			notificationService.error('Error: profileSvc.saveProfileImage(id, postData)');
+			notificationService.error('Error: familyMembersSvc.saveFamilyMemberProfileImageById(id, postData)');
 		});
 	}
 			
 	function getProfileInfo(userId) {
-		 profileSvc.getFamilyMemberById(userId).then(function (resp) {
-			profile.info = resp.familyMember;
+		 familyMembersSvc.getFamilyMemberById(userId).then(function (resp) {
+			profile.info = resp.familyMembers;
 			savedInfo = angular.copy(profile.info);
 			
 			if (profileSvc.checkIfAddressesMatch(profile.info))
@@ -75,27 +75,27 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'imageHelperS
 			
 			profile.profileInfoLoading = false;
         }, function () {
-            notificationService.error('Error: profileSvc.getFamilyMemberById(userId)');
+            notificationService.error('Error: familyMembersSvc.getFamilyMemberById(userId)');
         });
 	};
 	
 	function getProfilePhoto(userId) {
-		 profileSvc.getFamilyMemberPhotoById(userId).then(function (resp) {
-			profile.photoInfo = resp.familyMember;
+		 familyMembersSvc.getFamilyMemberPhotoById(userId).then(function (resp) {
+			profile.photoInfo = resp.familyMemberPhotoData;
 			
 			profile.profilePhotoLoading = false;
         }, function () {
-            notificationService.error('Error: profileSvc.getFamilyMemberById(userId)');
+            notificationService.error('Error: familyMembersSvc.getFamilyMemberById(userId)');
         });
 	};
 	
 	function saveProfileInfo(profileInfo) {
-		profileSvc.saveFamilyMemberById(profileInfo).then(function (resp) {
+		familyMembersSvc.saveFamilyMemberById(profileInfo).then(function (resp) {
 			notificationService.success('Profile Update Successful');
             savedInfo = angular.copy(profile.info);
 			profile.editMode = false;
         }, function () {
-            notificationService.error('Error: profileSvc.saveFamilyMemberById(info)');
+            notificationService.error('Error: familyMembersSvc.saveFamilyMemberById(info)');
         });
 	};
 	

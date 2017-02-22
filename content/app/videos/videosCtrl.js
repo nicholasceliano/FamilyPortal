@@ -12,7 +12,7 @@ familyPortalApp.controller('videosCtrl', ['$scope', 'videosSvc', 'notificationSe
 	};
 		
 	function getVideos() {
-		 videosSvc.getVideos().then(function (resp) {
+		 videosSvc.getVideos(-1).then(function (resp) {
             videos.videosArray = resp.videos;
 			videos.videosLoading = false;
         }, function () {

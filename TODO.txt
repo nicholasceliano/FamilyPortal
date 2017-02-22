@@ -1,4 +1,6 @@
 Short Term:
+- Break out file access methods into new file filAccess.js
+- Cheap up routes/webRoutes/web calls and break them out into proper file structure
 - Images
 	- Build in /images Create Image
 	- Build in /images Create Folders
@@ -17,6 +19,7 @@ Short Term:
 - Move data helper functions to stored procs in database
 - Add recent user activity on profile page
 - Tags/Video info in db, referencing file location where videos live - same for images
+- Fix image layouy on Family/FAmily_member_profile
 
 Structure
 - Replace Grunt with Gulp and Browserify to serve JS to front end from node packages

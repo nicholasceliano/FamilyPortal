@@ -21,7 +21,7 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'i
 	};
 	
 	function getRecentVideos() {
-		videosSvc.getRecentVideos(numRecentVideos).then(function (resp) {
+		videosSvc.getVideos(numRecentVideos).then(function (resp) {
             splash.videosArray = splashSvc.calculateDayDiff(resp.videos);
 			splash.videosLoading = false;
         }, function () {
@@ -39,7 +39,7 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'i
 	}
 	
 	function getRecentFamilyMembers() {
-		familyMembersSvc.getRecentFamilyMembers(numRecentFamilyMembers).then(function (resp) {
+		familyMembersSvc.getFamilyMembers(numRecentFamilyMembers).then(function (resp) {
             splash.familyMembersArray = resp.familyMembers;
 			splash.familyMembersLoading = false;
         }, function () {

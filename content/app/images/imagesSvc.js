@@ -7,7 +7,7 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
     service.getImageMetaData = function (imgCt) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/data/image/metadata', { ct: imgCt }).get(
+        portalApiSvc.Api('/api/images/metadata', { ct: imgCt }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -18,7 +18,7 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
 	service.saveImage = function (postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.ImageApi('/api/data/image').saveImage({}, postData,
+        portalApiSvc.ImageApi('/api/images').saveImage({}, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -29,7 +29,7 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
 	service.saveFolder = function (postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.ImageApi('/api/data/image/folder').saveImage({}, postData,
+        portalApiSvc.ImageApi('/api/images/folder').saveImage({}, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

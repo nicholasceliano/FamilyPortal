@@ -25,8 +25,8 @@ app.use('/dist', express.static('dist'));//makes /dist folder accessable from cl
 app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from client side
 
 //Routes
-require('./routes/webpages.js')(app, data, security, config);
-require('./routes/api/data.js')(app, data, security, config, fs);
+require('./routes/webRoutes/web.js')(app, data, security, config);
+require('./routes/apiRoutes/api.js')(app, data, security, config, fs);
 
 //App Start
 app.listen(config.port, function () {

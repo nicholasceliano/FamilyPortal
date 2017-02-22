@@ -1,4 +1,4 @@
-familyPortalApp.controller('viewImageCtrl', ['$scope', '$cookies', 'viewImageSvc', 'notificationService', function($scope, $cookies, viewImageSvc, notificationService) {
+familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesSvc', 'notificationService', function($scope, $cookies, viewImagesSvc, notificationService) {
     'use strict';
 	
 	var view = $scope;
@@ -34,10 +34,10 @@ familyPortalApp.controller('viewImageCtrl', ['$scope', '$cookies', 'viewImageSvc
 	function deleteImage(imageId, imageMetaDataInfo_Original) {
 		var fullFileName = imageMetaDataInfo_Original.fileName + imageMetaDataInfo_Original.fileExt;
 		
-		viewImageSvc.deleteImageById(imageId, fullFileName).then(function (resp) {
+		viewImagesSvc.deleteImageById(imageId, fullFileName).then(function (resp) {
 			window.location.href = encodeURI('/images?msg=Image Successfully Deleted');
         }, function () {
-            notificationService.error('Error: viewImageSvc.deleteImageById(imageId, fullFileName)');
+            notificationService.error('Error: viewImagesSvc.deleteImageById(imageId, fullFileName)');
         });
 	}
 	
@@ -52,7 +52,7 @@ familyPortalApp.controller('viewImageCtrl', ['$scope', '$cookies', 'viewImageSvc
 			fileName_Original: imageMetaDataInfo_Original.fileName
 		};
 		
-		viewImageSvc.saveMetaDataInfoById(imageMetaDataInfo._id, postData).then(function (resp) {
+		viewImagesSvc.saveMetaDataInfoById(imageMetaDataInfo._id, postData).then(function (resp) {
 			view.imageMetaDataInfo = resp.imageInfo;
 			view.imageMetaDataInfo_Original = angular.copy(view.imageMetaDataInfo);
 			
@@ -62,17 +62,17 @@ familyPortalApp.controller('viewImageCtrl', ['$scope', '$cookies', 'viewImageSvc
         }, function () {
 			view.saving = false;
 			view.editMode = false;
-            notificationService.error('Error: viewImageSvc.saveMetaDataInfoById(imageMetaDataInfo._id, postData)');
+            notificationService.error('Error: viewImagesSvc.saveMetaDataInfoById(imageMetaDataInfo._id, postData)');
         });
 	}
 	
 	function getImageMetaDataInfo(imageId) {
-		viewImageSvc.getImageMetaDataById(imageId).then(function (resp) {
+		viewImagesSvc.getImageMetaDataById(imageId).then(function (resp) {
             view.imageMetaDataInfo = resp.imageInfo;
 			view.imageMetaDataInfo_Original = angular.copy(view.imageMetaDataInfo);
 			view.imageMetaDataInfoLoading = false;
         }, function () {
-            notificationService.error('Error: viewImageSvc.getImageMetaDataById(imageId)');
+            notificationService.error('Error: viewImagesSvc.getImageMetaDataById(imageId)');
         });
 	}
 }]);
