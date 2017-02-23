@@ -6,7 +6,7 @@ Short Term:
 	- Build in add folder/add image
 - Set up Profile page
 	- Allow users to add new family members(set up HoH account)
-- Need better error handling for api calls
+- Need better error handling for api calls - Tie this into the api data.{{}} catch function AND res.serversideVariable.errCode
 - Set up news feed
 - Set up live chat
 - Set up images to file system
@@ -18,10 +18,14 @@ Short Term:
 - Add recent user activity on profile page
 - Tags/Video info in db, referencing file location where videos live - same for images
 - Fix image layouy on Family/FAmily_member_profile
+- I might need to fix how config file works. need to make sure its editable while live. might need to manually declare at top of each module?
+- need to add paging to api
 
 Structure
 - Replace Grunt with Gulp and Browserify to serve JS to front end from node packages
 - Configure package.json with correct packages and try npm prune to remove unused packages
+- Need to add logging
+- Add lint.js
 
 AWS
 - Set up DNS for website (celiano.com? familyscrapbook.io?)
@@ -52,4 +56,3 @@ Future:
 		- Is allowed to set up additional family member accounts to store contact info
 	- removes user from family?
 - enctypt user password in database
-- handle bad routes with a friendly error page(ex. going to  /watch without an id or with an invalid id)

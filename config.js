@@ -10,7 +10,10 @@ function devConfig() {
 		port: 3333,
 		fileLoc:'/backup/FamilyPortal/',
 		imagesFileLoc: function(familyId) { return getImagesFileLoc(true, familyId); },
-		videosBaseUri: 'https://s3.amazonaws.com/videos.celiano/'
+		videosBaseUri: 'https://s3.amazonaws.com/videos.celiano/',
+		api: {
+			maxRequestRecordCt: 1000
+		}
 	};
 }
 
@@ -20,7 +23,10 @@ function prodConfig() {
 		port: 3000,
 		fileLoc:'/home/ec2-user/data/prod/',
 		imagesFileLoc: function(familyId) { return getImagesFileLoc(false, familyId); },
-		videosBaseUri: 'https://s3.amazonaws.com/videos.celiano/'
+		videosBaseUri: 'https://s3.amazonaws.com/videos.celiano/',
+		api: {
+			maxRequestRecordCt: 1000
+		}
 	};
 }
 

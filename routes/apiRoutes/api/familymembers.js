@@ -1,4 +1,4 @@
-module.exports = function(app, data, security){	
+module.exports = function(app, data, security, pageErrors){	
 
 	app.get('/api/familymembers', function (req, res) {
 		if (security.checkUserAccess(req)) {	
@@ -11,8 +11,11 @@ module.exports = function(app, data, security){
 				if (id) {
 					data.getFamilyMemberByID(id).then(function(familyMember) {
 						res.send(JSON.stringify({ familyMembers: familyMember }));
+					}).catch(function() {
+						pageErrors.send(req, res, 500);
 					});
 				} else {
+					ct = security.verifyRequstCount(ct);
 					data.getFamilyMembers(ct).then(function(familyMemberArray) {
 						res.send(JSON.stringify({ familyMembers: familyMemberArray }));
 					});					

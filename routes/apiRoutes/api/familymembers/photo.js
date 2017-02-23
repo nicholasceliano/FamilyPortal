@@ -1,4 +1,4 @@
-module.exports = function(app, data, security, apiUploadsHelper){	
+module.exports = function(app, data, security, apiUploadsHelper, pageErrors){	
 
 	app.get('/api/familymembers/photo', function (req, res) {
 		if (security.checkUserAccess(req)) {	
@@ -6,6 +6,8 @@ module.exports = function(app, data, security, apiUploadsHelper){
 			
 			data.getFamilyMemberPhotoById(id).then(function(familyMemberImageData) {
 				res.send(JSON.stringify({ familyMemberPhotoData: familyMemberImageData }));
+			}).catch(function() {
+				pageErrors.send(req, res, 500);
 			});
 		} else {
 			security.sessionExpiredResponse(res);

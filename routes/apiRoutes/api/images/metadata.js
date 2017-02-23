@@ -1,4 +1,4 @@
-module.exports = function(app, data, security, config, fileAccess){	
+module.exports = function(app, data, security, config, fileAccess, pageErrors){	
 
 	app.get('/api/images/metadata', function (req, res) {
 		if (security.checkUserAccess(req)) {	
@@ -11,8 +11,11 @@ module.exports = function(app, data, security, config, fileAccess){
 				if (id){
 					data.getImageMetaDataById(id).then(function(imageInfoData) {
 						res.send(JSON.stringify({ imageInfo: imageInfoData[0] }));
-					});		
+					}).catch(function() {
+						pageErrors.send(req, res, 500);
+					});
 				} else {
+					ct = security.verifyRequstCount(ct);
 					data.getImageMetaData(ct).then(function(imageInfoData) {
 						res.send(JSON.stringify({ imageInfo: imageInfoData }));
 					});		

@@ -6,7 +6,8 @@ var bodyParser = require('body-parser');
 var config = (process.env.NODE_ENV.toLowerCase() === 'prod' ? require('./config.js').prod : require('./config.js').dev);
 var dataAccess = require('./dataAccess.js')(config);
 var fileAccess = require('./fileAccess.js');
-var security = require('./security.js')(dataAccess);
+var security = require('./security.js')(dataAccess, config);
+var pageErrors = require('./routes/webRoutes/pageErrors.js')(security);
 
 //Global variables
 var app = express();
@@ -26,16 +27,11 @@ app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from
 
 //Routes
 require('./routes/webRoutes/web.js')(app, dataAccess, security, config);
-require('./routes/apiRoutes/api.js')(app, dataAccess, security, config, fileAccess);
+require('./routes/apiRoutes/api.js')(app, dataAccess, security, config, fileAccess, pageErrors);
 
 //Error Page Handling
 app.use(function(req, res, next) {
-	res.status(404);
-	if (req.accepts('html')) {
-		var accessDenied = security.checkUserAccess(req) ? false : true;
-		res.render('404', { accessDenied: accessDenied });
-		return;
-	}
+	pageErrors.send(req, res, 404);
 });
 
 //App Start

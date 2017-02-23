@@ -4,9 +4,10 @@ module.exports = function(app, dataAccess, security, config){
 		if (security.checkUserAccess(req)) {
 			var id = req.query.id;
 			
-			dataAccess.getVideoByID(id).then(function(video) {			
-				//videoUrl in response is a work around - ng-src doesnt work on video objects in angular
+			dataAccess.getVideoByID(id).then(function(video) {//videoUrl in response is a work around - ng-src doesnt work on video objects in angular
 				res.render('videos/watch/watch', { title: 'Watch - Family Scrapbook', videoId: id, videoUrl: config.videosBaseUri + video.url });
+			}).catch(function () {
+				 res.render('videos/watch/watch', { title: 'Watch - Family Scrapbook', videoId: null, videoUrl: null });
 			});
 		} else {
 			security.sessionExpiredResponse(res);

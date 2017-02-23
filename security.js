@@ -1,4 +1,4 @@
-module.exports = function(dataAccess) {
+module.exports = function(dataAccess, config) {
 	var sessionLength = 15;
 	var activeUserArray = [];
 	
@@ -62,6 +62,10 @@ module.exports = function(dataAccess) {
 				}
 			}			
 			return activeUser;
+		},
+		
+		verifyRequstCount: function(ct) {
+			return ((config.api.maxRequestRecordCt < ct) ? config.api.maxRequestRecordCt : ct);
 		}
 	}
 	

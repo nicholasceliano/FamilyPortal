@@ -1,4 +1,4 @@
-module.exports = function(app, data, security){	
+module.exports = function(app, data, security, pageErrors){	
 
 	app.get('/api/videos', function (req, res) {
 		if (security.checkUserAccess(req)) {	
@@ -11,8 +11,11 @@ module.exports = function(app, data, security){
 				if (id) {
 					data.getVideoByID(id).then(function(video) {
 						res.send(JSON.stringify({ videos: video }));
+					}).catch(function () {
+						pageErrors.send(req, res, 500);
 					});
 				} else {
+					ct = security.verifyRequstCount(ct);
 					data.getVideos(ct).then(function(videoArray) {
 						res.send(JSON.stringify({ videos: videoArray }));
 					});
