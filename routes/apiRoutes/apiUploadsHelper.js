@@ -9,11 +9,11 @@ var storage = multer.diskStorage({
 		cb(null, './temp')
 	},
 	filename: function (req, file, cb) {
-		cb(null, file.originalname+ '-' + Date.now()+'.jpg')
+		cb(null, 'tempImage - ' + Date.now()+'.jpg');
 	}
 });
 
 module.exports = {	
-	saveImg: multer({ storage: storage }),
-	tempImgUpload: multer({ storage: tempStorage })
+	saveImg: multer({ storage: storage }).single('file'),
+	tempImgUpload: multer({ storage: tempStorage }).single('file')
 }

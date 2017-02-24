@@ -1,4 +1,4 @@
-familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesSvc', 'notificationService', function($scope, $cookies, viewImagesSvc, notificationService) {
+familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesSvc', 'imagesSvc', 'notificationService', function($scope, $cookies, viewImagesSvc, imagesSvc, notificationService) {
     'use strict';
 	
 	var view = $scope;
@@ -21,6 +21,8 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
 	};
 	
 	view.saveMetaDataInfo = function () {
+		updateImageFileName(view.imageMetaDataInfo, view.imageMetaDataInfo_Original);
+		updateThumbnailFileName(view.imageMetaDataInfo, view.imageMetaDataInfo_Original);
 		saveMetaDataInfo(view.imageMetaDataInfo, view.imageMetaDataInfo_Original);
 	};
 	
@@ -41,12 +43,44 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
         });
 	}
 	
+	function updateImageFileName (imageMetaDataInfo, imageMetaDataInfo_Original) {
+		var postData = {
+			fileName: imageMetaDataInfo.fileName,
+			fileExt: imageMetaDataInfo.fileExt,
+			fileLoc: imageMetaDataInfo.fileLocation,
+			fileName_Original: imageMetaDataInfo_Original.fileName,
+			fileExt_Original: imageMetaDataInfo_Original.fileExt,
+			fileLoc_Original: imageMetaDataInfo_Original.fileLocation
+		};
+		
+		imagesSvc.updateImage(postData).then(function (resp) {
+        }, function () {
+            notificationService.error('Error: imagesSvc.updateImage(postData)');
+        });
+	}
+	
+	function updateThumbnailFileName (imageMetaDataInfo, imageMetaDataInfo_Original) {
+		var postData = {
+			fileName: imageMetaDataInfo.fileName,
+			fileExt: imageMetaDataInfo.fileExt,
+			fileLoc: imageMetaDataInfo.fileLocation,
+			fileName_Original: imageMetaDataInfo_Original.fileName,
+			fileExt_Original: imageMetaDataInfo_Original.fileExt,
+			fileLoc_Original: imageMetaDataInfo_Original.fileLocation
+		};
+		
+		imagesSvc.updateImageThumbnail(postData).then(function (resp) {
+        }, function () {
+            notificationService.error('Error: imagesSvc.updateImageThumbnail(postData)');
+        });
+	}
+	
 	function saveMetaDataInfo(imageMetaDataInfo, imageMetaDataInfo_Original) {
 		view.saving = true;
 		
 		var postData = {
 			name: imageMetaDataInfo.name,
-			tags: imageMetaDataInfo.tags,
+			tags: $.unique(imageMetaDataInfo.tags.toString().split(',').map(function(item) { return item.trim(); })),
 			fileExt: imageMetaDataInfo.fileExt,
 			fileName: imageMetaDataInfo.fileName,
 			fileName_Original: imageMetaDataInfo_Original.fileName

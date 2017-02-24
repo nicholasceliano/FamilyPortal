@@ -14,7 +14,7 @@ module.exports = function(app, data, security, apiUploadsHelper, pageErrors){
 		}
 	});
 	
-	app.post('/api/familymembers/photo', apiUploadsHelper.tempImgUpload.single('file'), function (req, res) {
+	app.post('/api/familymembers/photo', apiUploadsHelper.tempImgUpload, function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			var id = req.query.id;
 			var buffer = req.file.buffer;

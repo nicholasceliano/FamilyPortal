@@ -11,7 +11,7 @@ block content
 				div(class="image-container-inner col-xs-12")
 					div(style="height:75%;")
 						a(href="./images/view?id={{i._id}}")
-							img(ng-src="data:image/jpeg;base64,{{i.imageThumbnail}}" center-image-in-div)
+							img(ng-src="/api/images/thumbnail?path={{i.fileLocation}}{{i.fileName}}.thumbnail{{i.fileExt}}" center-image-in-div)
 						span(style="height:100%;display:inline-block;vertical-align:middle;")
 					div(style="height:25%;")
 						span(class="col-xs-12 no-side-padding text-center hideOverflow font-weight-bold") {{i.name}}
@@ -27,7 +27,7 @@ block content
 					i(class="col-xs-6" ng-click="addObject($event, 0)" class="fa fa-folder-o fa-4x full-height")
 				div(class="add-image-container-inner col-xs-12" style="display:none;")
 					i(class="col-xs-6" ng-click="cancelAdd($event)" class="fa fa-arrow-left fa-2x")
-					i(class="col-xs-6" ng-click="saveImage()" class="fa fa-save fa-2x text-right")
+					i(class="col-xs-6" ng-click="saveImage($event)" class="fa fa-save fa-2x text-right")
 					div(class="control-group")
 						label(class="control-label") Image Name:
 						input(class="form-control" type="text" ng-model="saveImageName")
@@ -44,7 +44,5 @@ block content
 						span(class="control-label" for="folderNameError" ng-bind="saveFolderError")
 		div(ng-hide="imageMetaDataLoading") 
 			h3 allow users to make folders
-			h3 allow users to upload images
 			h3 allow users to drag and drop images to folders
-			h3 allow users to add tags of people in the images
 			h3 maybe mirror all this for the video page

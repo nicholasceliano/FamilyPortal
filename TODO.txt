@@ -1,9 +1,8 @@
 Short Term:
+- Fix how the UpdatedBy and CreatedBy gets returned. I need to get the userName from the id
 - Images
-	- Build in /images Create Image
 	- Build in /images Create Folders
 	- bring back image/folder structure on /images
-	- Build in add folder/add image
 - Set up Profile page
 	- Allow users to add new family members(set up HoH account)
 - Need better error handling for api calls - Tie this into the api data.{{}} catch function AND res.serversideVariable.errCode

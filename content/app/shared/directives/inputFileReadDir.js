@@ -8,9 +8,13 @@ familyPortalApp.directive("inputfileread", function() {
 				var reader = new FileReader();
 				reader.onload = function(loadEvent) {
 					scope.$apply(function() {
-						scope.inputfileread = loadEvent.target.result;
+						scope.inputfileread = { 
+							fileName: changeEvent.target.files[0].name, 
+							fileData: loadEvent.target.result
+						}
 					});
 				}
+				
 				reader.readAsDataURL(changeEvent.target.files[0]);
 			});
 		}

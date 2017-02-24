@@ -8,6 +8,7 @@ module.exports = function(app, dataAccess, security, config, fileAccess, pageErr
 	require(fileLoc + '/videos.js')(app, dataAccess, security, pageErrors);
 	require(fileLoc + '/images.js')(app, security, config, fileAccess, apiUploadsHelper);
 	require(fileLoc + '/images/metadata.js')(app, dataAccess, security, config, fileAccess, pageErrors);
+	require(fileLoc + '/images/thumbnail.js')(app, security, config, fileAccess, apiUploadsHelper);
 	require(fileLoc + '/familymembers.js')(app, dataAccess, security, pageErrors);
 	require(fileLoc + '/familymembers/photo.js')(app, dataAccess, security, apiUploadsHelper, pageErrors);
 };

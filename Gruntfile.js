@@ -55,6 +55,7 @@ module.exports = function(grunt) {
 				'content/images/*.png'
 				, 'content/images/*.ico'
 				, 'content/images/*.gif'
+				, 'content/images/*.jpg'
 			],
 			dest: 'dist/images/'
 		  }

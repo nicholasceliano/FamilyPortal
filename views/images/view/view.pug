@@ -29,7 +29,7 @@ block content
 						td 
 							span(class="hideOverflow") Tags:
 						td(ng-class="{'no-side-padding': editMode}")
-							span(ng-hide="editMode") {{imageMetaDataInfo_Original.tags}}
+							span(ng-hide="editMode" ng-repeat="t in imageMetaDataInfo_Original.tags") {{t}}{{$last ? '' : ', '}}
 							input(class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.tags")
 					tr
 						td 

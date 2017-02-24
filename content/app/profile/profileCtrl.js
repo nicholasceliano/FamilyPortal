@@ -42,7 +42,7 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMember
 	};
 	
 	profile.saveImage = function () {
-		var originalImgBlob = imageHelperSvc.dataURItoBlob(profile.fileToUpload);
+		var originalImgBlob = imageHelperSvc.dataURItoBlob(profile.fileToUpload.fileData);
 		
 		//Converts image size and saves
 		var reader = new FileReader();  

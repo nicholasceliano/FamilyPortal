@@ -91,7 +91,7 @@ module.exports = function(config) {
 		getImageMetaData:  function (ct) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				if (ct > 0)
-					return db.collection('images').aggregate(getImageMetadataAggregate()).sort({createDate:-1}).limit(parseInt(ct)).toArray();
+					return db.collection('images').aggregate(getImageMetadataAggregate()).sort({createDate:1}).limit(parseInt(ct)).toArray();
 				else 
 					return db.collection('images').aggregate(getImageMetadataAggregate()).toArray();
 			}).then(function(data) {
@@ -109,13 +109,21 @@ module.exports = function(config) {
 			})			
 		},
 		
+		insertImageMetaData: function (imgInfo) {
+			return mongoClient.connect(dbURL).then(function(db) {
+				return db.collection('images').insert(createImageMetaData(imgInfo));
+			}).then(function(data) {
+				return (data === null) ? 'Error Inserting Image MetaData' : data;
+			})	
+		},
+		
 		saveImageMetaDataById: function (id, userId, imageMetaData) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				var mongoId = new mongo.ObjectID(id);
 				
-				return db.collection('images').update({ _id: mongoId }, { $set: updateImageMetaData(userId, imageMetaData) });
+				return db.collection('images').findAndModify({ _id: mongoId }, [], { $set: updateImageMetaData(userId, imageMetaData) }, { new: true });
 			}).then(function(data) {
-				return data;
+				return (data === null) ? 'Error Updating Image MetaData' : data.value;
 			})			
 		},
 		
@@ -160,6 +168,21 @@ function updateImageMetaData(userId, imageMetaData) {
 		, fileExt: imageMetaData.fileExt
 		, updatedBy: new mongo.ObjectID(userId)
 		, updateDate: new Date()
+	}
+}
+
+function createImageMetaData(i) {
+	var createdBy = new mongo.ObjectID(i.createdBy);
+	return {
+		name: i.name,
+		tags: i.tags,
+		fileLocation: i.fileLocation,
+		fileName: i.fileName,
+		fileExt: i.fileExt,
+		createDate: new Date(),
+		createdBy: createdBy,
+		updateDate: new Date(),
+		updatedBy: createdBy
 	}
 }
 

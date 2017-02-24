@@ -29,17 +29,11 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors){
 	app.post('/api/images/metadata', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			var id = req.query.id;
-			var imgInfo = req.body;
-			var user = security.getActiveUser(req);
-			var originalFileName = config.imagesFileLoc(user.familyId) + imgInfo.fileName_Original + imgInfo.fileExt;
-			var newFileName = config.imagesFileLoc(user.familyId) + imgInfo.fileName + imgInfo.fileExt;
 			
-			data.saveImageMetaDataById(id, user.userId, imgInfo).then(function(status) {				
-				if (status === null)
-					res.send(JSON.stringify({ imageInfo: status }));
-				else
-					fileAccess.renameFile(originalFileName, newFileName, finishPostImagesMetaData, res, id);
-			});			
+			if (id !== undefined) 
+				updateImageMetaData(req, res, id);
+			else 
+				insertImageMetaData(req, res);
 		} else {
 			security.sessionExpiredResponse(res);
 		}
@@ -57,7 +51,28 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors){
 			security.sessionExpiredResponse(res);
 		}
 	});
+		
+	//sub routes
+	function insertImageMetaData(req, res) {
+		var imgInfo = req.body;
+			
+		data.insertImageMetaData(imgInfo).then(function(status) {
+			res.send(JSON.stringify({ imageInfo: status.ops[0] }));
+		});				
+	}
 	
+	function updateImageMetaData(req, res, id) {
+		var imgInfo = req.body;
+		var user = security.getActiveUser(req);
+		var originalFileName = config.imagesFileLoc(user.familyId) + imgInfo.fileName_Original + imgInfo.fileExt;
+		var newFileName = config.imagesFileLoc(user.familyId) + imgInfo.fileName + imgInfo.fileExt;
+		
+		data.saveImageMetaDataById(id, user.userId, imgInfo).then(function(data) {				
+			res.send(JSON.stringify({ imageInfo: data }));
+		});			
+	}
+	
+	//callback functions
 	function finishPostImagesMetaData(respData, res, id) {
 		if (respData == true) {
 			data.getImageMetaDataById(id).then(function(imageInfoData) {

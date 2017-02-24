@@ -15,10 +15,21 @@ familyPortalApp.factory('viewImagesSvc', ['$q', 'portalApiSvc', function ($q, po
         return deffered.promise;
     };
 	
+	service.insertImageMetaData = function (postData) {
+		var deffered = $q.defer();
+		
+        portalApiSvc.Api('/api/images/metadata').save({}, postData,
+			function (resp) { deffered.resolve(resp); },
+			function () { deffered.reject(); }
+		);
+
+        return deffered.promise;
+	}
+	
 	service.saveMetaDataInfoById = function (imageId, postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/images/metadata').save({ id: imageId}, postData,
+        portalApiSvc.Api('/api/images/metadata').save({ id: imageId }, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

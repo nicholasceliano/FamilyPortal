@@ -1,4 +1,4 @@
-familyPortalApp.controller('imagesCtrl', ['$scope', 'urlHelperSvc', 'imagesSvc', 'imageHelperSvc', 'notificationService', function($scope, urlHelperSvc, imagesSvc, imageHelperSvc, notificationService) {
+familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 'imagesSvc', 'viewImagesSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, urlHelperSvc, imagesSvc, viewImagesSvc, imageHelperSvc, notificationService) {
     'use strict';
 	
 	var images = $scope;
@@ -10,8 +10,10 @@ familyPortalApp.controller('imagesCtrl', ['$scope', 'urlHelperSvc', 'imagesSvc',
 		icInner_AddFolder = '.add-folder-container-inner',
 		icInner_AddImage = '.add-image-container-inner';
 	
-	var imageCt = 15;
-		
+	var imageCt = 25;
+
+	images.currentUserId = $cookies.get('userId');	
+	
 	images.imageMetaData = [];
 	images.imageMetaDataLoading = true;
 	
@@ -20,7 +22,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', 'urlHelperSvc', 'imagesSvc',
 	
 	images.saveImageName = '';
 	images.saveImageTags = '';
-	images.saveImageFile = undefined;
+	images.saveImageFile;
 	images.saveImageError = '';
 	
 	images.init = function () {
@@ -41,27 +43,58 @@ familyPortalApp.controller('imagesCtrl', ['$scope', 'urlHelperSvc', 'imagesSvc',
 			outerContainer.find(icInner_AddFolder).show();
 	};
 	
-	images.saveImage = function () {
+	images.saveImage = function ($event) {
 		var controlGroup = $(icInner_AddImage).find(ctrlGrp);
 		
 		if (images.saveImageFile == undefined || images.saveImageName.length === 0) {
 			controlGroup.addClass(errClass);
 			images.saveImageError = 'Err: Image Name and Image Input must be completed';
 		} else {
+			var fileNameFull = images.saveImageFile.fileName;
+			var fileName = fileNameFull.substr(0, fileNameFull.lastIndexOf('.'));
+			var fileExt = fileNameFull.substr(fileNameFull.lastIndexOf('.'));
+			
 			controlGroup.removeClass(errClass);
 			images.saveImageError = '';
-			//save Image start
-			var originalImgBlob = imageHelperSvc.dataURItoBlob(images.saveImageFile);
 			
-			var reader = new FileReader();  
-			reader.onload = function(e) {
-				var imageFormData = new FormData();
-				var resizedImgUri = imageHelperSvc.convertImageSize(e, 225,225)
+			var originalImgBlob = imageHelperSvc.dataURItoBlob(images.saveImageFile.fileData);
+		
+			//save thumbnail image
+			var thumbnailReader = new FileReader();  
+			thumbnailReader.onload = function(e) {
+				var thumbnailFormData = new FormData();
+				var resizedImgUri = imageHelperSvc.convertImageSize(e, 225,225);
 				var resizedImgBlob = imageHelperSvc.dataURItoBlob(resizedImgUri);
-				imageFormData.append('file', resizedImgBlob);
-				saveImage(images.saveImageName, images.saveImageTags, images.saveImageFile);
+				thumbnailFormData.append('file', resizedImgBlob);
+				thumbnailFormData.append('fileName', fileName + '.thumbnail' + fileExt);
+				thumbnailFormData.append('fileLoc', '/');
+				saveThumbnail(thumbnailFormData);
 			}
-			reader.readAsDataURL(originalImgBlob);
+			thumbnailReader.readAsDataURL(originalImgBlob);
+		
+			//save fullsize image
+			var imageReader = new FileReader();  
+			imageReader.onload = function(e) {
+				var imageFormData = new FormData();
+				var imgBlob = imageHelperSvc.dataURItoBlob(e.currentTarget.result);
+				imageFormData.append('file', imgBlob);
+				imageFormData.append('fileName', fileName + fileExt);
+				imageFormData.append('fileLoc', '/');
+				saveImage(imageFormData);
+			}
+			imageReader.readAsDataURL(originalImgBlob);
+			
+			//save meta data
+			var postData = {
+				name: images.saveImageName,
+				tags: $.unique(images.saveImageTags.split(',').map(function(item) { return item.trim(); })),
+				fileLocation: '/',
+				fileName: fileName,
+				fileExt: fileExt,
+				createdBy: images.currentUserId
+			}
+			
+			insertImageMetaData($event, postData);
 		}
 	};
 	
@@ -117,20 +150,37 @@ familyPortalApp.controller('imagesCtrl', ['$scope', 'urlHelperSvc', 'imagesSvc',
 	};
 	
 	//API Calls
-	function saveImage(imageName, imageTags, imageFile) {
-		imagesSvc.saveImage(imageName, imageTags, imageFile).then(function (resp) {
-            
-			//need to add image to page dynamically
+	function insertImageMetaData(event, imageData) {
+		viewImagesSvc.insertImageMetaData(imageData).then(function(resp) {
+			images.imageMetaData.push(resp.imageInfo);
 			
+			//clear variables and DOM
 			images.saveImageName = '';
 			images.saveImageTags = '';
 			images.saveImageFile = undefined;
 			$('#saveImageFileInput').val(null);
-			notificationService.success('Sucessfully Added Image');
+			images.cancelAdd(event);
+			notificationService.success('Sucessfully Inserted Image');
+		}, function () {
+			notificationService.error('Error: viewImagesSvc.insertImageMetaData(imageData)');
+		});
+	}
+	
+	function saveImage(imageFile) {
+		imagesSvc.saveImage(imageFile).then(function (resp) {
+			console.log(resp);
         }, function () {
             notificationService.error('Error: imagesSvc.saveImage(imageName, imageTags, imageFile)');
         });
 	};
+	
+	function saveThumbnail(imageFile) {
+		imagesSvc.saveImageThumbnail(imageFile).then(function (resp) {
+			console.log(resp);
+		}, function () {
+			notificationService.error('Error: imagesSvc.saveImageThumbnail(imageFile)');
+		});
+	}
 	
 	function saveFolder(folderName) {
 		imagesSvc.saveFolder(folderName).then(function (resp) {
