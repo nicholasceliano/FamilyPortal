@@ -4,8 +4,8 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper){
 			var path = req.query.path;
 			var user = security.getActiveUser(req);
 			var baseFileLocation = config.imagesFileLoc(user.familyId);
-			
-			fileAccess.readFile(baseFileLocation, path, finishGetImages, res);
+			res.send(baseFileLocation);
+			//fileAccess.readFile(baseFileLocation, path, finishGetImages, res);
 		} else {
 			security.sessionExpiredResponse(res);
 		}
