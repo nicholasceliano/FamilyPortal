@@ -28,7 +28,7 @@ app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from
 
 //Routes
 require('./routes/webRoutes/web.js')(app, dataAccess, security, config);
-require('./routes/apiRoutes/api.js')(app, dataAccess, security, config, fileAccess, pageErrors);
+require('./routes/apiRoutes/api.js')(app, dataAccess, security, config, fileAccess, pageErrors, logger);
 
 //Error Page Handling
 app.use(function(req, res, next) {

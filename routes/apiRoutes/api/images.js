@@ -1,4 +1,4 @@
-module.exports = function(app, security, config, fileAccess, apiUploadsHelper){	
+module.exports = function(app, security, config, fileAccess, apiUploadsHelper, logger){	
 	app.get('/api/images', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			var path = req.query.path;
@@ -44,6 +44,7 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper){
 	function insertImage(req, res) {
 		apiUploadsHelper.saveImg(req, res, function (err) {
 			if(err) {
+				logger.error(err);
 				return res.end("Error uploading file.");
 			} else {
 				var f = req.file;
@@ -60,8 +61,7 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper){
 	}
 	
 	function finishGetImages(respData, res) {
-		//res.writeHead(200, {'Content-Type': 'image/jpg'});
-		//res.end(respData);
-		res.send(respData)
+		res.writeHead(200, {'Content-Type': 'image/jpg'});
+		res.end(respData);
 	}
 }
