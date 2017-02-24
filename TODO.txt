@@ -7,15 +7,14 @@ Short Term:
 	- Allow users to add new family members(set up HoH account)
 - Set up news feed
 - Set up live chat
-- Set up images to file system
 - Set up Calendar
 - Fix UI on Videos page
 - Fix UI on Watch page
 - Set up Jasime and Karama
-- Move data helper functions to stored procs in database
+- Move dataAccess helper functions to stored procs in database
 - Add recent user activity on profile page
 - Tags/Video info in db, referencing file location where videos live - same for images
-- Fix image layouy on Family/FAmily_member_profile
+- Fix image layout on Family/FAmily_member_profile
 - I might need to fix how config file works. need to make sure its editable while live. might need to manually declare at top of each module?
 - need to add paging to api
 
@@ -35,11 +34,8 @@ Future:
 	- Can integrate to google calendars, aol calendars?
 - Recent comments activity feed
 	- this can be hooked up to twitter/facebook/youtube, etc if we want
-- List of family members with email/phone/mailing addresses/physical addresses
-	- need to extend users table
 - Pictures section
 	- add tags for videos
-	- Allow users to upload images
 	- can integrate to facebook, pisca, etc
 - Videos section
 	- Add tags for videos
@@ -47,7 +43,7 @@ Future:
 	- Can integrate to youtube
 - Instant messaging section? not sure
 - Profile Page
-	- Allows users to update their personal info or change password
+	- Allows users to change password
 - Admin panel
 	- turns off/on integrations
 	- invites users to family
