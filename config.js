@@ -22,7 +22,7 @@ function prodConfig() {
 	return {
 		db: 'mongodb://familyPortalUser:celiano@ec2-52-55-164-103.compute-1.amazonaws.com/familyportal',
 		port: 3000,
-		fileLoc:'/home/ec2-user/data/prod/',
+		fileLoc:'/data/FamilyPortal/prod/',
 		imagesFileLoc: function(familyId) { return getImagesFileLoc(false, familyId); },
 		thumbnailsFileLoc: function(familyId) { return getThumbnailsFileLoc(false, familyId); },
 		videosBaseUri: 'https://s3.amazonaws.com/videos.celiano/',
