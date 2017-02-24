@@ -13,7 +13,11 @@ familyPortalApp.controller('videosCtrl', ['$scope', 'videosSvc', 'notificationSe
 		
 	function getVideos() {
 		 videosSvc.getVideos(-1).then(function (resp) {
-            videos.videosArray = resp.videos;
+			 if (resp.err) 
+				 notificationService.error(resp.value);
+			 else
+				videos.videosArray = resp.value;
+			
 			videos.videosLoading = false;
         }, function () {
             notificationService.error('Error: videoSvc.getVideos()');

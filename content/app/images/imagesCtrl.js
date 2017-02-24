@@ -152,15 +152,19 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	//API Calls
 	function insertImageMetaData(event, imageData) {
 		viewImagesSvc.insertImageMetaData(imageData).then(function(resp) {
-			images.imageMetaData.push(resp.imageInfo);
+			if(resp.err){
+				notificationService.err(resp.value);
+			} else {
+				images.imageMetaData.push(resp.value);
 			
-			//clear variables and DOM
-			images.saveImageName = '';
-			images.saveImageTags = '';
-			images.saveImageFile = undefined;
-			$('#saveImageFileInput').val(null);
-			images.cancelAdd(event);
-			notificationService.success('Sucessfully Inserted Image');
+				//clear variables and DOM
+				images.saveImageName = '';
+				images.saveImageTags = '';
+				images.saveImageFile = undefined;
+				$('#saveImageFileInput').val(null);
+				images.cancelAdd(event);
+				notificationService.success('Sucessfully Inserted Image');
+			}
 		}, function () {
 			notificationService.error('Error: viewImagesSvc.insertImageMetaData(imageData)');
 		});
@@ -195,7 +199,11 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	
 	function getImageMetaData(imgCt) {
 		imagesSvc.getImageMetaData(imgCt).then(function (resp) {
-            images.imageMetaData = resp.imageInfo;
+            if (resp.err)
+				notificationService.error(resp.value);
+			else
+				images.imageMetaData = resp.value;
+			
 			images.imageMetaDataLoading = false;
         }, function () {
             notificationService.error('Error: imagesSvc.getImageMetaData(imgCt)');

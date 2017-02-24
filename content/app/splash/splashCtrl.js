@@ -22,7 +22,11 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'i
 	
 	function getRecentVideos() {
 		videosSvc.getVideos(numRecentVideos).then(function (resp) {
-            splash.videosArray = splashSvc.calculateDayDiff(resp.videos);
+            if (resp.err)
+				notificationService.error(resp.value);
+			else
+				splash.videosArray = splashSvc.calculateDayDiff(resp.value);
+			
 			splash.videosLoading = false;
         }, function () {
             notificationService.error('Error: videoSvc.getRecentVideos(numRecentVideos)');
@@ -31,7 +35,11 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'i
 	
 	function getRecentImageMetaData() {
 		imagesSvc.getImageMetaData(numRecentImageMetaData).then(function (resp) {
-            splash.imageMetaDataArray = splashSvc.calculateDayDiff(resp.imageInfo);
+			if (resp.err)
+				notificationService.error(resp.value);
+			else 
+				splash.imageMetaDataArray = splashSvc.calculateDayDiff(resp.value);
+			
 			splash.imageMetaDataLoading = false;
         }, function () {
             notificationService.error('Error: imagesSvc.getImageMetaData(numRecentImageMetaData)');
@@ -40,7 +48,11 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'i
 	
 	function getRecentFamilyMembers() {
 		familyMembersSvc.getFamilyMembers(numRecentFamilyMembers).then(function (resp) {
-            splash.familyMembersArray = resp.familyMembers;
+			if (resp.err)
+				notificationService.error(resp.value);
+			else 
+				splash.familyMembersArray = resp.value;
+			
 			splash.familyMembersLoading = false;
         }, function () {
             notificationService.error('Error: familyMembersSvc.getRecentFamilyMembers(numRecentFamilyMembers)');

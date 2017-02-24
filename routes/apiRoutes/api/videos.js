@@ -6,18 +6,18 @@ module.exports = function(app, data, security, pageErrors){
 			var ct = req.query.ct;
 			
 			if (id === undefined && ct === undefined) {
-				res.send(JSON.stringify({ videos: null }));
+				res.send(JSON.stringify({ err: true, value: 'Error with GET /api/videos' }));
 			} else {
 				if (id) {
-					data.getVideoByID(id).then(function(video) {
-						res.send(JSON.stringify({ videos: video }));
+					data.getVideoByID(id).then(function(d) {
+						res.send(d);
 					}).catch(function () {
 						pageErrors.send(req, res, 500);
 					});
 				} else {
 					ct = security.verifyRequstCount(ct);
-					data.getVideos(ct).then(function(videoArray) {
-						res.send(JSON.stringify({ videos: videoArray }));
+					data.getVideos(ct).then(function(d) {
+						res.send(d);
 					});
 				}
 			}

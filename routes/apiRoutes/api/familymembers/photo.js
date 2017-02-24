@@ -4,8 +4,8 @@ module.exports = function(app, data, security, apiUploadsHelper, pageErrors){
 		if (security.checkUserAccess(req)) {	
 			var id = req.query.id;
 			
-			data.getFamilyMemberPhotoById(id).then(function(familyMemberImageData) {
-				res.send(JSON.stringify({ familyMemberPhotoData: familyMemberImageData }));
+			data.getFamilyMemberPhotoById(id).then(function(d) {
+				res.send(d);
 			}).catch(function() {
 				pageErrors.send(req, res, 500);
 			});
@@ -19,8 +19,8 @@ module.exports = function(app, data, security, apiUploadsHelper, pageErrors){
 			var id = req.query.id;
 			var buffer = req.file.buffer;
 			
-			data.saveFamilyMemberPhotoById(id, buffer).then(function(imgBase64) {
-				res.send(JSON.stringify({ userImage: imgBase64 }));	
+			data.saveFamilyMemberPhotoById(id, buffer).then(function(d) {
+				res.send(d);	
 			});
 		} else {
 			security.sessionExpiredResponse(res);

@@ -21,10 +21,10 @@ module.exports = function(config) {
 				 if (ct > 0) {
 					 return db.collection('videos').find().sort({createDate:-1}).limit(parseInt(ct)).toArray();
 				 } else {
-					return db.collection('videos').find().toArray();
+					return db.collection('videos').find().sort({createDate:-1}).toArray();
 				 }
 			}).then(function(data) {
-				return (data === null) ? 'Error Retrieving Videos' : data;
+				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Videos') : buildResponseMessage(false, data);
 			})
 		}, 
 		
@@ -33,19 +33,19 @@ module.exports = function(config) {
 				var mongoId = new mongo.ObjectID(id);
 				return db.collection('videos').findOne({ _id: mongoId });
 			}).then(function(data) {
-				return (data === null) ? 'Error Retrieving Video By ID' : data;
+				return (data === null) ? buildResponseMessage(true, 'Error Retrieving Video By ID') : buildResponseMessage(false, data);
 			})
 		},
 		
 		getFamilyMembers: function (ct) {
 			 return mongoClient.connect(dbURL).then(function(db) {
 				 if (ct > 0) {
-					 return db.collection('users').find({}, getUserInfoNoImage()).limit(parseInt(ct)).toArray();
+					 return db.collection('users').find({}, { userImage:0, password:0 }).limit(parseInt(ct)).toArray();
 				 } else {
-					return db.collection('users').find().toArray();
+					return db.collection('users').find({}, { userImage:0, password:0 }).toArray();
 				 }
 			}).then(function(data) {
-				return (data === null) ? 'Error Retrieving Family Members' : data;
+				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Family Members') : buildResponseMessage(false, data);
 			})
 		}, 
 		
@@ -54,25 +54,30 @@ module.exports = function(config) {
 				var mongoId = new mongo.ObjectID(id);
 			return db.collection('users').findOne({ _id: mongoId }, { userImage: 1, updateDate: 1 });
 			}).then(function(data) {
-				return (data === null) ? 'Error Retrieving Family Member Photo by Id' : data;
+				return (data === null) ? buildResponseMessage(true, 'Error Retrieving Family Member Photo by Id') :buildResponseMessage(false, data);
 			})
 		},
 		
 		getFamilyMemberByID: function (id) { 
 			return mongoClient.connect(dbURL).then(function(db) {
 				var mongoId = new mongo.ObjectID(id);
-			return db.collection('users').findOne({ _id: mongoId }, getUserInfoNoImage());
+			return db.collection('users').findOne({ _id: mongoId }, { userImage:0, password:0 });
 			}).then(function(data) {
-				return (data === null) ? 'Error Retrieving Family Member by Id' : data;
+				return (data === null) ? buildResponseMessage(true, 'Error Retrieving Family Member by Id') : buildResponseMessage(false, data);
 			})
 		},
 		
 		saveFamilyMemberByID: function (userInfo) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				var mongoId = new mongo.ObjectID(userInfo._id);
-				return db.collection('users').update({ _id: mongoId }, { $set: saveUserInfo(userInfo) });
+				return db.collection('users').findAndModify({ _id: mongoId }, [], { $set: updateUserInfo(userInfo) }, { new: true });
 			}).then(function(data) {
-				return (data === null) ? 'Error saving Family Member by Id' : 'Success';
+				if (data.value === null) {
+					return  buildResponseMessage(true, 'Error saving Family Member by Id');
+				} else {
+					delete data.value.userImage;
+					return buildResponseMessage(false, data.value);
+				}
 			})
 		},
 		
@@ -80,22 +85,29 @@ module.exports = function(config) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				var mongoId = new mongo.ObjectID(id);
 				
-				return db.collection('users').update({ _id: mongoId }, {$set: {userImage: mongo.Binary(buffer, 0), updateDate: new Date()}});
+				return db.collection('users').findAndModify({ _id: mongoId }, [], {$set: {userImage: mongo.Binary(buffer, 0), updateDate: new Date() }}, { new: true});
 			}).then(function(data) {
-				var imgBase64 = buffer.toString('base64');
-				
-				return (data === null) ? 'Error saving Family Member Photo by Id' : imgBase64;
+				if (data.value === null) {
+					return buildResponseMessage(true, 'Error saving Family Member Photo by Id');
+				} else {
+					var imgBinary = '';
+					var bytes = new Uint8Array( data.value.userImage.buffer );
+					for (var i = 0; i < bytes.byteLength; i++) 
+						imgBinary += String.fromCharCode(bytes[i]);
+					
+					return buildResponseMessage(false, imgBinary);
+				}
 			})
 		},
 		
 		getImageMetaData:  function (ct) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				if (ct > 0)
-					return db.collection('images').aggregate(getImageMetadataAggregate()).sort({createDate:1}).limit(parseInt(ct)).toArray();
+					return db.collection('images').find().sort({createDate:1}).limit(parseInt(ct)).toArray();
 				else 
-					return db.collection('images').aggregate(getImageMetadataAggregate()).toArray();
+					return db.collection('images').find().toArray();
 			}).then(function(data) {
-				return (data === null) ? 'Error Retrieving Images' : data;
+				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Image Meta Data') : buildResponseMessage(false, data);
 			})
 		},
 		
@@ -103,27 +115,28 @@ module.exports = function(config) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				var mongoId = new mongo.ObjectID(id);
 				
-				return db.collection('images').aggregate(getImageMetadataAggregateById(mongoId)).toArray();
+				return db.collection('images').findOne({ _id: mongoId });
 			}).then(function(data) {
-				return (data === null) ? 'Error Retrieving Image By Id' : data;
+				return (data === null) ? buildResponseMessage(true, 'Error Retrieving Image Meta Data By Id') : buildResponseMessage(false, data);
 			})			
 		},
 		
-		insertImageMetaData: function (imgInfo) {
+		insertImageMetaData: function (userName, imgInfo) {
 			return mongoClient.connect(dbURL).then(function(db) {
-				return db.collection('images').insert(createImageMetaData(imgInfo));
+				var mongoId = new mongo.ObjectID();
+				return db.collection('images').findAndModify({ _id: mongoId }, [], { $set: createImageMetaData(userName, imgInfo) }, { upsert: true, new: true });
 			}).then(function(data) {
-				return (data === null) ? 'Error Inserting Image MetaData' : data;
+				return (data === null) ? buildResponseMessage(true, 'Error Inserting Image MetaData') : buildResponseMessage(false, data.value);
 			})	
 		},
 		
-		saveImageMetaDataById: function (id, userId, imageMetaData) {
+		saveImageMetaDataById: function (id, userName, imageMetaData) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				var mongoId = new mongo.ObjectID(id);
 				
-				return db.collection('images').findAndModify({ _id: mongoId }, [], { $set: updateImageMetaData(userId, imageMetaData) }, { new: true });
+				return db.collection('images').findAndModify({ _id: mongoId }, [], { $set: updateImageMetaData(userName, imageMetaData) }, { new: true });
 			}).then(function(data) {
-				return (data === null) ? 'Error Updating Image MetaData' : data.value;
+				return (data.value === null) ? buildResponseMessage(true, 'Error Updating Image MetaData') : buildResponseMessage(false, data.value);
 			})			
 		},
 		
@@ -133,46 +146,31 @@ module.exports = function(config) {
 				
 				return db.collection('images').remove({ _id: mongoId });
 			}).then(function(data) {
-				return (data === null) ? 'Error Removing Image By Id' : data;
+				return (data === null) ? buildResponseMessage(true, 'Error Removing Image By Id') : buildResponseMessage(false, data);
 			})	
 		}
 	}
 };
 
-function getUserInfoNoImage() {
-	return { userImage:0, password:0 };
+function buildResponseMessage(err, value) {
+	return JSON.stringify({
+		err: err,
+		value: value
+	});
 }
 
-function getImageMetadataAggregateById(mongoId) {
-	return [
-			{$match:{ _id: mongoId }},
-			{$lookup:{ from: "users", localField: "createdBy", foreignField: "_id", as: "createUser" }},
-			{$lookup:{ from: "users", localField: "updatedBy", foreignField: "_id", as: "updateUser" }},
-			{$project:{ _id:1, name:1, tags:1, fileLocation:1, fileName:1, fileExt:1, imageThumbnail:1, createDate:1, updateDate:1, updatedBy:1, "createUser.username":1, "updateUser.username":1 }}
-		];
-}
-
-function getImageMetadataAggregate() {
-	return [
-			{$lookup:{ from: "users", localField: "createdBy", foreignField: "_id", as: "createUser" }},
-			{$lookup:{ from: "users", localField: "updatedBy", foreignField: "_id", as: "updateUser" }},
-			{$project:{ _id:1, name:1, tags:1, fileLocation:1, fileName:1, fileExt:1, imageThumbnail:1, createDate:1, updateDate:1, updatedBy:1, "createUser.username":1, "updateUser.username":1 }}
-		];
-}
-
-function updateImageMetaData(userId, imageMetaData) {
+function updateImageMetaData(userName, imageMetaData) {
 	return { 
 		name: imageMetaData.name
 		, tags: imageMetaData.tags
 		, fileName: imageMetaData.fileName
 		, fileExt: imageMetaData.fileExt
-		, updatedBy: new mongo.ObjectID(userId)
+		, updatedBy: userName
 		, updateDate: new Date()
 	}
 }
 
-function createImageMetaData(i) {
-	var createdBy = new mongo.ObjectID(i.createdBy);
+function createImageMetaData(userName, i) {
 	return {
 		name: i.name,
 		tags: i.tags,
@@ -180,13 +178,13 @@ function createImageMetaData(i) {
 		fileName: i.fileName,
 		fileExt: i.fileExt,
 		createDate: new Date(),
-		createdBy: createdBy,
+		createdBy: userName,
 		updateDate: new Date(),
-		updatedBy: createdBy
+		updatedBy: userName
 	}
 }
 
-function saveUserInfo(u) {
+function updateUserInfo(u) {
 	return {
 		firstName: u.firstName
 		, middleName: u.middleName

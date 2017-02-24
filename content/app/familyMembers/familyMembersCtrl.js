@@ -13,7 +13,11 @@ familyPortalApp.controller('familyMembersCtrl', ['$scope', 'familyMembersSvc', '
 		
 	function getFamilyMembers() {
 		 familyMembersSvc.getFamilyMembers(-1).then(function (resp) {
-            familyMembers.familyMembersArray = familyMembersSvc.formatFamilyMemberData(resp.familyMembers);
+			 if (resp.err)
+				 notificationService.error(resp.value);
+			 else
+				familyMembers.familyMembersArray = familyMembersSvc.formatFamilyMemberData(resp.value);
+			
 			familyMembers.familyMembersLoading = false;
         }, function () {
             notificationService.error('Error: familyMembers.familyMembersArray()');

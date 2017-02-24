@@ -18,7 +18,7 @@ block content
 						span(class="col-xs-12 no-side-padding hideOverflow") Tags: 
 							span(ng-repeat="t in i.tags") {{t}}{{$last ? '' : ', '}}
 						span(class="col-xs-12 no-side-padding") 
-							span(class="hideOverflow col-xs-8 no-side-padding") Uploaded: {{i.createUser[0].username}}
+							span(class="hideOverflow col-xs-8 no-side-padding") Uploaded: {{i.createdBy}}
 							span(class="col-xs-4 badge") {{i.createDate | date:'MM/dd/yyyy'}}
 			div(ng-hide="imageMetaDataLoading" class="image-container-outer col-xs-12 col-sm-6 col-md-4 col-lg-2" ng-mouseenter="hoverAdd($event, 1)" ng-mouseleave="hoverAdd($event, 0)" resize-height-to-square)
 				i(class="add-item-container-inner col-xs-12" class="fa fa-plus fa-5x full-height")

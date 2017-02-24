@@ -37,7 +37,10 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
 		var fullFileName = imageMetaDataInfo_Original.fileName + imageMetaDataInfo_Original.fileExt;
 		
 		viewImagesSvc.deleteImageById(imageId, fullFileName).then(function (resp) {
-			window.location.href = encodeURI('/images?msg=Image Successfully Deleted');
+			if (resp.err)
+				notificationService.error(resp.value);
+			else 
+				window.location.href = encodeURI('/images?msg=Image Successfully Deleted');
         }, function () {
             notificationService.error('Error: viewImagesSvc.deleteImageById(imageId, fullFileName)');
         });
@@ -87,12 +90,17 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
 		};
 		
 		viewImagesSvc.saveMetaDataInfoById(imageMetaDataInfo._id, postData).then(function (resp) {
-			view.imageMetaDataInfo = resp.imageInfo;
-			view.imageMetaDataInfo_Original = angular.copy(view.imageMetaDataInfo);
+			if(resp.err){
+				notificationService.err(resp.value);
+			} else {
+				view.imageMetaDataInfo = resp.value;
+				view.imageMetaDataInfo_Original = angular.copy(view.imageMetaDataInfo);
+				
+				notificationService.success('Image Meta Data Info Updated Successfully');
+			}
 			
 			view.saving = false;
 			view.editMode = false;
-			notificationService.success('Image Meta Data Info Updated Successfully');
         }, function () {
 			view.saving = false;
 			view.editMode = false;
@@ -102,8 +110,13 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
 	
 	function getImageMetaDataInfo(imageId) {
 		viewImagesSvc.getImageMetaDataById(imageId).then(function (resp) {
-            view.imageMetaDataInfo = resp.imageInfo;
-			view.imageMetaDataInfo_Original = angular.copy(view.imageMetaDataInfo);
+            if(resp.err){
+				notificationService.error(resp.value);	
+			} else {
+				view.imageMetaDataInfo = resp.value;
+				view.imageMetaDataInfo_Original = angular.copy(view.imageMetaDataInfo);
+			}
+			
 			view.imageMetaDataInfoLoading = false;
         }, function () {
             notificationService.error('Error: viewImagesSvc.getImageMetaDataById(imageId)');

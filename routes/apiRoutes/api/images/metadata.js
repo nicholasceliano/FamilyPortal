@@ -9,15 +9,15 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors){
 				res.send(JSON.stringify({ imageInfo: null }));
 			} else {
 				if (id){
-					data.getImageMetaDataById(id).then(function(imageInfoData) {
-						res.send(JSON.stringify({ imageInfo: imageInfoData[0] }));
+					data.getImageMetaDataById(id).then(function(d) {
+						res.send(d);
 					}).catch(function() {
 						pageErrors.send(req, res, 500);
 					});
 				} else {
 					ct = security.verifyRequstCount(ct);
-					data.getImageMetaData(ct).then(function(imageInfoData) {
-						res.send(JSON.stringify({ imageInfo: imageInfoData }));
+					data.getImageMetaData(ct).then(function(d) {
+						res.send(d);
 					});		
 				}
 			}
@@ -55,9 +55,10 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors){
 	//sub routes
 	function insertImageMetaData(req, res) {
 		var imgInfo = req.body;
+		var user = security.getActiveUser(req);
 			
-		data.insertImageMetaData(imgInfo).then(function(status) {
-			res.send(JSON.stringify({ imageInfo: status.ops[0] }));
+		data.insertImageMetaData(user.userName, imgInfo).then(function(d) {
+			res.send(d);
 		});				
 	}
 	
@@ -67,16 +68,16 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors){
 		var originalFileName = config.imagesFileLoc(user.familyId) + imgInfo.fileName_Original + imgInfo.fileExt;
 		var newFileName = config.imagesFileLoc(user.familyId) + imgInfo.fileName + imgInfo.fileExt;
 		
-		data.saveImageMetaDataById(id, user.userId, imgInfo).then(function(data) {				
-			res.send(JSON.stringify({ imageInfo: data }));
+		data.saveImageMetaDataById(id, user.userName, imgInfo).then(function(d) {				
+			res.send(d);
 		});			
 	}
 	
 	//callback functions
 	function finishPostImagesMetaData(respData, res, id) {
 		if (respData == true) {
-			data.getImageMetaDataById(id).then(function(imageInfoData) {
-				res.send(JSON.stringify({ imageInfo: imageInfoData[0] }));
+			data.getImageMetaDataById(id).then(function(d) {
+				res.send(d);
 			});
 		} else
 			res.send(JSON.stringify({ imageInfo: respData }));
@@ -84,10 +85,13 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors){
 
 	function finishDeleteImagesMetaData(respData, res, id) {
 		if (respData == true) {
-			data.deleteImageMetaDataById(id).then(function(status) {
-				res.send(JSON.stringify({ status: status }));
+			data.deleteImageMetaDataById(id).then(function(data) {
+				res.send(data);
 			});		
 		} else
-			res.send(JSON.stringify({ status: respData }));
+			res.send(JSON.stringify({
+				err: true,
+				value: 'Error deleting Image Meta Data'
+			}));
 	}
 }

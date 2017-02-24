@@ -58,8 +58,12 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMember
 	
 	function saveProfileImage(id, postData) {
 		familyMembersSvc.saveFamilyMemberProfileImageById(id, postData).then(function (resp) {
-			notificationService.success('Profile Image Successfully Updated');
-			profile.photoInfo.userImage = resp.userImage;
+			if (resp.err) {
+				notificationService.error(resp.value);
+			} else {
+				profile.photoInfo.userImage = btoa(resp.value);
+				notificationService.success('Profile Image Successfully Updated');
+			}
 		}, function () {
 			notificationService.error('Error: familyMembersSvc.saveFamilyMemberProfileImageById(id, postData)');
 		});
@@ -67,11 +71,15 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMember
 			
 	function getProfileInfo(userId) {
 		 familyMembersSvc.getFamilyMemberById(userId).then(function (resp) {
-			profile.info = resp.familyMembers;
-			savedInfo = angular.copy(profile.info);
-			
-			if (profileSvc.checkIfAddressesMatch(profile.info))
-				profile.shippingAddressSameToggle = true;
+			 if (resp.err) {
+				 notificationService.error(resp.value);
+			 } else {
+				profile.info = resp.value;
+				savedInfo = angular.copy(profile.info);
+				
+				if (profileSvc.checkIfAddressesMatch(profile.info))
+					profile.shippingAddressSameToggle = true;
+			 }
 			
 			profile.profileInfoLoading = false;
         }, function () {
@@ -81,18 +89,27 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMember
 	
 	function getProfilePhoto(userId) {
 		 familyMembersSvc.getFamilyMemberPhotoById(userId).then(function (resp) {
-			profile.photoInfo = resp.familyMemberPhotoData;
+			if (resp.err)
+				notificationService.error(resp.value);
+			else
+				profile.photoInfo = resp.value;
 			
 			profile.profilePhotoLoading = false;
         }, function () {
-            notificationService.error('Error: familyMembersSvc.getFamilyMemberById(userId)');
+            notificationService.error('Error: familyMembersSvc.getFamilyMemberPhotoById(userId)');
         });
 	};
 	
 	function saveProfileInfo(profileInfo) {
 		familyMembersSvc.saveFamilyMemberById(profileInfo).then(function (resp) {
-			notificationService.success('Profile Update Successful');
-            savedInfo = angular.copy(profile.info);
+			if (resp.err) {
+				notificationService.error(resp.value);
+			} else {
+				profile.info = resp.value;
+				savedInfo = angular.copy(profile.info);
+				notificationService.success('Profile Update Successful');
+			}
+			
 			profile.editMode = false;
         }, function () {
             notificationService.error('Error: familyMembersSvc.saveFamilyMemberById(info)');

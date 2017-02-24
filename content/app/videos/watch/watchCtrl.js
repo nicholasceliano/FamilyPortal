@@ -12,7 +12,11 @@ familyPortalApp.controller('watchCtrl', ['$scope', 'videosSvc', 'notificationSer
 
 	function getVideoInfo(videoId) {
 		videosSvc.getVideoById(videoId).then(function (resp) {
-            watch.videoInfo = resp.videos;
+            if (resp.err)
+				notificationService.error(resp.value);
+			else
+				watch.videoInfo = resp.value;
+			
 			watch.videoInfoLoading = false;
         }, function () {
             notificationService.error('Error: videosSvc.getVideoById(videoId)');

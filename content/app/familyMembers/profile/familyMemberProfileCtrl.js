@@ -15,7 +15,11 @@ familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMembersS
 		
 	function getProfileInfo(userId) {
 		 familyMembersSvc.getFamilyMemberById(userId).then(function (resp) {
-            profile.info = userInfoFormattingSvc.formatUserProfileInfo(resp.familyMembers);
+            if(resp.err)
+				notificationService.error(resp.value);
+			else 
+				profile.info = userInfoFormattingSvc.formatUserProfileInfo(resp.value);
+			
 			profile.profileInfoLoading = false;
         }, function () {
             notificationService.error('Error: familyMembersSvc.getFamilyMemberById(userId)');
@@ -24,11 +28,14 @@ familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMembersS
 	
 	function getProfilePhoto(userId) {
 		 familyMembersSvc.getFamilyMemberPhotoById(userId).then(function (resp) {
-			profile.photoInfo = resp.familyMemberPhotoData;
+			if (resp.err)
+				notificationService.error(resp.value);
+			else
+				profile.photoInfo = resp.value;
 			
 			profile.profilePhotoLoading = false;
         }, function () {
-            notificationService.error('Error: familyMembersSvc.getFamilyMemberById(userId)');
+            notificationService.error('Error: familyMembersSvc.getFamilyMemberPhotoById(userId)');
         });
 	};
 }]);

@@ -9,15 +9,15 @@ module.exports = function(app, data, security, pageErrors){
 				res.send(JSON.stringify({ familyMembers: null }));
 			} else {
 				if (id) {
-					data.getFamilyMemberByID(id).then(function(familyMember) {
-						res.send(JSON.stringify({ familyMembers: familyMember }));
+					data.getFamilyMemberByID(id).then(function(d) {
+						res.send(d);
 					}).catch(function() {
 						pageErrors.send(req, res, 500);
 					});
 				} else {
 					ct = security.verifyRequstCount(ct);
-					data.getFamilyMembers(ct).then(function(familyMemberArray) {
-						res.send(JSON.stringify({ familyMembers: familyMemberArray }));
+					data.getFamilyMembers(ct).then(function(d) {
+						res.send(d);
 					});					
 				}
 			}
@@ -30,8 +30,8 @@ module.exports = function(app, data, security, pageErrors){
 		if (security.checkUserAccess(req)) {	
 			var userInfo = req.body;
 			
-			data.saveFamilyMemberByID(userInfo).then(function(responseMsg) {
-				res.send(JSON.stringify({ msg: responseMsg }));
+			data.saveFamilyMemberByID(userInfo).then(function(d) {
+				res.send(d);
 			});
 		} else {
 			security.sessionExpiredResponse(res);

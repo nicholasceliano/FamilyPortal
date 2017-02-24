@@ -10,10 +10,11 @@ module.exports = function(dataAccess, config) {
 			
 			return dataAccess.login(user, pwd).then(function(validUserData) {
 				var userId = validUserData._id.toString();
+				var userName = validUserData.username;
 				var familyId = validUserData.familyId;
 				
 				if (validUserData !== undefined)
-					AddActiveUser(userId, familyId);
+					AddActiveUser(userId, userName, familyId);
 				
 				return userId;
 			});
@@ -89,13 +90,13 @@ module.exports = function(dataAccess, config) {
 		return activeUser;
 	}
 	
-	function AddActiveUser(userId, familyId) {
+	function AddActiveUser(userId, userName, familyId) {
 		if (activeUserArray.length === 0) {
-			activeUserArray.push({ userId: userId, familyId: familyId, sessionExp: newSessionExpTime() });
+			activeUserArray.push({ userId: userId, userName: userName, familyId: familyId, sessionExp: newSessionExpTime() });
 		} else {		
 			for(var i = 0; i < activeUserArray.length; i++){
 				if (activeUserArray[i] != userId)
-					activeUserArray.push({ userId: userId, familyId: familyId, sessionExp: newSessionExpTime() });
+					activeUserArray.push({ userId: userId, userName: userName, familyId: familyId, sessionExp: newSessionExpTime() });
 			}
 		}
 	}
