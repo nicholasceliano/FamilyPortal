@@ -5,12 +5,22 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors){
 			var id = req.query.id;
 			var ct = req.query.ct;
 			
-			var user = security.getActiveUser(req);
-			var baseFileLocation = config.imagesFileLoc(user.familyId);
-			res.send(baseFileLocation)
-			
-			
-			
+			if (id === undefined && ct === undefined) {
+				res.send(JSON.stringify({ imageInfo: null }));
+			} else {
+				if (id){
+					data.getImageMetaDataById(id).then(function(d) {
+						res.send(d);
+					}).catch(function() {
+						pageErrors.send(req, res, 500);
+					});
+				} else {
+					ct = security.verifyRequstCount(ct);
+					data.getImageMetaData(ct).then(function(d) {
+						res.send(d);
+					});		
+				}
+			}
 		} else {
 			security.sessionExpiredResponse(res);
 		}
