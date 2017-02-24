@@ -29,14 +29,14 @@ module.exports = {
 	},
 	
 	readFile: function (baseFileLocation, path, callback, res) {
-		checkIfFile(baseFileLocation + path, function(err, isFile) {
+		checkIfFile(baseFileLocation + path, function(err2, isFile) {
 			if (isFile) {
 				fs.readFile(baseFileLocation + path, function(err, data){
 					return (err) ? callback('Error', res) : callback(data, res);
 				});
 			} else {
 				fs.readFile((__dirname + '/dist/images/defaultImage.jpg'), function(err, data){
-					return (err) ? callback('Error', res) : callback(data, res);
+					return (err) ? callback(err2, res) : callback(err2, res);
 				});	
 			}
 		});		

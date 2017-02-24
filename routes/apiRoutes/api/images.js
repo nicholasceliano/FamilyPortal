@@ -60,7 +60,8 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper){
 	}
 	
 	function finishGetImages(respData, res) {
-		res.writeHead(200, {'Content-Type': 'image/jpg'});
-		res.end(respData);
+		//res.writeHead(200, {'Content-Type': 'image/jpg'});
+		//res.end(respData);
+		res.send(respData)
 	}
 }
