@@ -4,8 +4,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var config = (process.env.NODE_ENV.toLowerCase() === 'prod' ? require('./config.js').prod : require('./config.js').dev);
+var logger = require('./logger.js').getLogger();
 var dataAccess = require('./dataAccess.js')(config);
-var fileAccess = require('./fileAccess.js');
+var fileAccess = require('./fileAccess.js')(logger);
 var security = require('./security.js')(dataAccess, config);
 var pageErrors = require('./routes/webRoutes/pageErrors.js')(security);
 
@@ -39,5 +40,6 @@ app.listen(config.port, function () {
 	var userCheckInterval_InSeconds = 3;
 	
 	setInterval(function() { security.removeInactiveUsers(); }, userCheckInterval_InSeconds*1000);
+	logger.info('App listening on port ' + config.port);
 	console.log('App listening on port ' + config.port);
 });
