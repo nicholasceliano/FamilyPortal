@@ -1,4 +1,4 @@
-familyPortalApp.directive('resizeHeightToSquare', function ($window) {
+familyPortalApp.directive('resizeHeightToSquare', function () {
     return function (scope, element) {
         scope.$watch('', function (n, o) {
 			$(element).height(function(){
