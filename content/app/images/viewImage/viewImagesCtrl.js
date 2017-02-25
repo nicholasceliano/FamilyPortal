@@ -34,7 +34,7 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
 	};
 	
 	function deleteImage(imageId, imageMetaDataInfo_Original) {
-		var fullFileName = imageMetaDataInfo_Original.fileName + imageMetaDataInfo_Original.fileExt;
+		var fullFileName =  imageMetaDataInfo_Original.fileLocation + imageMetaDataInfo_Original.fileName + imageMetaDataInfo_Original.fileExt;
 		
 		viewImagesSvc.deleteImageById(imageId, fullFileName).then(function (resp) {
 			if (resp.err)
