@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
+    "test": "karma start",
     "start": "grunt concatDevFiles & grunt copyFiles & SET NODE_ENV='dev' & start http://localhost:3333 & node app.js",
     "prod_start": "grunt minifyProdFiles & grunt copyFiles & export NODE_ENV=prod & forever stopall & forever start app.js"
   },
@@ -21,11 +22,17 @@
     "grunt": "^1.0.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-uglify": "^2.0.0"
+    "grunt-contrib-uglify": "^2.0.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-ie-launcher": "^1.0.0"
   },
   "dependencies": {
     "body-parser": "1.16.1",
     "express": "4.14.1",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.5.0",
+    "karma-jasmine": "^1.1.0",
     "mongodb": "2.2.24",
     "multer": "^1.3.0",
     "pug": "^2.0.0-beta11",

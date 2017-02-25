@@ -9,23 +9,19 @@ module.exports = function(dataAccess, config) {
 			user = user.toLowerCase();
 			
 			return dataAccess.login(user, pwd).then(function(validUserData) {
-				var userId = validUserData._id.toString();
-				var userName = validUserData.username;
-				var familyId = validUserData.familyId;
-				
-				if (validUserData !== undefined)
-					AddActiveUser(userId, userName, familyId);
-				
-				return userId;
+				return AddActiveUser(validUserData);
 			});
 		},
 		
-		logout: function(request) {
-			var cookies = parseCookies(request);
+		logout: function(req, res) {
+			var cookies = parseCookies(req);
 			var userId = cookies.userId
 			
 			if (userId !== undefined)
 				RemoveActiveUser(userId);
+			
+			res.clearCookie('userId');
+			res.redirect('/');
 		},
 		
 		removeInactiveUsers: function() {
@@ -90,13 +86,24 @@ module.exports = function(dataAccess, config) {
 		return activeUser;
 	}
 	
-	function AddActiveUser(userId, userName, familyId) {
-		if (activeUserArray.length === 0) {
-			activeUserArray.push({ userId: userId, userName: userName, familyId: familyId, sessionExp: newSessionExpTime() });
-		} else {		
+	function AddActiveUser(validUserData) {
+		if (validUserData === undefined)
+			return { validUserData: undefined, err: 'Error: Username or password incorrect' };
+		else {
+			var userAlreadyLoggedIn = false;
+			
 			for(var i = 0; i < activeUserArray.length; i++){
-				if (activeUserArray[i] != userId)
-					activeUserArray.push({ userId: userId, userName: userName, familyId: familyId, sessionExp: newSessionExpTime() });
+				if (activeUserArray[i].userId == validUserData._id.toString()){
+					userAlreadyLoggedIn = true;
+					break;
+				}
+			}
+			
+			if (userAlreadyLoggedIn){
+				return { validUserData: undefined, err: 'Error: User with that username already logged in' };
+			} else {		
+				activeUserArray.push({ userId: validUserData._id.toString(), userName: validUserData.username, familyId: validUserData.familyId, sessionExp: newSessionExpTime() });
+				return { validUserData: validUserData, err: null };
 			}
 		}
 	}

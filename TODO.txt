@@ -20,8 +20,8 @@ Short Term:
 
 Structure
 - Replace Grunt with Gulp and Browserify to serve JS to front end from node packages
-- Configure package.json with correct packages and try npm prune to remove unused packages
-- Need to add logging
+- Add more logging
+- Add more tests
 - Add lint.js
 
 AWS
