@@ -14,7 +14,7 @@ familyPortalApp.factory('splashSvc', ['$q', 'msToTimeDiffFilter', function ($q, 
 		});		
 		
 		return array;
-	}
+	};
 	
 	return service;
 }]);

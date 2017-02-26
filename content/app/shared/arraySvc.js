@@ -7,7 +7,7 @@ familyPortalApp.factory('arraySvc', function () {
 		return  array.filter(function(itm, i, array) {
 			return i == array.indexOf(itm);
 		});
-	}
+	};
 	
 	return service;
 });

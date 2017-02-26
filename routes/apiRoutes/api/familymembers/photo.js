@@ -30,4 +30,4 @@ module.exports = function(app, data, security, apiUploadsHelper, pageErrors, log
 			security.sessionExpiredResponse(res);
 		}
 	});
-}
+};

@@ -12,5 +12,5 @@ familyPortalApp.directive('centerImageInDiv', function () {
 					$(element).css('display','block');
 			});
 		}
-    }
-})
+    };
+});

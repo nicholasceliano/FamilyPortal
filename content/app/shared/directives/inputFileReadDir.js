@@ -11,12 +11,12 @@ familyPortalApp.directive("inputfileread", function() {
 						scope.inputfileread = { 
 							fileName: changeEvent.target.files[0].name, 
 							fileData: loadEvent.target.result
-						}
+						};
 					});
-				}
+				};
 				
 				reader.readAsDataURL(changeEvent.target.files[0]);
 			});
 		}
-	}
+	};
 });

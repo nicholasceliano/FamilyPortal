@@ -5,8 +5,8 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
 	
 	view.currentUserId = $cookies.get('userId');
 	
-	view.imageMetaDataInfo;
-	view.imageMetaDataInfo_Original;
+	view.imageMetaDataInfo = undefined;
+	view.imageMetaDataInfo_Original = undefined;
 	view.imageMetaDataInfoLoading = true;
 	
 	view.saving = false;
@@ -28,7 +28,7 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
 	
 	view.deleteImage = function () {
 		var r = confirm("Are you sure you want to perminantly delete this image?");
-		if (r == true) {
+		if (r === true) {
 			deleteImage(view.imageMetaDataInfo._id, view.imageMetaDataInfo_Original);
 		}
 	};

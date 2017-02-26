@@ -15,8 +15,8 @@ familyPortalApp.filter('msToTimeDiff', function() {
 	else if (h < 24)
 		out = h + " hrs old";
 	else
-		out = d + " days old"
+		out = d + " days old";
 		
     return out;
   };
-})
+});

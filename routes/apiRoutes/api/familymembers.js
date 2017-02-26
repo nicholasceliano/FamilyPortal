@@ -41,4 +41,4 @@ module.exports = function(app, data, security, pageErrors, logger){
 			security.sessionExpiredResponse(res);
 		}
 	});
-}
+};

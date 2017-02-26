@@ -22,7 +22,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	
 	images.saveImageName = '';
 	images.saveImageTags = '';
-	images.saveImageFile;
+	images.saveImageFile = undefined;
 	images.saveImageError = '';
 	
 	images.init = function () {
@@ -46,7 +46,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	images.saveImage = function ($event) {
 		var controlGroup = $(icInner_AddImage).find(ctrlGrp);
 		
-		if (images.saveImageFile == undefined || images.saveImageName.length === 0) {
+		if (images.saveImageFile === undefined || images.saveImageName.length === 0) {
 			controlGroup.addClass(errClass);
 			images.saveImageError = 'Err: Image Name and Image Input must be completed';
 		} else {
@@ -69,7 +69,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 				thumbnailFormData.append('fileName', fileName + '.thumbnail' + fileExt);
 				thumbnailFormData.append('fileLoc', '/');
 				saveThumbnail(thumbnailFormData);
-			}
+			};
 			thumbnailReader.readAsDataURL(originalImgBlob);
 		
 			//save fullsize image
@@ -81,7 +81,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 				imageFormData.append('fileName', fileName + fileExt);
 				imageFormData.append('fileLoc', '/');
 				saveImage(imageFormData);
-			}
+			};
 			imageReader.readAsDataURL(originalImgBlob);
 			
 			//save meta data
@@ -92,7 +92,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 				fileName: fileName,
 				fileExt: fileExt,
 				createdBy: images.currentUserId
-			}
+			};
 			
 			insertImageMetaData($event, postData);
 		}
@@ -118,7 +118,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		outerContainer.find(icInner_AddImage).hide();
 		outerContainer.find(icInner_AddFolder).hide();
 		outerContainer.find(icInner).show();
-	}
+	};
 
 	//Hover Event
 	images.hoverAdd = function ($event, enter) {
@@ -140,14 +140,14 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 				$(e).children(icInner).hide();
 			}
 		}
-	}
+	};
 	
 	function interpretQueryParams() {
 		var params = urlHelperSvc.getUrlVars();
 		
 		if (params.msg !== undefined)
 			notificationService.success(decodeURI(params.msg));
-	};
+	}
 	
 	//API Calls
 	function insertImageMetaData(event, imageData) {
@@ -176,7 +176,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
         }, function () {
             notificationService.error('Error: imagesSvc.saveImage(imageName, imageTags, imageFile)');
         });
-	};
+	}
 	
 	function saveThumbnail(imageFile) {
 		imagesSvc.saveImageThumbnail(imageFile).then(function (resp) {
@@ -195,7 +195,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
         }, function () {
             notificationService.error('Error: imagesSvc.saveFolder(folderName)');
         });
-	};
+	}
 	
 	function getImageMetaData(imgCt) {
 		imagesSvc.getImageMetaData(imgCt).then(function (resp) {
@@ -208,5 +208,5 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
         }, function () {
             notificationService.error('Error: imagesSvc.getImageMetaData(imgCt)');
         });
-	};
+	}
 }]);

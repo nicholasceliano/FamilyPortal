@@ -15,4 +15,4 @@ module.exports = function(app, dataAccess, security, config, logger){
 			security.sessionExpiredResponse(res);
 		}
 	});
-}
+};

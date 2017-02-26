@@ -14,30 +14,30 @@ familyPortalApp.factory('userInfoFormattingSvc', function () {
 		e.fullShippingAddressStateInfo = formatFullAddressStateInfo(e.shipCity, e.shipState, e.shipPostalCode);
 		
 		return e;
-	}
+	};
 	
 	function formatFullName (firstName, middleName, lastName) {
 		return firstName + ' ' + (middleName ? middleName + ' ' : '') + lastName;
-	};
+	}
 	
 	function formatPhoneNumber (phone) {
 		if (phone.length === 10)
 			return '(' + phone.substr(0, 3) + ')' + phone.substr(3, 3) + '-' + phone.substr(6, 4);
-	};
+	}
 	
 	function formatFullAddress (line1, line2) {
-		if (line1 == null && line2 == null)
+		if (line1 === null && line2 === null)
 			return null;
 		
 		return line1 + (line2 ? ' ' + line2 : '');
-	};
+	}
 	
 	function formatFullAddressStateInfo (city, state, postalCode) {
-		if (city == null || state == null || postalCode == null)
+		if (city === null || state === null || postalCode === null)
 			return null;
 		
 		return city + ', ' + state + ' ' + postalCode;
-	};
+	}
 	
 	function formatBirthDate (birthDate) {
 		birthDate = new Date(birthDate);
@@ -45,7 +45,7 @@ familyPortalApp.factory('userInfoFormattingSvc', function () {
                "July", "August", "September", "October", "November", "December" ];
 			   
 		return months[birthDate.getMonth()] +  ' ' + birthDate.getDate() + ', ' + birthDate.getFullYear();
-	};
+	}
 	
 	function calculateAge (birthDate) {
 		birthDate = new Date(birthDate);
@@ -53,7 +53,7 @@ familyPortalApp.factory('userInfoFormattingSvc', function () {
 		var age = Math.floor((today-birthDate) / (365.25 * 24 * 60 * 60 * 1000));
 		
 		return age;
-	};
+	}
 	
 	return service;
 });

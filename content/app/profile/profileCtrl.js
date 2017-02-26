@@ -5,9 +5,9 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMember
 	
 	var savedInfo;
 	
-	profile.info;
-	profile.photoInfo;
-	profile.fileToUpload;
+	profile.info = undefined;
+	profile.photoInfo = undefined;
+	profile.fileToUpload = undefined;
 	profile.editMode = false;
 	profile.shippingAddressSameToggle = false;
 	profile.profileInfoLoading = true;
@@ -48,11 +48,11 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMember
 		var reader = new FileReader();  
 		reader.onload = function(e) {
 			var imageFormData = new FormData();
-			var resizedImgUri = imageHelperSvc.convertImageSize(e, 225,225)
+			var resizedImgUri = imageHelperSvc.convertImageSize(e, 225,225);
 			var resizedImgBlob = imageHelperSvc.dataURItoBlob(resizedImgUri);
 			imageFormData.append('file', resizedImgBlob);
 			saveProfileImage(profile.photoInfo._id, imageFormData);
-		}
+		};
 		reader.readAsDataURL(originalImgBlob);
 	};
 	
@@ -85,7 +85,7 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMember
         }, function () {
             notificationService.error('Error: familyMembersSvc.getFamilyMemberById(userId)');
         });
-	};
+	}
 	
 	function getProfilePhoto(userId) {
 		 familyMembersSvc.getFamilyMemberPhotoById(userId).then(function (resp) {
@@ -98,7 +98,7 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMember
         }, function () {
             notificationService.error('Error: familyMembersSvc.getFamilyMemberPhotoById(userId)');
         });
-	};
+	}
 	
 	function saveProfileInfo(profileInfo) {
 		familyMembersSvc.saveFamilyMemberById(profileInfo).then(function (resp) {
@@ -114,6 +114,6 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMember
         }, function () {
             notificationService.error('Error: familyMembersSvc.saveFamilyMemberById(info)');
         });
-	};
+	}
 	
 }]);

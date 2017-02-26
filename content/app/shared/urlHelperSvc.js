@@ -13,7 +13,7 @@ familyPortalApp.factory('urlHelperSvc', [function () {
 			vars[hash[0]] = hash[1];
 		}
 		return vars;
-	}
+	};
 
 	return service;
 }]);

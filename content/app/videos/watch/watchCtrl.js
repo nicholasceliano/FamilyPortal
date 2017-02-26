@@ -3,7 +3,7 @@ familyPortalApp.controller('watchCtrl', ['$scope', 'videosSvc', 'notificationSer
 	
 	var watch = $scope;
 	
-	watch.videoInfo;
+	watch.videoInfo = undefined;
 	watch.videoInfoLoading = true;
 	
 	watch.init = function (videoId) {
@@ -21,5 +21,5 @@ familyPortalApp.controller('watchCtrl', ['$scope', 'videosSvc', 'notificationSer
         }, function () {
             notificationService.error('Error: videosSvc.getVideoById(videoId)');
         });
-	};
+	}
 }]);

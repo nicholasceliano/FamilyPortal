@@ -8,7 +8,7 @@ describe('arraySvc', function() {
     }));
 
     it('Make Array Unique', function() {
-		var array = ["test", "123", "test2", "123", "test"]
+		var array = ["test", "123", "test2", "123", "test"];
 		var uniqueArray = arraySvc.makeArrayUnique(array);
 		
 		expect(uniqueArray).toEqual(["test", "123", "test2"]);

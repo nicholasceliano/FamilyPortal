@@ -6,11 +6,11 @@ familyPortalApp.controller('headerCtrl', ['$scope', 'headerSvc', 'arraySvc', fun
 	header.init = function () {
 		setActiveNavItem();
 		setBreadcrumbs();
-	}
+	};
 	
 	header.home = function () {
 		window.location.replace("/");
-	}
+	};
 	
 	function setActiveNavItem() {
 		var route = window.location.pathname;

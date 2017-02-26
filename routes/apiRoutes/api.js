@@ -1,7 +1,7 @@
 //API Routes - Data - Naming will be reworked once MongoDB is set up
 // /api/data/{dataContent}.json
 
-var apiUploadsHelper = require('./apiUploadsHelper.js')
+var apiUploadsHelper = require('./apiUploadsHelper.js');
 
 module.exports = function(app, dataAccess, security, config, fileAccess, pageErrors, logger){	
 	var fileLoc = './api';

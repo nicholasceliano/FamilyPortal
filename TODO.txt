@@ -20,7 +20,6 @@ Short Term:
 Structure
 - Replace Grunt with Gulp and Browserify to serve JS to front end from node packages
 - Add more tests
-- Add lint.js
 
 AWS
 - Set up DNS for website (celiano.com? familyscrapbook.io?)

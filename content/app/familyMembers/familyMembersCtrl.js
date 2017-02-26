@@ -22,5 +22,5 @@ familyPortalApp.controller('familyMembersCtrl', ['$scope', 'familyMembersSvc', '
         }, function () {
             notificationService.error('Error: familyMembers.familyMembersArray()');
         });
-	};
+	}
 }]);

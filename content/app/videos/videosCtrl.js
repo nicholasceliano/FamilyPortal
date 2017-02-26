@@ -22,5 +22,5 @@ familyPortalApp.controller('videosCtrl', ['$scope', 'videosSvc', 'notificationSe
         }, function () {
             notificationService.error('Error: videoSvc.getVideos()');
         });
-	};
+	}
 }]);

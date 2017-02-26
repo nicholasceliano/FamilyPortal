@@ -11,4 +11,4 @@ module.exports = function(app, security, logger){
 			res.render('login/login', { title: 'Login - Family Scrapbook',  accessDenied: true, username: '', password: '', error: ''  });
 		}
 	});	
-}
+};

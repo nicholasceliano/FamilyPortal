@@ -7,5 +7,5 @@ familyPortalApp.directive('resizeHeightToSquare', function () {
 				return width;
 			});
         });
-    }
-})
+    };
+});

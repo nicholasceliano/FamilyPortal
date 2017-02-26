@@ -5,4 +5,4 @@ module.exports = function(app, security, logger){
 		
 		security.logout(req, res);
 	});
-}
+};

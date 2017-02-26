@@ -36,7 +36,7 @@ module.exports = function(logger) {
 			return fs.unlink(file, function(err) {	
 				if (err) {
 					logger.error(err);
-					return callback(err, res, id)
+					return callback(err, res, id);
 				} else {
 					logger.info("End: fileAccess.deleteFile");
 					return callback(true, res, id);
@@ -71,7 +71,7 @@ module.exports = function(logger) {
 				}
 			});		
 		}
-	}
+	};
 	
 	function checkIfFile(file, cb) {
 		logger.info("Begin: fileAccess.checkIfFile - file:" + file);
@@ -89,5 +89,4 @@ module.exports = function(logger) {
 		});
 	}
 
-}
-
+};

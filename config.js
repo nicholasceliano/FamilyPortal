@@ -41,7 +41,7 @@ function getImagesFileLoc(dev, familyId){
 
 function getThumbnailsFileLoc(dev, familyId) {
 	if (dev)
-		return devConfig().fileLoc + familyId + '/thumbnails'
+		return devConfig().fileLoc + familyId + '/thumbnails';
 	else
-		return prodConfig().fileLoc + familyId + '/thumbnails'
+		return prodConfig().fileLoc + familyId + '/thumbnails';
 }

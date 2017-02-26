@@ -9,4 +9,4 @@ module.exports = function(app, security, logger){
 			security.sessionExpiredResponse(res);
 		}
 	});
-}
+};

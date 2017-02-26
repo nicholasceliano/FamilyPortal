@@ -24,7 +24,7 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
 		);
 
         return deffered.promise;
-	}
+	};
 	
 	service.updateImage = function (postData) {
 		var deffered = $q.defer();
@@ -35,7 +35,7 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
 		);
 
         return deffered.promise;
-	}
+	};
 	
 	service.saveImageThumbnail = function (postData) {
 		var deffered = $q.defer();
@@ -46,7 +46,7 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
 		);
 
         return deffered.promise;
-	}
+	};
 	
 	service.updateImageThumbnail = function (postData) {
 		var deffered = $q.defer();
@@ -57,7 +57,7 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
 		);
 
         return deffered.promise;
-	}
+	};
 	
 	service.saveFolder = function (postData) {
 		var deffered = $q.defer();
@@ -68,7 +68,7 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
 		);
 
         return deffered.promise;
-	}
+	};
 
 	return service;
 }]);

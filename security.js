@@ -17,7 +17,7 @@ module.exports = function(dataAccess, config, logger) {
 		
 		logout: function(req, res) {
 			var cookies = parseCookies(req);
-			var userId = cookies.userId
+			var userId = cookies.userId;
 			logger.info("Begin: security.logout - userId:" + userId);
 			
 			if (userId !== undefined)
@@ -78,7 +78,7 @@ module.exports = function(dataAccess, config, logger) {
 		verifyRequstCount: function(ct) {
 			return ((config.api.maxRequestRecordCt < ct) ? config.api.maxRequestRecordCt : ct);
 		}
-	}
+	};
 	
 	function GetUserIdCookie(request) {
 		var cookies = parseCookies(request);
@@ -162,10 +162,12 @@ module.exports = function(dataAccess, config, logger) {
 		var list = {},
 			rc = request.headers.cookie;
 
-		rc && rc.split(';').forEach(function( cookie ) {
-			var parts = cookie.split('=');
-			list[parts.shift().trim()] = decodeURI(parts.join('='));
-		});
+		if (rc !== undefined) {
+			rc.split(';').forEach(function(c) {
+				var parts = c.split('=');
+				list[parts.shift().trim()] = decodeURI(parts.join('='));
+			});
+		}
 
 		return list;
 	}

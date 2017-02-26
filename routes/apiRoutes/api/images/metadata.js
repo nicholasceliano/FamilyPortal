@@ -83,7 +83,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 	
 	//callback functions
 	function finishPostImagesMetaData(respData, res, id) {
-		if (respData == true) {
+		if (respData === true) {
 			data.getImageMetaDataById(id).then(function(d) {
 				res.send(d);
 			});
@@ -92,7 +92,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 	}
 
 	function finishDeleteImagesMetaData(respData, res, id) {
-		if (respData == true) {
+		if (respData === true) {
 			data.deleteImageMetaDataById(id).then(function(data) {
 				res.send(data);
 			});		
@@ -103,4 +103,4 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 			}));
 		}
 	}
-}
+};

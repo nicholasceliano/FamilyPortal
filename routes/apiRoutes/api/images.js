@@ -39,10 +39,6 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper, l
 		var updateFile = config.imagesFileLoc(user.familyId) + fileLoc + fileName + fileExt;
 		
 		fileAccess.renameFile(originalFile, updateFile, renameFileCallback, res, null);
-		
-		function renameFileCallback(err, res, id) {
-			res.end(err.toString());
-		}
 	}
 	
 	function insertImage(req, res) {
@@ -58,16 +54,16 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper, l
 				var fileDestination = config.imagesFileLoc(user.familyId) + req.body.fileLoc + req.body.fileName;
 				 
 				fileAccess.renameFile(f.path, fileDestination, renameFileCallback, res, null);
-				 
-				function renameFileCallback(err, res, id) {
-					res.end(err.toString());
-				}
 			}
 		});
+	}
+	
+	function renameFileCallback(err, res, id) {
+		res.end(err.toString());
 	}
 	
 	function finishGetImages(respData, res) {
 		res.writeHead(200, {'Content-Type': 'image/jpg'});
 		res.end(respData);
 	}
-}
+};

@@ -8,7 +8,7 @@ module.exports = function (security, logger) {
 			else if (status === 500)
 				send500(req, res);
 		}
-	}
+	};
 	
 	function send404 (req, res) {
 		logger.info("WEB - GET - pageErrors - 404");

@@ -18,7 +18,7 @@ familyPortalApp.factory('imageHelperSvc', [function () {
 	service.convertImageSize = function (e, maxHeight, maxWidth) {
 		var canvas = document.createElement('canvas');
 		var img = document.createElement("img");
-		img.src = e.target.result
+		img.src = e.target.result;
 		
 		var ctx = canvas.getContext("2d");
 		ctx.drawImage(img, 0, 0);
@@ -41,11 +41,11 @@ familyPortalApp.factory('imageHelperSvc', [function () {
 		}
 		canvas.width = width;
 		canvas.height = height;
-		var ctx = canvas.getContext("2d");
-		ctx.drawImage(img, 0, 0, width, height);
+		var ctx2 = canvas.getContext("2d");
+		ctx2.drawImage(img, 0, 0, width, height);
 
 		return canvas.toDataURL("image/png");
-	}
+	};
 	
 	return service;
 }]);

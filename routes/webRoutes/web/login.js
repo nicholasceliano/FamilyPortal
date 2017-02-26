@@ -22,4 +22,4 @@ module.exports = function(app, security, logger){
 			}
 		});
 	});
-}
+};

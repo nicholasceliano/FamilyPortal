@@ -3,8 +3,8 @@ familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMembersS
 	
 	var profile = $scope;
 	
-	profile.info;
-	profile.photoInfo;
+	profile.info = undefined;
+	profile.photoInfo = undefined;
 	profile.profileInfoLoading = true;
 	profile.profilePhotoLoading = true;
 		
@@ -24,7 +24,7 @@ familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMembersS
         }, function () {
             notificationService.error('Error: familyMembersSvc.getFamilyMemberById(userId)');
         });
-	};
+	}
 	
 	function getProfilePhoto(userId) {
 		 familyMembersSvc.getFamilyMemberPhotoById(userId).then(function (resp) {
@@ -37,5 +37,5 @@ familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMembersS
         }, function () {
             notificationService.error('Error: familyMembersSvc.getFamilyMemberPhotoById(userId)');
         });
-	};
+	}
 }]);
