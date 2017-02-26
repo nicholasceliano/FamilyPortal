@@ -1,7 +1,9 @@
-module.exports = function(app, data, security, config, fileAccess, pageErrors){	
+module.exports = function(app, data, security, config, fileAccess, pageErrors, logger){	
 
 	app.get('/api/images/metadata', function (req, res) {
-		if (security.checkUserAccess(req)) {	
+		if (security.checkUserAccess(req)) {
+			logger.info("API - GET - /api/images/metadata");
+			
 			var id = req.query.id;
 			var ct = req.query.ct;
 			
@@ -40,7 +42,9 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors){
 	});
 	
 	app.delete('/api/images/metadata', function (req, res) {
-		if (security.checkUserAccess(req)) {	
+		if (security.checkUserAccess(req)) {
+			logger.info("API - DELETE - /api/images/metadata");
+			
 			var id = req.query.id;
 			var fileName = req.query.fileName;
 			var user = security.getActiveUser(req);
@@ -54,6 +58,8 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors){
 		
 	//sub routes
 	function insertImageMetaData(req, res) {
+		logger.info("API - POST(Insert) - /api/images/metadata");
+		
 		var imgInfo = req.body;
 		var user = security.getActiveUser(req);
 			
@@ -63,6 +69,8 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors){
 	}
 	
 	function updateImageMetaData(req, res, id) {
+		logger.info("API - POST(Update) - /api/images/metadata");
+		
 		var imgInfo = req.body;
 		var user = security.getActiveUser(req);
 		var originalFileName = config.imagesFileLoc(user.familyId) + imgInfo.fileName_Original + imgInfo.fileExt;
@@ -88,10 +96,11 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors){
 			data.deleteImageMetaDataById(id).then(function(data) {
 				res.send(data);
 			});		
-		} else
+		} else {
 			res.send(JSON.stringify({
 				err: true,
 				value: 'Error deleting Image Meta Data'
 			}));
+		}
 	}
 }

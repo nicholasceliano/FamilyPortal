@@ -10,7 +10,6 @@ Short Term:
 - Set up Calendar
 - Fix UI on Videos page
 - Fix UI on Watch page
-- Set up Jasime and Karama
 - Move dataAccess helper functions to stored procs in database
 - Add recent user activity on profile page
 - Tags/Video info in db, referencing file location where videos live - same for images
@@ -20,7 +19,6 @@ Short Term:
 
 Structure
 - Replace Grunt with Gulp and Browserify to serve JS to front end from node packages
-- Add more logging
 - Add more tests
 - Add lint.js
 

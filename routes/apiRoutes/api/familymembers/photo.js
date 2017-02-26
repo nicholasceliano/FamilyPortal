@@ -1,7 +1,9 @@
-module.exports = function(app, data, security, apiUploadsHelper, pageErrors){	
+module.exports = function(app, data, security, apiUploadsHelper, pageErrors, logger){	
 
 	app.get('/api/familymembers/photo', function (req, res) {
 		if (security.checkUserAccess(req)) {	
+			logger.info("API - GET - /api/familymembers/photo");
+			
 			var id = req.query.id;
 			
 			data.getFamilyMemberPhotoById(id).then(function(d) {
@@ -16,6 +18,8 @@ module.exports = function(app, data, security, apiUploadsHelper, pageErrors){
 	
 	app.post('/api/familymembers/photo', apiUploadsHelper.tempImgUpload, function (req, res) {
 		if (security.checkUserAccess(req)) {	
+			logger.info("API - POST - /api/familymembers/photo");
+		
 			var id = req.query.id;
 			var buffer = req.file.buffer;
 			

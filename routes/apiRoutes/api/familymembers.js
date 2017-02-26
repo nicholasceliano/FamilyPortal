@@ -1,7 +1,9 @@
-module.exports = function(app, data, security, pageErrors){	
+module.exports = function(app, data, security, pageErrors, logger){	
 
 	app.get('/api/familymembers', function (req, res) {
 		if (security.checkUserAccess(req)) {	
+			logger.info("API - GET - /api/familymembers");
+			
 			var ct = req.query.ct;
 			var id = req.query.id;
 			
@@ -28,6 +30,8 @@ module.exports = function(app, data, security, pageErrors){
 	
 	app.post('/api/familymembers', function (req, res) {
 		if (security.checkUserAccess(req)) {	
+			logger.info("API - POST - /api/familymembers");
+			
 			var userInfo = req.body;
 			
 			data.saveFamilyMemberByID(userInfo).then(function(d) {

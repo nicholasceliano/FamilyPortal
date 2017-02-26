@@ -1,7 +1,9 @@
 
-module.exports = function(app, security, config, fileAccess, apiUploadsHelper) {	
+module.exports = function(app, security, config, fileAccess, apiUploadsHelper, logger) {	
 	app.get('/api/images/thumbnail', function (req, res) {
 		if (security.checkUserAccess(req)) {
+			logger.info("API - GET - /api/images/thumbnail");
+			
 			var path = req.query.path;
 			var user = security.getActiveUser(req);
 			var baseFileLocation = config.thumbnailsFileLoc(user.familyId);
@@ -24,6 +26,8 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper) {
 	});
 	
 	function updateImageThumbnail(req, res) {
+		logger.info("API - POST(Update) - /api/images/thumbnail");
+		
 		var fileName = req.body.fileName;
 		var fileExt = req.body.fileExt;
 		var fileLoc = req.body.fileLoc;
@@ -43,6 +47,8 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper) {
 	}
 	
 	function insertImageThumbnail(req, res) {
+		logger.info("API - POST(Insert) - /api/images/thumbnail");
+		
 		apiUploadsHelper.saveImg(req, res, function (err) {
 			if(err) {
 				return res.end("Error uploading file.");

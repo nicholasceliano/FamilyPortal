@@ -1,7 +1,8 @@
-module.exports = function(app, data, security, pageErrors){	
+module.exports = function(app, data, security, pageErrors, logger){	
 
 	app.get('/api/videos', function (req, res) {
 		if (security.checkUserAccess(req)) {	
+			logger.info("API - GET - /api/videos");
 			var id = req.query.id;
 			var ct = req.query.ct;
 			

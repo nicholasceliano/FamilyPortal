@@ -5,10 +5,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var config = (process.env.NODE_ENV.toLowerCase() === 'prod' ? require('./config.js').prod : require('./config.js').dev);
 var logger = require('./logger.js').getLogger();
-var dataAccess = require('./dataAccess.js')(config);
+var dataAccess = require('./dataAccess.js')(config, logger);
 var fileAccess = require('./fileAccess.js')(logger);
-var security = require('./security.js')(dataAccess, config);
-var pageErrors = require('./routes/webRoutes/pageErrors.js')(security);
+var security = require('./security.js')(dataAccess, config, logger);
+var pageErrors = require('./routes/webRoutes/pageErrors.js')(security, logger);
 
 //Global variables
 var app = express();
@@ -27,7 +27,7 @@ app.use('/dist', express.static('dist'));//makes /dist folder accessable from cl
 app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from client side
 
 //Routes
-require('./routes/webRoutes/web.js')(app, dataAccess, security, config);
+require('./routes/webRoutes/web.js')(app, dataAccess, security, config, logger);
 require('./routes/apiRoutes/api.js')(app, dataAccess, security, config, fileAccess, pageErrors, logger);
 
 //Error Page Handling
@@ -41,5 +41,4 @@ app.listen(config.port, function () {
 	
 	setInterval(function() { security.removeInactiveUsers(); }, userCheckInterval_InSeconds*1000);
 	logger.info('App listening on port ' + config.port);
-	console.log('App listening on port ' + config.port);
 });

@@ -1,6 +1,8 @@
 module.exports = function(app, security, config, fileAccess, apiUploadsHelper, logger){	
 	app.get('/api/images', function (req, res) {
 		if (security.checkUserAccess(req)) {
+			logger.info("API - GET - /api/images");
+			
 			var path = req.query.path;
 			var user = security.getActiveUser(req);
 			var baseFileLocation = config.imagesFileLoc(user.familyId);
@@ -23,6 +25,8 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper, l
 	});
 	
 	function updateImage(req, res) {
+		logger.info("API - POST(Update) - /api/images");
+		
 		var fileName = req.body.fileName;
 		var fileExt = req.body.fileExt;
 		var fileLoc = req.body.fileLoc;
@@ -42,6 +46,8 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper, l
 	}
 	
 	function insertImage(req, res) {
+		logger.info("API - POST(Insert) - /api/images");
+		
 		apiUploadsHelper.saveImg(req, res, function (err) {
 			if(err) {
 				logger.error(err);

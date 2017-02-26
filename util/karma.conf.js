@@ -23,9 +23,9 @@ module.exports = function(config) {
 		"https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-resource.min.js",
 		"https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-cookies.js",
 		"https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-mocks.js",
-		"dist/thirdPartyJS.js",
-		"dist/familyPortal.js",
-		'tests/*.test.js'
+		"../dist/thirdPartyJS.js",
+		"../dist/familyPortal.js",
+		'../tests/*.test.js'
     ],
 
 

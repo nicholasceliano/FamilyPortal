@@ -2,7 +2,7 @@
 
 var mongo = require('mongodb')
 
-module.exports = function(config) {
+module.exports = function(config, logger) {
 	
 	var mongoClient = mongo.MongoClient;
 	var dbURL = config.db;
@@ -10,68 +10,96 @@ module.exports = function(config) {
 	return {
 		login: function (user, pwd) {
 			return mongoClient.connect(dbURL).then(function(db) {
+				logger.info("Begin: dataAcces.login - user:" + user);
+				
 				return db.collection('users').findOne({ username: user, password: pwd });
 			}).then(function(data) {
+				logger.info("End: dataAcces.login");
+				
 				return (data === null) ? undefined : data;
 			})
 		},
 		
 		getVideos: function (ct) {
 			 return mongoClient.connect(dbURL).then(function(db) {
+				 logger.info("Begin: dataAcces.getVideos - ct: " + ct);
+				 
 				 if (ct > 0) {
 					 return db.collection('videos').find().sort({createDate:-1}).limit(parseInt(ct)).toArray();
 				 } else {
 					return db.collection('videos').find().sort({createDate:-1}).toArray();
 				 }
 			}).then(function(data) {
+				logger.info("End: dataAcces.getVideos");
+				
 				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Videos') : buildResponseMessage(false, data);
 			})
 		}, 
 		
 		getVideoByID: function (id) { 
 			return mongoClient.connect(dbURL).then(function(db) {
+				logger.info("Begin: dataAcces.getVideosByID - id: " + id);
+				
 				var mongoId = new mongo.ObjectID(id);
 				return db.collection('videos').findOne({ _id: mongoId });
 			}).then(function(data) {
+				logger.info("End: dataAcces.getVideosByID");
+				
 				return (data === null) ? buildResponseMessage(true, 'Error Retrieving Video By ID') : buildResponseMessage(false, data);
 			})
 		},
 		
 		getFamilyMembers: function (ct) {
 			 return mongoClient.connect(dbURL).then(function(db) {
+				 logger.info("Begin: dataAcces.getFamilyMembers - ct: " + ct);
+				 
 				 if (ct > 0) {
 					 return db.collection('users').find({}, { userImage:0, password:0 }).limit(parseInt(ct)).toArray();
 				 } else {
 					return db.collection('users').find({}, { userImage:0, password:0 }).toArray();
 				 }
 			}).then(function(data) {
+				logger.info("End: dataAcces.getFamilyMembers");
+				
 				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Family Members') : buildResponseMessage(false, data);
 			})
 		}, 
 		
 		getFamilyMemberPhotoById: function(id) {
 			return mongoClient.connect(dbURL).then(function(db) {
+				logger.info("Begin: dataAcces.getFamilyMemberPhotoById - id: " + id);
+				
 				var mongoId = new mongo.ObjectID(id);
-			return db.collection('users').findOne({ _id: mongoId }, { userImage: 1, updateDate: 1 });
+				return db.collection('users').findOne({ _id: mongoId }, { userImage: 1, updateDate: 1 });
 			}).then(function(data) {
+				logger.info("End: dataAcces.getFamilyMemberPhotoById");
+				
 				return (data === null) ? buildResponseMessage(true, 'Error Retrieving Family Member Photo by Id') :buildResponseMessage(false, data);
 			})
 		},
 		
 		getFamilyMemberByID: function (id) { 
 			return mongoClient.connect(dbURL).then(function(db) {
+				logger.info("Begin: dataAcces.getFamilyMemberById - id: " + id);
+				
 				var mongoId = new mongo.ObjectID(id);
-			return db.collection('users').findOne({ _id: mongoId }, { userImage:0, password:0 });
+				return db.collection('users').findOne({ _id: mongoId }, { userImage:0, password:0 });
 			}).then(function(data) {
+				logger.info("End: dataAcces.getFamilyMemberById");
+				
 				return (data === null) ? buildResponseMessage(true, 'Error Retrieving Family Member by Id') : buildResponseMessage(false, data);
 			})
 		},
 		
 		saveFamilyMemberByID: function (userInfo) {
 			return mongoClient.connect(dbURL).then(function(db) {
+				logger.info("Begin: dataAcces.saveFamilyMemberByID - userInfo: " + JSON.stringify(userInfo));
+				
 				var mongoId = new mongo.ObjectID(userInfo._id);
 				return db.collection('users').findAndModify({ _id: mongoId }, [], { $set: updateUserInfo(userInfo) }, { new: true });
 			}).then(function(data) {
+				logger.info("End: dataAcces.saveFamilyMemberByID");
+				
 				if (data.value === null) {
 					return  buildResponseMessage(true, 'Error saving Family Member by Id');
 				} else {
@@ -83,10 +111,13 @@ module.exports = function(config) {
 		
 		saveFamilyMemberPhotoById: function(id, buffer) {
 			return mongoClient.connect(dbURL).then(function(db) {
-				var mongoId = new mongo.ObjectID(id);
+				logger.info("Begin: dataAcces.saveFamilyMemberPhotoById - id: " + id);
 				
+				var mongoId = new mongo.ObjectID(id);
 				return db.collection('users').findAndModify({ _id: mongoId }, [], {$set: {userImage: mongo.Binary(buffer, 0), updateDate: new Date() }}, { new: true});
 			}).then(function(data) {
+				logger.info("End: dataAcces.saveFamilyMemberPhotoById");
+				
 				if (data.value === null) {
 					return buildResponseMessage(true, 'Error saving Family Member Photo by Id');
 				} else {
@@ -102,50 +133,67 @@ module.exports = function(config) {
 		
 		getImageMetaData:  function (ct) {
 			return mongoClient.connect(dbURL).then(function(db) {
+				logger.info("Begin: dataAcces.getImageMetaData - ct: " + ct);
+				
 				if (ct > 0)
 					return db.collection('images').find().sort({createDate:1}).limit(parseInt(ct)).toArray();
 				else 
 					return db.collection('images').find().toArray();
 			}).then(function(data) {
+				logger.info("End: dataAcces.getImageMetaData");
+				
 				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Image Meta Data') : buildResponseMessage(false, data);
 			})
 		},
 		
 		getImageMetaDataById: function (id) {
 			return mongoClient.connect(dbURL).then(function(db) {
-				var mongoId = new mongo.ObjectID(id);
+				logger.info("Begin: dataAcces.getImageMetaDataById - id: " + id);
 				
+				var mongoId = new mongo.ObjectID(id);
 				return db.collection('images').findOne({ _id: mongoId });
 			}).then(function(data) {
+				logger.info("End: dataAcces.getImageMetaDataById");
+				
 				return (data === null) ? buildResponseMessage(true, 'Error Retrieving Image Meta Data By Id') : buildResponseMessage(false, data);
 			})			
 		},
 		
 		insertImageMetaData: function (userName, imgInfo) {
 			return mongoClient.connect(dbURL).then(function(db) {
+				logger.info("Begin: dataAcces.insertImageMetaData - userName: " + userName);
+				
 				var mongoId = new mongo.ObjectID();
 				return db.collection('images').findAndModify({ _id: mongoId }, [], { $set: createImageMetaData(userName, imgInfo) }, { upsert: true, new: true });
 			}).then(function(data) {
+				logger.info("End: dataAcces.insertImageMetaData");
+				
 				return (data === null) ? buildResponseMessage(true, 'Error Inserting Image MetaData') : buildResponseMessage(false, data.value);
 			})	
 		},
 		
 		saveImageMetaDataById: function (id, userName, imageMetaData) {
 			return mongoClient.connect(dbURL).then(function(db) {
-				var mongoId = new mongo.ObjectID(id);
+				logger.info("Begin: dataAcces.saveImageMetaDataById - id: " + id + " userName:" + userName);
 				
+				var mongoId = new mongo.ObjectID(id);
 				return db.collection('images').findAndModify({ _id: mongoId }, [], { $set: updateImageMetaData(userName, imageMetaData) }, { new: true });
 			}).then(function(data) {
+				logger.info("End: dataAcces.saveImageMetaDataById");
+				
 				return (data.value === null) ? buildResponseMessage(true, 'Error Updating Image MetaData') : buildResponseMessage(false, data.value);
 			})			
 		},
 		
 		deleteImageMetaDataById: function (id) {
 			return mongoClient.connect(dbURL).then(function(db) {
-				var mongoId = new mongo.ObjectID(id);
+				logger.info("Begin: dataAcces.deleteImageMetaDataById - id: " + id);
 				
+				var mongoId = new mongo.ObjectID(id);
 				return db.collection('images').remove({ _id: mongoId });
 			}).then(function(data) {
+				logger.info("End: dataAcces.deleteImageMetaDataById");
+				
 				return (data === null) ? buildResponseMessage(true, 'Error Removing Image By Id') : buildResponseMessage(false, data);
 			})	
 		}

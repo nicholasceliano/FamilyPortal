@@ -1,4 +1,4 @@
-module.exports = function(dataAccess, config) {
+module.exports = function(dataAccess, config, logger) {
 	var sessionLength = 15;
 	var activeUserArray = [];
 	
@@ -6,9 +6,11 @@ module.exports = function(dataAccess, config) {
 		activeUsers: activeUserArray,
 		
 		login: function (user, pwd) { 
+			logger.info("Begin: security.login - user:" + user);
 			user = user.toLowerCase();
 			
 			return dataAccess.login(user, pwd).then(function(validUserData) {
+				logger.info("End: security.login");
 				return AddActiveUser(validUserData);
 			});
 		},
@@ -16,11 +18,14 @@ module.exports = function(dataAccess, config) {
 		logout: function(req, res) {
 			var cookies = parseCookies(req);
 			var userId = cookies.userId
+			logger.info("Begin: security.logout - userId:" + userId);
 			
 			if (userId !== undefined)
 				RemoveActiveUser(userId);
 			
 			res.clearCookie('userId');
+			
+			logger.info("End: security.logout");
 			res.redirect('/');
 		},
 		
@@ -36,8 +41,12 @@ module.exports = function(dataAccess, config) {
 			var userId = cookies.userId;
 			var hasAccess = false;
 			
+			logger.info("Begin: security.checkUserAccess - userId:" + userId);
+			
 			if (userId !== undefined)
 				hasAccess = UpdateActiveUserSession(userId);
+			
+			logger.info("End: security.checkUserAccess - userId:" + userId + " hasAccess:" + hasAccess);
 			
 			return hasAccess;
 		},
@@ -47,6 +56,8 @@ module.exports = function(dataAccess, config) {
 		},
 		
 		getActiveUser: function (req) {
+			logger.info("Begin: security.getActiveUser");
+			
 			var userId = GetUserIdCookie(req);
 			var activeUser;
 			
@@ -57,7 +68,10 @@ module.exports = function(dataAccess, config) {
 					activeUser = activeUserArray[i];
 					break;
 				}
-			}			
+			}
+			
+			logger.info("End: security.getActiveUser");
+			
 			return activeUser;
 		},
 		

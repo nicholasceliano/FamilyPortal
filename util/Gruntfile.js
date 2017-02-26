@@ -1,10 +1,11 @@
 module.exports = function(grunt) {
-	
+	grunt.file.setBase('../');
+  
 	grunt.loadNpmTasks('grunt-contrib-uglify');//for minifying and combining js files
 	grunt.loadNpmTasks('grunt-contrib-cssmin');//for minifying and css files
 	grunt.loadNpmTasks('grunt-contrib-concat');//for combining files
 	grunt.loadNpmTasks('grunt-contrib-copy');//for copying files
-
+	
 	//Configure Grunt Tasks
 	grunt.initConfig({
 		concat: {

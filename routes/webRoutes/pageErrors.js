@@ -1,6 +1,6 @@
 //pageErrors.js
 
-module.exports = function (security) {	
+module.exports = function (security, logger) {	
 	return { 
 		send: function(req, res, status) {
 			if (status === 404)
@@ -11,6 +11,8 @@ module.exports = function (security) {
 	}
 	
 	function send404 (req, res) {
+		logger.info("WEB - GET - pageErrors - 404");
+		
 		res.status(404);
 		if (req.accepts('html')) {
 			var accessDenied = security.checkUserAccess(req) ? false : true;
@@ -20,6 +22,8 @@ module.exports = function (security) {
 	}
 
 	function send500 (req, res) {
+		logger.info("WEB - GET - pageErrors - 500");
+		
 		res.status(500);
 		if (req.accepts('html')) {
 			var accessDenied = security.checkUserAccess(req) ? false : true;
