@@ -3,8 +3,10 @@ module.exports = function(app, data, security, pageErrors, logger){
 	app.get('/api/videos', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - GET - /api/videos");
+			
 			var id = req.query.id;
 			var ct = req.query.ct;
+			var start = req.query.start;
 			
 			if (id === undefined && ct === undefined) {
 				res.send(JSON.stringify({ err: true, value: 'Error with GET /api/videos' }));
@@ -17,7 +19,7 @@ module.exports = function(app, data, security, pageErrors, logger){
 					});
 				} else {
 					ct = security.verifyRequstCount(ct);
-					data.getVideos(ct).then(function(d) {
+					data.getVideos(ct, start).then(function(d) {
 						res.send(d);
 					});
 				}

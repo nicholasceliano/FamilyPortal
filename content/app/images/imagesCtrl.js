@@ -1,4 +1,4 @@
-familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 'imagesSvc', 'viewImagesSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, urlHelperSvc, imagesSvc, viewImagesSvc, imageHelperSvc, notificationService) {
+familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 'imagesSvc', 'viewImagesSvc', 'pagingSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, urlHelperSvc, imagesSvc, viewImagesSvc, pagingSvc, imageHelperSvc, notificationService) {
     'use strict';
 	
 	var images = $scope;
@@ -10,7 +10,10 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		icInner_AddFolder = '.add-folder-container-inner',
 		icInner_AddImage = '.add-image-container-inner';
 	
-	var imageCt = 25;
+	var pagingCt = 18;
+	images.pagingStartItem = 0;
+	images.pagingTotalRecords = 0;
+	images.nextPageLoading = false;
 
 	images.currentUserId = $cookies.get('userId');	
 	
@@ -27,7 +30,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	
 	images.init = function () {
 		interpretQueryParams();
-		getImageMetaData(imageCt);
+		getImageMetaData(pagingCt, images.pagingStartItem);
 	};
 	
 	//Btn Click Events
@@ -142,6 +145,14 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		}
 	};
 	
+	images.loadNextPage = function () {
+		var ct = pagingSvc.getNextPageCt(pagingCt, images.pagingStartItem, images.pagingTotalRecords);
+		if (ct > 0){
+			images.nextPageLoading = true;
+			getImageMetaData(ct, images.pagingStartItem);
+		}
+	};
+	
 	function interpretQueryParams() {
 		var params = urlHelperSvc.getUrlVars();
 		
@@ -197,13 +208,19 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
         });
 	}
 	
-	function getImageMetaData(imgCt) {
-		imagesSvc.getImageMetaData(imgCt).then(function (resp) {
+	function getImageMetaData(imgCt, startItem) {
+		imagesSvc.getImageMetaData(imgCt, startItem).then(function (resp) {
             if (resp.err)
 				notificationService.error(resp.value);
-			else
-				images.imageMetaData = resp.value;
-			
+			else {				
+				$(resp.value).each(function(i,e) {
+					images.imageMetaData.push(e);
+				});
+				
+				images.pagingStartItem = images.pagingStartItem + resp.page.ct;
+				images.pagingTotalRecords = resp.page.totalRecords;
+			}
+			images.nextPageLoading = false;
 			images.imageMetaDataLoading = false;
         }, function () {
             notificationService.error('Error: imagesSvc.getImageMetaData(imgCt)');

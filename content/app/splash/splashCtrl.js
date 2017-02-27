@@ -21,7 +21,7 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'i
 	};
 	
 	function getRecentVideos() {
-		videosSvc.getVideos(numRecentVideos).then(function (resp) {
+		videosSvc.getVideos(numRecentVideos, 0).then(function (resp) {
             if (resp.err)
 				notificationService.error(resp.value);
 			else
@@ -34,7 +34,7 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'i
 	}
 	
 	function getRecentImageMetaData() {
-		imagesSvc.getImageMetaData(numRecentImageMetaData).then(function (resp) {
+		imagesSvc.getImageMetaData(numRecentImageMetaData, 0).then(function (resp) {
 			if (resp.err)
 				notificationService.error(resp.value);
 			else 
@@ -47,7 +47,7 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'i
 	}
 	
 	function getRecentFamilyMembers() {
-		familyMembersSvc.getFamilyMembers(numRecentFamilyMembers).then(function (resp) {
+		familyMembersSvc.getFamilyMembers(numRecentFamilyMembers, 0).then(function (resp) {
 			if (resp.err)
 				notificationService.error(resp.value);
 			else 

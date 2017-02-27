@@ -6,11 +6,12 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 			
 			var id = req.query.id;
 			var ct = req.query.ct;
+			var start = req.query.start;
 			
 			if (id === undefined && ct === undefined) {
 				res.send(JSON.stringify({ imageInfo: null }));
 			} else {
-				if (id){
+				if (id) {
 					data.getImageMetaDataById(id).then(function(d) {
 						res.send(d);
 					}).catch(function() {
@@ -18,7 +19,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 					});
 				} else {
 					ct = security.verifyRequstCount(ct);
-					data.getImageMetaData(ct).then(function(d) {
+					data.getImageMetaData(ct, start).then(function(d) {
 						res.send(d);
 					});		
 				}

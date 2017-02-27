@@ -7,3 +7,4 @@ block content
 				img(src="/dist/images/loading.gif")
 		div(ng-hide="familyMembersLoading" class="family-table-container col-xs-12 col-md-4" ng-repeat="fm in familyMembersArray")
 			family-member-info(is-profile="false" watch="fm" familymember="{{fm}}")
+		load-next-page(ng-hide="familyMembersLoading" items="Family Members")

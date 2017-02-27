@@ -1,0 +1,4 @@
+<div class="col-xs-12 no-side-padding text-center">
+	<a style="cursor:pointer;" ng-click="loadNextPage()" ng-hide="nextPageLoading || (pagingStartItem >= pagingTotalRecords)">Load More {{items}}</a>
+	<img src="/dist/images/loading.gif" ng-show="nextPageLoading" />
+</div>

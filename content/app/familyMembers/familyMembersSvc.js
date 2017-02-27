@@ -4,10 +4,10 @@ familyPortalApp.factory('familyMembersSvc', ['$q', 'portalApiSvc', 'userInfoForm
     var service = {};
 
     //API Calls
-    service.getFamilyMembers = function (ct) {
+    service.getFamilyMembers = function (ct, start) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/familymembers', { ct: ct }).get(
+        portalApiSvc.Api('/api/familymembers', { ct: ct, start: start }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

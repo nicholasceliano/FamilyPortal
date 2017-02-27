@@ -8,3 +8,4 @@ block content
 		ul(ng-hide="videosLoading")
 			li(ng-repeat="video in videosArray")
 				a(href="./videos/watch?id={{video._id}}") {{video.name}}
+		load-next-page(ng-hide="videosLoading" items="Videos")

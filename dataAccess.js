@@ -1,11 +1,11 @@
 //lets require/import the mongodb native drivers.
 
 var mongo = require('mongodb');
+var mongoClient = mongo.MongoClient;
+var dbURL;
 
 module.exports = function(config, logger) {
-	
-	var mongoClient = mongo.MongoClient;
-	var dbURL = config.db;
+	dbURL = config.db;
 	
 	return {
 		login: function (user, pwd) {
@@ -20,19 +20,19 @@ module.exports = function(config, logger) {
 			});
 		},
 		
-		getVideos: function (ct) {
+		getVideos: function (ct, start) {
 			 return mongoClient.connect(dbURL).then(function(db) {
 				 logger.info("Begin: dataAcces.getVideos - ct: " + ct);
 				 
 				 if (ct > 0) {
-					 return db.collection('videos').find().sort({createDate:-1}).limit(parseInt(ct)).toArray();
+					 return db.collection('videos').find().sort({createDate:-1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
 				 } else {
 					return db.collection('videos').find().sort({createDate:-1}).toArray();
 				 }
 			}).then(function(data) {
 				logger.info("End: dataAcces.getVideos");
 				
-				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Videos') : buildResponseMessage(false, data);
+				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Videos') : buildResponseMessage(false, data, ct, start, 'videos');
 			});
 		}, 
 		
@@ -49,19 +49,19 @@ module.exports = function(config, logger) {
 			});
 		},
 		
-		getFamilyMembers: function (ct) {
+		getFamilyMembers: function (ct, start) {
 			 return mongoClient.connect(dbURL).then(function(db) {
 				 logger.info("Begin: dataAcces.getFamilyMembers - ct: " + ct);
 				 
 				 if (ct > 0) {
-					 return db.collection('users').find({}, { userImage:0, password:0 }).limit(parseInt(ct)).toArray();
+					 return db.collection('users').find({}, { userImage:0, password:0 }).skip(parseInt(start)).limit(parseInt(ct)).toArray();
 				 } else {
 					return db.collection('users').find({}, { userImage:0, password:0 }).toArray();
 				 }
 			}).then(function(data) {
 				logger.info("End: dataAcces.getFamilyMembers");
 				
-				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Family Members') : buildResponseMessage(false, data);
+				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Family Members') : buildResponseMessage(false, data, ct, start, 'users');
 			});
 		}, 
 		
@@ -131,18 +131,18 @@ module.exports = function(config, logger) {
 			});
 		},
 		
-		getImageMetaData:  function (ct) {
+		getImageMetaData:  function (ct, start) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				logger.info("Begin: dataAcces.getImageMetaData - ct: " + ct);
 				
 				if (ct > 0)
-					return db.collection('images').find().sort({createDate:1}).limit(parseInt(ct)).toArray();
+					return db.collection('images').find().sort({createDate:1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
 				else 
 					return db.collection('images').find().toArray();
 			}).then(function(data) {
 				logger.info("End: dataAcces.getImageMetaData");
-				
-				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Image Meta Data') : buildResponseMessage(false, data);
+
+				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Image Meta Data', ct, start) : buildResponseMessage(false, data, ct, start, 'images');
 			});
 		},
 		
@@ -200,11 +200,33 @@ module.exports = function(config, logger) {
 	};
 };
 
-function buildResponseMessage(err, value) {
-	return JSON.stringify({
-		err: err,
-		value: value
+function getRecordCountByTable (table) {
+	return mongoClient.connect(dbURL).then(function(db) {
+		return db.collection(table).count();
+	}).then(function(data) {
+		return data;
 	});
+}
+
+function buildResponseMessage(err, value,  ct, start, table) {
+	if (ct === undefined || start === undefined) {
+		return JSON.stringify({
+			err: err,
+			value: value
+		});
+	} else {
+		return getRecordCountByTable(table).then(function(totalRecords) {
+			return JSON.stringify({
+				err: err,
+				value: value,
+				page: {
+					ct: parseInt(ct),
+					start: parseInt(start),
+					totalRecords: parseInt(totalRecords)
+				}
+			});
+		});
+	}
 }
 
 function updateImageMetaData(userName, imageMetaData) {

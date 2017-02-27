@@ -4,10 +4,10 @@ familyPortalApp.factory('videosSvc', ['$q', 'portalApiSvc', function ($q, portal
     var service = {};
 
     //API Calls	
-	service.getVideos = function (ct) {
+	service.getVideos = function (ct, start) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/videos', { ct: ct }).get(
+        portalApiSvc.Api('/api/videos', { ct: ct, start: start }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

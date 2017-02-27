@@ -4,8 +4,9 @@ module.exports = function(app, data, security, pageErrors, logger){
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - GET - /api/familymembers");
 			
-			var ct = req.query.ct;
 			var id = req.query.id;
+			var ct = req.query.ct;
+			var start = req.query.start;
 			
 			if (id === undefined && ct === undefined) {
 				res.send(JSON.stringify({ familyMembers: null }));
@@ -18,7 +19,7 @@ module.exports = function(app, data, security, pageErrors, logger){
 					});
 				} else {
 					ct = security.verifyRequstCount(ct);
-					data.getFamilyMembers(ct).then(function(d) {
+					data.getFamilyMembers(ct, start).then(function(d) {
 						res.send(d);
 					});					
 				}
