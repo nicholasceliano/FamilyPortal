@@ -1,5 +1,6 @@
 Short Term:
 - Images
+	- Need to have browser 'back' button save filtered search critera
 	- Build in /images Create Folders
 	- bring back image/folder structure on /images
 - Set up Profile page
