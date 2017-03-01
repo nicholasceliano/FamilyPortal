@@ -19,8 +19,14 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	
 	images.searchText = '';
 	
+	images.folderBreadcrumbArray = [];
+	
 	images.imageMetaData = [];
 	images.imageMetaDataLoading = true;
+	
+	images.folderName = '/';
+	images.folders = [];
+	images.foldersLoading = true;
 	
 	images.saveFolderName = '';
 	images.saveFolderError = '';
@@ -32,7 +38,15 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	
 	images.init = function () {
 		interpretQueryParams();
-		getImageMetaData(pagingCt, images.pagingStartItem, images.searchText);
+		getFolders(images.folderName);
+		getImageMetaData(pagingCt, images.pagingStartItem, images.searchText, images.folderName);
+	};
+	
+	images.pageLoading = function() {
+		if (images.foldersLoading || images.imageMetaDataLoading)
+			return true;
+		else
+			return false;
 	};
 	
 	//Btn Click Events
@@ -103,7 +117,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		}
 	};
 	
-	images.saveFolder = function() {
+	images.saveFolder = function($event) {
 		var controlGroup = $(icInner_AddFolder).find(ctrlGrp);
 		if (images.saveFolderName.length === 0) {
 			controlGroup.addClass(errClass);
@@ -111,9 +125,26 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		} else {
 			controlGroup.removeClass(errClass);
 			images.saveFolderError = '';
-			//save folder start
-			saveFolder(images.saveFolderName);
+			
+			saveFolder($event, images.folderName + images.saveFolderName);
 		}
+	};
+	
+	images.openFolder = function(folderName) {
+		images.folderName = images.folderName + folderName + '/';
+		
+		//reset all variables to default
+		images.pagingStartItem = 0;
+		images.pagingTotalRecords = 0;
+		
+		images.folders = [];
+		images.foldersLoading = true;
+		
+		images.imageMetaData = [];
+		images.imageMetaDataLoading = true;
+		
+		getFolders(images.folderName);
+		getImageMetaData(pagingCt, images.pagingStartItem, images.searchText, images.folderName);
 	};
 
 	images.cancelAdd = function ($event) {
@@ -151,7 +182,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		var ct = pagingSvc.getNextPageCt(pagingCt, images.pagingStartItem, images.pagingTotalRecords);
 		if (ct > 0){
 			images.nextPageLoading = true;
-			getImageMetaData(ct, images.pagingStartItem, images.searchText);
+			getImageMetaData(ct, images.pagingStartItem, images.searchText, images.folderName);
 		}
 	};
 	
@@ -163,7 +194,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		images.imageMetaData = [];
 		images.imageMetaDataLoading = true;
 		
-		getImageMetaData(pagingCt, images.pagingStartItem, images.searchText);
+		getImageMetaData(pagingCt, images.pagingStartItem, images.searchText, images.folderName);
 	};
 	
 	function interpretQueryParams() {
@@ -171,6 +202,21 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		
 		if (params.msg !== undefined)
 			notificationService.success(decodeURI(params.msg));
+	}
+	
+	function buildFolderBreadcrumbs() {
+		var folderArray = images.folderName.split('\/');
+		folderArray.pop();
+		
+		$(folderArray).each(function(i,e) {
+				
+			if (i === 0) {
+				folderArray[i]= {text: 'Images', url: '/'};
+			} else 
+				folderArray[i] = {text: e, url: '/'};
+		});
+		
+		images.folderBreadcrumbArray = folderArray;
 	}
 	
 	//API Calls
@@ -210,19 +256,44 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		});
 	}
 	
-	function saveFolder(folderName) {
-		imagesSvc.saveFolder(folderName).then(function (resp) {
-            //need to add folder to page dynamically
+	function getFolders(folderPath) {
+		imagesSvc.getFolders(folderPath).then(function (resp) {
+			if (resp.err)
+				notificationService.info(resp.value);
+			else {
+				$(resp.value).each(function(i,e) {
+					images.folders.push(e);
+				});
+				
+				buildFolderBreadcrumbs();
+				images.foldersLoading = false;
+			}
+		}, function () {
+			notificationService.error('Error: imagesSvc.getFolder(folderName)');
+		});
+	}
+	
+	function saveFolder(event, folderName) {
+		var postData = { folderName: folderName };
+		
+		imagesSvc.saveFolder(postData).then(function (resp) {
+			if (resp.err) {
+				notificationService.info(resp.value);
+			} else {			
+				images.folders.push(resp.folderName);
+				
+				images.cancelAdd(event);
+				notificationService.success('Sucessfully Added Folder');
+			}
 			
 			images.saveFolderName = '';
-			notificationService.success('Sucessfully Added Folder');
         }, function () {
             notificationService.error('Error: imagesSvc.saveFolder(folderName)');
         });
 	}
 	
-	function getImageMetaData(imgCt, startItem, searchTerm) {
-		imagesSvc.getImageMetaData(imgCt, startItem, searchTerm).then(function (resp) {
+	function getImageMetaData(imgCt, startItem, searchTerm, folderPath) {
+		imagesSvc.getImageMetaData(imgCt, startItem, searchTerm, folderPath).then(function (resp) {
             if (resp.err)
 				notificationService.info(resp.value);
 			else {				

@@ -131,13 +131,20 @@ module.exports = function(config, logger) {
 			});
 		},
 		
-		getImageMetaData:  function (ct, start, searchTerm) {
+		getImageMetaData:  function (ct, start, searchTerm, folderPath) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				logger.info("Begin: dataAcces.getImageMetaData - ct: " + ct + ", start:" + start + ", searchTerm:" + searchTerm);
 				
-				if (ct > 0)
-					return db.collection('images').find({ $or: [ { name: { $regex :  searchTerm, $options : 'i' } }, { tags: searchTerm } ] }).sort({createDate:1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
-				else 
+				if (ct > 0) {
+					if (folderPath)
+						return db.collection('images').find({ 
+							$and: [ 
+								{ fileLocation: folderPath }, 
+								{ $or: [ { name: { $regex :  searchTerm, $options : 'i' } }, { tags: searchTerm } ] }
+								]}).sort({createDate:1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
+					else 
+						return db.collection('images').find({ $or: [ { name: { $regex :  searchTerm, $options : 'i' } }, { tags: searchTerm } ] }).sort({createDate:1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
+				} else 
 					return db.collection('images').find().toArray();
 			}).then(function(data) {
 				logger.info("End: dataAcces.getImageMetaData");

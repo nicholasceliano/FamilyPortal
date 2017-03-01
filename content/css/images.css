@@ -20,6 +20,20 @@
 	text-align:center;
 }
 
+.image-container-inner div:first-child {
+	height:75%;
+}
+
+.image-container-inner div:first-child span {
+	height:100%;
+	display:inline-block;
+	vertical-align:middle;
+}
+
+.image-container-inner div:last-child {
+	height:25%;
+}
+
 .add-folder-container-inner i::before,
 .add-image-container-inner i::before,
 .image-container-inner i.full-height::before {

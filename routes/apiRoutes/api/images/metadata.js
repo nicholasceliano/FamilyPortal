@@ -8,6 +8,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 			var ct = req.query.ct;
 			var start = req.query.start;
 			var searchTerm = req.query.searchTerm;
+			var folderPath = req.query.folderPath;
 			
 			if (id === undefined && ct === undefined) {
 				res.send(JSON.stringify({ imageInfo: null }));
@@ -20,7 +21,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 					});
 				} else {
 					ct = security.verifyRequstCount(ct);
-					data.getImageMetaData(ct, start, searchTerm).then(function(d) {
+					data.getImageMetaData(ct, start, searchTerm, folderPath).then(function(d) {
 						res.send(d);
 					});		
 				}

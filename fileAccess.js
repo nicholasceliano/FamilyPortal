@@ -16,6 +16,20 @@ module.exports = function(logger) {
 			});
 		},
 		
+		saveFolder: function(folderLocation, folderName, callback, req, res) {
+			logger.info("Begin: fileAccess.saveFolder - folderLocation:" + folderLocation);
+			
+			fs.mkdir(folderLocation, function(err) {
+				if (err){
+					logger.error(err);
+					return callback(true, err, req, res);
+				} else  {
+					logger.info("End: fileAccess.saveFolder");
+					return callback(false, folderName, req, res);
+				}	
+			});
+		},
+		
 		renameFile: function (originalFileName, newFileName, callback, res, id) {
 			logger.info("Begin: fileAccess.renameFile - originalFileName:" + originalFileName + " newFileName:" + newFileName);
 			
@@ -70,6 +84,29 @@ module.exports = function(logger) {
 					});	
 				}
 			});		
+		},
+		
+		readFolders: function (folderLocation, callback, res) {
+			fs.readdir(folderLocation, function(err, data) {
+				if (err){
+					logger.error(err);
+					callback("Error", res);
+				} else {
+					logger.info("End: FileAccess.readFolders");
+					
+					for(var i = 0; i < data.length; i++){//only get folders
+						var dirObj = data[i].toLowerCase();
+						
+						if (dirObj.indexOf('.jpg') > -1 || dirObj.indexOf('.jpeg') > -1 || dirObj.indexOf('.bmp') > -1 || dirObj.indexOf('.gif') > -1 || dirObj.indexOf('.png') > -1) {
+							data.splice(i, 1);
+							i--;
+						}
+					}
+					
+					callback(data, res);
+				}
+			});
+			
 		}
 	};
 	
