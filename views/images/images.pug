@@ -3,10 +3,14 @@ extends /_layout
 block content
 	div(class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1" ng-controller="imagesCtrl" ng-init="init()")
 		div(class="col-xs-12 no-side-padding")
-			h1 Images
-		div(class="panel-loading-cover-page" ng-hide="!imageMetaDataLoading")
-			img(src="/dist/images/loading.gif")
+			h1(class="image-title col-lg-9 col-xs-5") Images
+			div(class="image-search col-lg-3 col-xs-7")
+				div
+					i(class="fa fa-search" ng-click="search()")
+				input(class="form-control" type="text" placeholder="Search..." ng-model="searchText" ng-enter="search()")
 		div(class="col-xs-12 no-side-padding")
+			div(class="panel-loading-cover-page" ng-hide="!imageMetaDataLoading")
+				img(src="/dist/images/loading.gif")
 			div(ng-repeat="i in imageMetaData" class="image-container-outer col-xs-12 col-sm-6 col-md-4 col-lg-2" resize-height-to-square)
 				div(class="image-container-inner col-xs-12")
 					div(style="height:75%;")
@@ -42,8 +46,8 @@ block content
 						label(class="control-label") Folder Name:
 						input(id="folderNameError" class="form-control" type="text" ng-model="saveFolderName")
 						span(class="control-label" for="folderNameError" ng-bind="saveFolderError")
-		load-next-page(ng-hide="imageMetaDataLoading" items="Images")
-		div(ng-hide="imageMetaDataLoading") 
-			h3 allow users to make folders
-			h3 allow users to drag and drop images to folders
-			h3 maybe mirror all this for the video page
+			load-next-page(ng-hide="imageMetaDataLoading" items="Images")
+			div(class="col-xs-12 no-side-padding" ng-hide="imageMetaDataLoading") 
+				h3 allow users to make folders
+				h3 allow users to drag and drop images to folders
+				h3 maybe mirror all this for the video page

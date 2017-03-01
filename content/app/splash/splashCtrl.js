@@ -34,7 +34,7 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'i
 	}
 	
 	function getRecentImageMetaData() {
-		imagesSvc.getImageMetaData(numRecentImageMetaData, 0).then(function (resp) {
+		imagesSvc.getImageMetaData(numRecentImageMetaData, 0, '').then(function (resp) {
 			if (resp.err)
 				notificationService.error(resp.value);
 			else 

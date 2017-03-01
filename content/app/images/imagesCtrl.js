@@ -17,6 +17,8 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 
 	images.currentUserId = $cookies.get('userId');	
 	
+	images.searchText = '';
+	
 	images.imageMetaData = [];
 	images.imageMetaDataLoading = true;
 	
@@ -30,7 +32,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	
 	images.init = function () {
 		interpretQueryParams();
-		getImageMetaData(pagingCt, images.pagingStartItem);
+		getImageMetaData(pagingCt, images.pagingStartItem, images.searchText);
 	};
 	
 	//Btn Click Events
@@ -149,8 +151,19 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		var ct = pagingSvc.getNextPageCt(pagingCt, images.pagingStartItem, images.pagingTotalRecords);
 		if (ct > 0){
 			images.nextPageLoading = true;
-			getImageMetaData(ct, images.pagingStartItem);
+			getImageMetaData(ct, images.pagingStartItem, images.searchText);
 		}
+	};
+	
+	images.search = function () {
+		//set page & imageMetaData to default values
+		images.pagingStartItem = 0;
+		images.pagingTotalRecords = 0;
+		
+		images.imageMetaData = [];
+		images.imageMetaDataLoading = true;
+		
+		getImageMetaData(pagingCt, images.pagingStartItem, images.searchText);
 	};
 	
 	function interpretQueryParams() {
@@ -208,10 +221,10 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
         });
 	}
 	
-	function getImageMetaData(imgCt, startItem) {
-		imagesSvc.getImageMetaData(imgCt, startItem).then(function (resp) {
+	function getImageMetaData(imgCt, startItem, searchTerm) {
+		imagesSvc.getImageMetaData(imgCt, startItem, searchTerm).then(function (resp) {
             if (resp.err)
-				notificationService.error(resp.value);
+				notificationService.info(resp.value);
 			else {				
 				$(resp.value).each(function(i,e) {
 					images.imageMetaData.push(e);

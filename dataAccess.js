@@ -131,18 +131,18 @@ module.exports = function(config, logger) {
 			});
 		},
 		
-		getImageMetaData:  function (ct, start) {
+		getImageMetaData:  function (ct, start, searchTerm) {
 			return mongoClient.connect(dbURL).then(function(db) {
-				logger.info("Begin: dataAcces.getImageMetaData - ct: " + ct);
+				logger.info("Begin: dataAcces.getImageMetaData - ct: " + ct + ", start:" + start + ", searchTerm:" + searchTerm);
 				
 				if (ct > 0)
-					return db.collection('images').find().sort({createDate:1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
+					return db.collection('images').find({ $or: [ { name: { $regex :  searchTerm, $options : 'i' } }, { tags: searchTerm } ] }).sort({createDate:1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
 				else 
 					return db.collection('images').find().toArray();
 			}).then(function(data) {
 				logger.info("End: dataAcces.getImageMetaData");
 
-				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Image Meta Data', ct, start) : buildResponseMessage(false, data, ct, start, 'images');
+				return (data.length === 0) ? buildResponseMessage(true, 'No Results for search term "' + searchTerm + '"', ct, start, 'images') : buildResponseMessage(false, data, ct, start, 'images');
 			});
 		},
 		

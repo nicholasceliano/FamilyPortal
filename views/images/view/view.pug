@@ -24,19 +24,19 @@ block content
 							span(class="hideOverflow") Name:
 						td(ng-class="{'no-side-padding': editMode}")
 							span(ng-hide="editMode") {{imageMetaDataInfo_Original.name}}
-							input(class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.name")
+							input(class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.name" ng-enter="saveMetaDataInfo()")
 					tr
 						td 
 							span(class="hideOverflow") Tags:
 						td(ng-class="{'no-side-padding': editMode}")
 							span(ng-hide="editMode" ng-repeat="t in imageMetaDataInfo_Original.tags") {{t}}{{$last ? '' : ', '}}
-							input(class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.tags")
+							input(class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.tags" ng-enter="saveMetaDataInfo()")
 					tr
 						td 
 							span(class="hideOverflow") File Name:
 						td(ng-class="{'no-side-padding': editMode}")
 							span(ng-hide="editMode") {{imageMetaDataInfo_Original.fileName}}
-							input(class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.fileName")
+							input(class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.fileName" ng-enter="saveMetaDataInfo()")
 					tr
 						td 
 							span(class="hideOverflow") File Extension:

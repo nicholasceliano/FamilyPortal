@@ -1,6 +1,5 @@
 Short Term:
 - Images
-	- Add filter for tags - searchable textbox
 	- Build in /images Create Folders
 	- bring back image/folder structure on /images
 - Set up Profile page
