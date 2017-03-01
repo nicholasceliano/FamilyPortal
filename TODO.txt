@@ -1,8 +1,10 @@
 Short Term:
 - Images
+	- Need to clean up Images controller
 	- Need to have browser 'back' button save filtered search critera
-	- Build in /images Create Folders
-	- bring back image/folder structure on /images
+	- Build in /images Delete Folder
+	- Some images arent uploading. Some bug idk. Maybe the MIME type??
+	- Allow users to click image to see full Image
 - Set up Profile page
 	- Allow users to add new family members(set up HoH account)
 - Set up news feed
