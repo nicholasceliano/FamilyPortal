@@ -131,7 +131,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	};
 	
 	images.openFolder = function(folderName) {
-		images.folderName = images.folderName + folderName + '/';
+		images.folderName = (folderName.slice(-1) == '/' ? folderName : folderName + '/');
 		
 		//reset all variables to default
 		images.pagingStartItem = 0;
@@ -203,22 +203,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		if (params.msg !== undefined)
 			notificationService.success(decodeURI(params.msg));
 	}
-	
-	function buildFolderBreadcrumbs() {
-		var folderArray = images.folderName.split('\/');
-		folderArray.pop();
 		
-		$(folderArray).each(function(i,e) {
-				
-			if (i === 0) {
-				folderArray[i]= {text: 'Images', url: '/'};
-			} else 
-				folderArray[i] = {text: e, url: '/'};
-		});
-		
-		images.folderBreadcrumbArray = folderArray;
-	}
-	
 	//API Calls
 	function insertImageMetaData(event, imageData) {
 		viewImagesSvc.insertImageMetaData(imageData).then(function(resp) {
@@ -265,7 +250,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 					images.folders.push(e);
 				});
 				
-				buildFolderBreadcrumbs();
+				images.folderBreadcrumbArray = imagesSvc.buildFolderBreadcrumbs(images.folderName);
 				images.foldersLoading = false;
 			}
 		}, function () {

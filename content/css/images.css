@@ -78,3 +78,23 @@
 	display:inline-block;
 	width:80%;
 }
+
+.folder-breadcrumb-item {
+	display:inline-block;
+}
+
+.folder-breadcrumb-item span {
+	font-size:20px;
+	cursor:pointer;	
+	padding:5px;
+}
+
+.folder-breadcrumb-item span:hover {
+	border:1px solid #414042;
+	padding:4px;
+}
+
+.folder-breadcrumb-item i {
+	color:#414042;
+	padding:8px;
+}

@@ -3,6 +3,29 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
 
     var service = {};
 
+	service.buildFolderBreadcrumbs = function (folderName) {
+		var breadcrumbArray = [];
+		var folderArray = folderName.split('\/');
+		folderArray.pop();
+		
+		$(folderArray).each(function(i,e) {		
+			if (i === 0) {
+				breadcrumbArray.push({text: 'Images', folder: '/'});
+			} else {
+				var folderLoc = '';
+				
+				$(folderArray).each(function(i2,e2) {
+					if (i2 <= i)
+						folderLoc = folderLoc + e2 + '/';
+				});
+				
+				breadcrumbArray.push({text: e, folder: folderLoc});
+			}
+		});
+		
+		return breadcrumbArray;
+	};
+	
     //API Calls
     service.getImageMetaData = function (imgCt, start, searchTerm, folderPath) {
 		var deffered = $q.defer();
