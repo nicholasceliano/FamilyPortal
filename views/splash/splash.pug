@@ -9,13 +9,15 @@ block content
 				div(class="panel-body")
 					div(ng-hide="!userActivityLoading" class="panel-loading")
 						img(src="/dist/images/loading.gif")
-					ul(ng-hide="userActivityLoading" class="list-group")
-						li(class="list-group-item" ng-repeat="userActivity in userActivityArray")
-							div(class="list-item-withbadge-text")
-								a(ng-href="family/family_member_profile?id={{userActivity.userId}}") {{userActivity.userName | capitalizeFirstLetter}}
-								span  {{userActivity.desc}} 
-								a(ng-href="{{userActivity.itemUrl}}") {{userActivity.item}}
-							span(class="badge list-item-withbadge-badge") {{userActivity.dateDiff}}
+					span(ng-hide="userActivityLoading || userActivityArray.length > 0" class="col-xs-12 no-side-padding text-center") No Recent User Activity
+					div(ng-hide="userActivityLoading || userActivityArray.length === 0")
+						ul(class="list-group")
+							li(class="list-group-item" ng-repeat="userActivity in userActivityArray")
+								div(class="list-item-withbadge-text")
+									a(ng-href="family/family_member_profile?id={{userActivity.userId}}") {{userActivity.userName | capitalizeFirstLetter}}
+									span  {{userActivity.desc}} 
+									a(ng-href="{{userActivity.itemUrl}}") {{userActivity.item}}
+								span(class="badge list-item-withbadge-badge") {{userActivity.dateDiff}}
 		div(class="panel-container-sm col-md-4")
 			div(class="panel panel-default")
 				div(class="panel-heading") 

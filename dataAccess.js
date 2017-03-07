@@ -28,7 +28,20 @@ module.exports = function(config, logger) {
 			}).then(function(data) {
 				logger.info("End: dataAcces.getUserActivity");
 				
-				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving User Activity') : buildResponseMessage(false, data);
+				return (data === null) ? buildResponseMessage(true, 'Error Retrieving User Activity') : buildResponseMessage(false, data);
+			});
+		},
+		
+		getUserActivityById: function (id, ct, start) {
+			 return mongoClient.connect(dbURL).then(function(db) {
+				 logger.info("Begin: dataAcces.getUserActivityById - id: " + id + " ct: " + ct + " start: " + start);
+				 
+				 var mongoId = new mongo.ObjectID(id);
+				 return db.collection('userActivity').find({ userId: mongoId }).sort({createDate:-1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
+			}).then(function(data) {
+				logger.info("End: dataAcces.getUserActivityById");
+				
+				return (data === null) ? buildResponseMessage(true, 'Error Retrieving User Activity') : buildResponseMessage(false, data, ct, start, 'userActivity');
 			});
 		},
 		
@@ -44,7 +57,7 @@ module.exports = function(config, logger) {
 			}).then(function(data) {
 				logger.info("End: dataAcces.getVideos");
 				
-				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Videos') : buildResponseMessage(false, data, ct, start, 'videos');
+				return (data === null) ? buildResponseMessage(true, 'Error Retrieving Videos') : buildResponseMessage(false, data, ct, start, 'videos');
 			});
 		}, 
 		
@@ -73,7 +86,7 @@ module.exports = function(config, logger) {
 			}).then(function(data) {
 				logger.info("End: dataAcces.getFamilyMembers");
 				
-				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving Family Members') : buildResponseMessage(false, data, ct, start, 'users');
+				return (data === null) ? buildResponseMessage(true, 'Error Retrieving Family Members') : buildResponseMessage(false, data, ct, start, 'users');
 			});
 		}, 
 		
@@ -163,7 +176,7 @@ module.exports = function(config, logger) {
 			}).then(function(data) {
 				logger.info("End: dataAcces.getImageMetaData");
 
-				return (data.length === 0) ? buildResponseMessage(true, 'No Results for search term "' + searchTerm + '"', ct, start, 'images') : buildResponseMessage(false, data, ct, start, 'images');
+				return (data === null) ? buildResponseMessage(true, 'No Results for search term "' + searchTerm + '"', ct, start, 'images') : buildResponseMessage(false, data, ct, start, 'images');
 			});
 		},
 		

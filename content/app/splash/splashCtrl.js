@@ -1,4 +1,4 @@
-familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'imagesSvc', 'familyMembersSvc', 'notificationService', function($scope, splashSvc, videosSvc, imagesSvc, familyMembersSvc, notificationService) {
+familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'userActivitySvc', 'videosSvc', 'imagesSvc', 'familyMembersSvc', 'notificationService', function($scope, splashSvc, userActivitySvc, videosSvc, imagesSvc, familyMembersSvc, notificationService) {
     'use strict';
 	
 	var splash = $scope;
@@ -25,7 +25,7 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'videosSvc', 'i
 	};
 	
 	function getRecentUserActivity() {
-		splashSvc.getRecentUserActivity(numRecentUserActivity).then(function (resp) {
+		userActivitySvc.getRecentUserActivity(numRecentUserActivity).then(function (resp) {
 			  if (resp.err)
 				notificationService.error(resp.value);
 			else
