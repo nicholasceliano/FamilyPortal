@@ -8,6 +8,7 @@ familyPortalApp.directive('familyMemberInfo', function(){
 					
 					scope.isProfile = attributes.isProfile;
 					scope._id = attrArray._id;
+					scope.username = attrArray.username;
 					scope.fullName = attrArray.fullName;
 					scope.birthDate = attrArray.birthDate;
 					scope.age = attrArray.age;

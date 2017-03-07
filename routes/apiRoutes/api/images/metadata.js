@@ -53,7 +53,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 			var user = security.getActiveUser(req);
 			var file = config.imagesFileLoc(user.familyId) + fileName;
 			
-			fileAccess.deleteFile(file, finishDeleteImagesMetaData, res, id);
+			fileAccess.deleteFile(file, finishDeleteImagesMetaData, res, id, user);
 		} else {
 			security.sessionExpiredResponse(res);
 		}
@@ -66,7 +66,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 		var imgInfo = req.body;
 		var user = security.getActiveUser(req);
 			
-		data.insertImageMetaData(user.userName, imgInfo).then(function(d) {
+		data.insertImageMetaData(user, imgInfo).then(function(d) {
 			res.send(d);
 		});				
 	}
@@ -79,7 +79,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 		var originalFileName = config.imagesFileLoc(user.familyId) + imgInfo.fileName_Original + imgInfo.fileExt;
 		var newFileName = config.imagesFileLoc(user.familyId) + imgInfo.fileName + imgInfo.fileExt;
 		
-		data.saveImageMetaDataById(id, user.userName, imgInfo).then(function(d) {				
+		data.saveImageMetaDataById(id, user, imgInfo).then(function(d) {				
 			res.send(d);
 		});			
 	}
@@ -94,9 +94,9 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 			res.send(JSON.stringify({ imageInfo: respData }));
 	}
 
-	function finishDeleteImagesMetaData(respData, res, id) {
+	function finishDeleteImagesMetaData(respData, res, id, user) {
 		if (respData === true) {
-			data.deleteImageMetaDataById(id).then(function(data) {
+			data.deleteImageMetaDataById(id, user).then(function(data) {
 				res.send(data);
 			});		
 		} else {

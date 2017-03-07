@@ -5,6 +5,7 @@ var apiUploadsHelper = require('./apiUploadsHelper.js');
 
 module.exports = function(app, dataAccess, security, config, fileAccess, pageErrors, logger){	
 	var fileLoc = './api';
+	require(fileLoc + '/userActivity.js')(app, dataAccess, security, logger);
 	require(fileLoc + '/videos.js')(app, dataAccess, security, pageErrors, logger);
 	require(fileLoc + '/images.js')(app, security, config, fileAccess, apiUploadsHelper, logger);
 	require(fileLoc + '/images/folder.js')(app, security, config, fileAccess, logger);

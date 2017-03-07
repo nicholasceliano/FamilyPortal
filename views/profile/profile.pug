@@ -9,7 +9,7 @@ block content
 				i(class="profile-btn" ng-hide="!editMode" ng-click="toggleEditMode()" class="fa fa-close")
 		div(class="panel-loading-cover-page" ng-hide="!profileInfoLoading && !profilePhotoLoading")
 			img(src="/dist/images/loading.gif")
-		div(ng-hide="profileInfoLoading || profilePhotoLoading" class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1")
+		div(ng-hide="profileInfoLoading || profilePhotoLoading" class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1 no-side-padding")
 			div(class="profile-image col-xs-12 col-md-2")
 				img(ng-src="data:image/jpeg;base64,{{photoInfo.userImage}}")
 				input(type="file" accept="image/*" inputfileread="fileToUpload" class="image-input")

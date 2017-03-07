@@ -20,6 +20,18 @@ module.exports = function(config, logger) {
 			});
 		},
 		
+		getUserActivity: function (ct) {
+			 return mongoClient.connect(dbURL).then(function(db) {
+				 logger.info("Begin: dataAcces.getUserActivity - ct: " + ct);
+				 
+				 return db.collection('userActivity').find().sort({createDate:-1}).limit(parseInt(ct)).toArray();
+			}).then(function(data) {
+				logger.info("End: dataAcces.getUserActivity");
+				
+				return (data.length === 0) ? buildResponseMessage(true, 'Error Retrieving User Activity') : buildResponseMessage(false, data);
+			});
+		},
+		
 		getVideos: function (ct, start) {
 			 return mongoClient.connect(dbURL).then(function(db) {
 				 logger.info("Begin: dataAcces.getVideos - ct: " + ct);
@@ -104,12 +116,13 @@ module.exports = function(config, logger) {
 					return  buildResponseMessage(true, 'Error saving Family Member by Id');
 				} else {
 					delete data.value.userImage;
+					insertUserActivity(new mongo.ObjectID(userInfo._id), userInfo.username, "modified their ", "Profile Info", "family/family_member_profile?id=" + userInfo._id);
 					return buildResponseMessage(false, data.value);
 				}
 			});
 		},
 		
-		saveFamilyMemberPhotoById: function(id, buffer) {
+		saveFamilyMemberPhotoById: function(user, id, buffer) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				logger.info("Begin: dataAcces.saveFamilyMemberPhotoById - id: " + id);
 				
@@ -126,6 +139,7 @@ module.exports = function(config, logger) {
 					for (var i = 0; i < bytes.byteLength; i++) 
 						imgBinary += String.fromCharCode(bytes[i]);
 					
+					insertUserActivity(new mongo.ObjectID(user.userId), user.userName, "changed their ", "Profile Photo", "family/family_member_profile?id=" + id);
 					return buildResponseMessage(false, imgBinary);
 				}
 			});
@@ -141,9 +155,9 @@ module.exports = function(config, logger) {
 							$and: [ 
 								{ fileLocation: folderPath }, 
 								{ $or: [ { name: { $regex :  searchTerm, $options : 'i' } }, { tags: searchTerm } ] }
-								]}).sort({createDate:1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
+								]}).sort({createDate:-1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
 					else 
-						return db.collection('images').find({ $or: [ { name: { $regex :  searchTerm, $options : 'i' } }, { tags: searchTerm } ] }).sort({createDate:1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
+						return db.collection('images').find({ $or: [ { name: { $regex :  searchTerm, $options : 'i' } }, { tags: searchTerm } ] }).sort({createDate:-1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
 				} else 
 					return db.collection('images').find().toArray();
 			}).then(function(data) {
@@ -166,33 +180,35 @@ module.exports = function(config, logger) {
 			});		
 		},
 		
-		insertImageMetaData: function (userName, imgInfo) {
+		insertImageMetaData: function (user, imgInfo) {
 			return mongoClient.connect(dbURL).then(function(db) {
-				logger.info("Begin: dataAcces.insertImageMetaData - userName: " + userName);
+				logger.info("Begin: dataAcces.insertImageMetaData - userName: " + user.userName);
 				
 				var mongoId = new mongo.ObjectID();
-				return db.collection('images').findAndModify({ _id: mongoId }, [], { $set: createImageMetaData(userName, imgInfo) }, { upsert: true, new: true });
+				return db.collection('images').findAndModify({ _id: mongoId }, [], { $set: createImageMetaData(user.userName, imgInfo) }, { upsert: true, new: true });
 			}).then(function(data) {
 				logger.info("End: dataAcces.insertImageMetaData");
 				
+				insertUserActivity(new mongo.ObjectID(user.userId), user.userName, "added an ", "Image", "images/view?id=" + data.value._id);
 				return (data === null) ? buildResponseMessage(true, 'Error Inserting Image MetaData') : buildResponseMessage(false, data.value);
 			});
 		},
 		
-		saveImageMetaDataById: function (id, userName, imageMetaData) {
+		saveImageMetaDataById: function (id, user, imageMetaData) {
 			return mongoClient.connect(dbURL).then(function(db) {
-				logger.info("Begin: dataAcces.saveImageMetaDataById - id: " + id + " userName:" + userName);
+				logger.info("Begin: dataAcces.saveImageMetaDataById - id: " + id + " userName:" + user.userName);
 				
 				var mongoId = new mongo.ObjectID(id);
-				return db.collection('images').findAndModify({ _id: mongoId }, [], { $set: updateImageMetaData(userName, imageMetaData) }, { new: true });
+				return db.collection('images').findAndModify({ _id: mongoId }, [], { $set: updateImageMetaData(user.userName, imageMetaData) }, { new: true });
 			}).then(function(data) {
 				logger.info("End: dataAcces.saveImageMetaDataById");
 				
+				insertUserActivity(new mongo.ObjectID(user.userId), user.userName, "modified an ", "Image's Meta Data", "images/view?id=" + data.value._id);
 				return (data.value === null) ? buildResponseMessage(true, 'Error Updating Image MetaData') : buildResponseMessage(false, data.value);
 			});	
 		},
 		
-		deleteImageMetaDataById: function (id) {
+		deleteImageMetaDataById: function (id, user) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				logger.info("Begin: dataAcces.deleteImageMetaDataById - id: " + id);
 				
@@ -201,11 +217,18 @@ module.exports = function(config, logger) {
 			}).then(function(data) {
 				logger.info("End: dataAcces.deleteImageMetaDataById");
 				
+				insertUserActivity(new mongo.ObjectID(user.userId), user.userName, "deleted an Image");
 				return (data === null) ? buildResponseMessage(true, 'Error Removing Image By Id') : buildResponseMessage(false, data);
 			});
 		}
 	};
 };
+
+function insertUserActivity(userId, userName, desc, item, itemUrl) {
+	return mongoClient.connect(dbURL).then(function(db) {
+		return db.collection('userActivity').insert({ userId: userId, userName: userName, desc: desc, item: item, itemUrl: itemUrl, createDate: new Date() });
+	});
+}
 
 function getRecordCountByTable (table) {
 	return mongoClient.connect(dbURL).then(function(db) {

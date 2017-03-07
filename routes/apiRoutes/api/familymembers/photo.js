@@ -20,10 +20,11 @@ module.exports = function(app, data, security, apiUploadsHelper, pageErrors, log
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - POST - /api/familymembers/photo");
 		
+			var user = security.getActiveUser(req);
 			var id = req.query.id;
 			var buffer = req.file.buffer;
 			
-			data.saveFamilyMemberPhotoById(id, buffer).then(function(d) {
+			data.saveFamilyMemberPhotoById(user, id, buffer).then(function(d) {
 				res.send(d);	
 			});
 		} else {

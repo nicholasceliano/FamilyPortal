@@ -1,4 +1,6 @@
 Short Term:
+- Add user's Recent Activity on profile page
+- Allow splash page to have scrollable recent items sections
 - Images
 	- Need to clean up Images controller
 	- Need to have browser 'back' button save filtered search critera
@@ -7,15 +9,11 @@ Short Term:
 	- Allow users to click image to see full Image
 - Set up Profile page
 	- Allow users to add new family members(set up HoH account)
-- Set up news feed
-- Set up live chat
 - Set up Calendar
 - Fix UI on Videos page
 - Fix UI on Watch page
 - Move dataAccess helper functions to stored procs in database
-- Add recent user activity on profile page
 - Tags/Video info in db, referencing file location where videos live - same for images
-- Fix image layout on Family/FAmily_member_profile
 - I might need to fix how config file works. need to make sure its editable while live. might need to manually declare at top of each module?
 
 Structure

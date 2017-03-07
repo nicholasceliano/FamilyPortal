@@ -44,16 +44,16 @@ module.exports = function(logger) {
 			});
 		},
 		
-		deleteFile: function (file, callback, res, id) {
+		deleteFile: function (file, callback, res, id, user) {
 			logger.info("Begin: fileAccess.deleteFile - file:" + file);
 			
 			return fs.unlink(file, function(err) {	
 				if (err) {
 					logger.error(err);
-					return callback(err, res, id);
+					return callback(err, res, id, user);
 				} else {
 					logger.info("End: fileAccess.deleteFile");
-					return callback(true, res, id);
+					return callback(true, res, id, user);
 				}
 			});
 		},

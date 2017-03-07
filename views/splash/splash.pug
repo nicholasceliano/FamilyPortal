@@ -5,9 +5,17 @@ block content
 		div(class="panel-container-sm col-md-8")
 			div(class="panel panel-default")
 				div(class="panel-heading") 
-					a(class="panel-title") News Feed / Chat
+					a(class="panel-title") Recent User Activity
 				div(class="panel-body")
-					p blank
+					div(ng-hide="!userActivityLoading" class="panel-loading")
+						img(src="/dist/images/loading.gif")
+					ul(ng-hide="userActivityLoading" class="list-group")
+						li(class="list-group-item" ng-repeat="userActivity in userActivityArray")
+							div(class="list-item-withbadge-text")
+								a(ng-href="family/family_member_profile?id={{userActivity.userId}}") {{userActivity.userName | capitalizeFirstLetter}}
+								span  {{userActivity.desc}} 
+								a(ng-href="{{userActivity.itemUrl}}") {{userActivity.item}}
+							span(class="badge list-item-withbadge-badge") {{userActivity.dateDiff}}
 		div(class="panel-container-sm col-md-4")
 			div(class="panel panel-default")
 				div(class="panel-heading") 

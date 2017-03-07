@@ -1,5 +1,5 @@
 familyPortalApp.filter('msToTimeDiff', function() {
-  return function(ms) {
+  return function(ms, suffix) {
     ms = ms || 0;
     var out = '';
 	
@@ -9,13 +9,13 @@ familyPortalApp.filter('msToTimeDiff', function() {
 	var d = (ms / (1000 * 60 * 60 * 24)).toFixed(0);
 
 	if (s < 60)
-		out = s + " sec old";
+		out = s + " secs " + suffix;
 	else if (m < 60)
-		out = m + " min old";
+		out = m + " mins " + suffix;
 	else if (h < 24)
-		out = h + " hrs old";
+		out = h + " hrs " + suffix;
 	else
-		out = d + " days old";
+		out = d + " days " + suffix;
 		
     return out;
   };
