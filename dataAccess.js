@@ -116,11 +116,11 @@ module.exports = function(config, logger) {
 			});
 		},
 		
-		saveFamilyMemberByID: function (userInfo) {
+		saveFamilyMemberByID: function (id, userInfo) {
 			return mongoClient.connect(dbURL).then(function(db) {
 				logger.info("Begin: dataAcces.saveFamilyMemberByID - userInfo: " + JSON.stringify(userInfo));
 				
-				var mongoId = new mongo.ObjectID(userInfo._id);
+				var mongoId = new mongo.ObjectID(id);
 				return db.collection('users').findAndModify({ _id: mongoId }, [], { $set: updateUserInfo(userInfo) }, { new: true });
 			}).then(function(data) {
 				logger.info("End: dataAcces.saveFamilyMemberByID");

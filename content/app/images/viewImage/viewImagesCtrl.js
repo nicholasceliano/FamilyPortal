@@ -30,13 +30,13 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
 		var r = confirm("Are you sure you want to perminantly delete this image?");
 		if (r === true) {
 			deleteImage(view.imageMetaDataInfo._id, view.imageMetaDataInfo_Original);
+			deleteImageThumbnail(view.imageMetaDataInfo._id, view.imageMetaDataInfo_Original);
+			deleteImageMetaData(view.imageMetaDataInfo._id);
 		}
 	};
 	
-	function deleteImage(imageId, imageMetaDataInfo_Original) {
-		var fullFileName =  imageMetaDataInfo_Original.fileLocation + imageMetaDataInfo_Original.fileName + imageMetaDataInfo_Original.fileExt;
-		
-		viewImagesSvc.deleteImageById(imageId, fullFileName).then(function (resp) {
+	function deleteImageMetaData(imageId) {
+		viewImagesSvc.deleteImageMetaDataById(imageId).then(function (resp) {
 			if (resp.err)
 				notificationService.error(resp.value);
 			else 
@@ -46,8 +46,29 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
         });
 	}
 	
+	function deleteImageThumbnail(imageId, imageMetaDataInfo_Original) {
+		var fullFileName =  imageMetaDataInfo_Original.fileLocation + imageMetaDataInfo_Original.fileName + '.thumbnail' + imageMetaDataInfo_Original.fileExt;
+		
+		imagesSvc.deleteImageThumbnail(imageId, fullFileName).then(function (resp) {
+			console.log(resp);
+        }, function () {
+            notificationService.error('Error: viewImagesSvc.deleteImageThumbnail(imageId, fullFileName)');
+        });
+	}
+	
+	function deleteImage(imageId, imageMetaDataInfo_Original) {
+		var fullFileName =  imageMetaDataInfo_Original.fileLocation + imageMetaDataInfo_Original.fileName + imageMetaDataInfo_Original.fileExt;
+		
+		imagesSvc.deleteImage(imageId, fullFileName).then(function (resp) {
+			console.log(resp);
+        }, function () {
+            notificationService.error('Error: viewImagesSvc.deleteImage(imageId, fullFileName)');
+        });
+	}
+	
 	function updateImageFileName (imageMetaDataInfo, imageMetaDataInfo_Original) {
 		var postData = {
+			id: imageMetaDataInfo._id,
 			fileName: imageMetaDataInfo.fileName,
 			fileExt: imageMetaDataInfo.fileExt,
 			fileLoc: imageMetaDataInfo.fileLocation,
@@ -57,6 +78,7 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
 		};
 		
 		imagesSvc.updateImage(postData).then(function (resp) {
+			console.log(resp);
         }, function () {
             notificationService.error('Error: imagesSvc.updateImage(postData)');
         });
@@ -64,6 +86,7 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
 	
 	function updateThumbnailFileName (imageMetaDataInfo, imageMetaDataInfo_Original) {
 		var postData = {
+			id: imageMetaDataInfo._id,
 			fileName: imageMetaDataInfo.fileName,
 			fileExt: imageMetaDataInfo.fileExt,
 			fileLoc: imageMetaDataInfo.fileLocation,
@@ -73,6 +96,7 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesS
 		};
 		
 		imagesSvc.updateImageThumbnail(postData).then(function (resp) {
+			console.log(resp);
         }, function () {
             notificationService.error('Error: imagesSvc.updateImageThumbnail(postData)');
         });

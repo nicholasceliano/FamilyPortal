@@ -1,5 +1,4 @@
 Short Term:
-- Refactor API's to user /:param for ids, etc.
 - Allow splash page to have scrollable recent items sections
 - Images
 	- Need to clean up Images controller

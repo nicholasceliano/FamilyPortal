@@ -1,6 +1,6 @@
 module.exports = function(app, security, config, fileAccess, logger){	
 
-	app.get('/api/images/folder', function (req, res) {
+	app.get('/api/imageFolder', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - GET - /api/images/folder");
 			
@@ -9,30 +9,26 @@ module.exports = function(app, security, config, fileAccess, logger){
 			var folderLocation = config.imagesFileLoc(user.familyId) + folderPath;
 			
 			fileAccess.readFolders(folderLocation, finishGetFolders, res);
-			
 		} else {
 			security.sessionExpiredResponse(res);
 		}
 	});
 	
-	app.post('/api/images/folder', function (req, res) {
+	app.post('/api/imageFolder', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - POST - /api/images/folder");
 			
 			var folderName = req.body.folderName;
 			var user = security.getActiveUser(req);
-			
 			var imagesFolderLocation = config.imagesFileLoc(user.familyId) + folderName;
-			var thumbnailsFolderLocation = config.thumbnailsFileLoc(user.familyId) + folderName;
 			
-			//need to save in both locations
 			fileAccess.saveFolder(imagesFolderLocation, folderName, finishPostImagesFolder, req, res);
 		} else {
 			security.sessionExpiredResponse(res);
 		}
 	});
 	
-	app.delete('/api/images/folder', function (req, res) {
+	app.delete('/api/imageFolder/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - DELETE - /api/images/folder");
 			

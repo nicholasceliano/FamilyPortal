@@ -4,38 +4,50 @@ module.exports = function(app, data, security, pageErrors, logger){
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - GET - /api/familymembers");
 			
-			var id = req.query.id;
 			var ct = req.query.ct;
 			var start = req.query.start;
 			
-			if (id === undefined && ct === undefined) {
-				res.send(JSON.stringify({ familyMembers: null }));
-			} else {
-				if (id) {
-					data.getFamilyMemberByID(id).then(function(d) {
-						res.send(d);
-					}).catch(function() {
-						pageErrors.send(req, res, 500);
-					});
-				} else {
-					ct = security.verifyRequstCount(ct);
-					data.getFamilyMembers(ct, start).then(function(d) {
-						res.send(d);
-					});					
-				}
+			if (ct === undefined || start === undefined) {
+				res.send(JSON.stringify({ err: true, value: 'Error with GET /api/familymembers' }));
+			} else {				
+				ct = security.verifyRequstCount(ct);
+				data.getFamilyMembers(ct, start).then(function(d) {
+					res.send(d);
+				});
 			}
 		} else {
 			security.sessionExpiredResponse(res);
 		}
 	});
 	
-	app.post('/api/familymembers', function (req, res) {
+	app.get('/api/familymembers/:id', function (req, res) {
+		if (security.checkUserAccess(req)) {	
+			logger.info("API - GET - /api/familymembers/:id");
+			
+			var id = req.params.id;
+			
+			if (id === undefined) {
+				res.send(JSON.stringify({ err: true, value: 'Error with GET /api/familymembers/:id' }));
+			} else {
+				data.getFamilyMemberByID(id).then(function(d) {
+					res.send(d);
+				}).catch(function() {
+					pageErrors.send(req, res, 500);
+				});
+			}
+		} else {
+			security.sessionExpiredResponse(res);
+		}
+	});
+	
+	app.post('/api/familymembers/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - POST - /api/familymembers");
 			
+			var id = req.params.id;
 			var userInfo = req.body;
 			
-			data.saveFamilyMemberByID(userInfo).then(function(d) {
+			data.saveFamilyMemberByID(id, userInfo).then(function(d) {
 				res.send(d);
 			});
 		} else {

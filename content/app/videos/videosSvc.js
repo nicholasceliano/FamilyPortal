@@ -18,7 +18,7 @@ familyPortalApp.factory('videosSvc', ['$q', 'portalApiSvc', function ($q, portal
 	service.getVideoById = function (id) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/videos', { id: id }).get(
+        portalApiSvc.Api('/api/videos/:id', { id: id }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

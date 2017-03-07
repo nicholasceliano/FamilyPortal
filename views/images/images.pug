@@ -25,7 +25,7 @@ block content
 				div(class="image-container-inner col-xs-12")
 					div
 						a(href="./images/view?id={{i._id}}")
-							img(ng-src="/api/images/thumbnail?path={{i.fileLocation}}{{i.fileName}}.thumbnail{{i.fileExt}}" center-image-in-div)
+							img(ng-src="/api/imageThumbnail/{{i._id}}?path={{i.fileLocation}}{{i.fileName}}.thumbnail{{i.fileExt}}" center-image-in-div)
 						span
 					div
 						span(class="col-xs-12 no-side-padding text-center hideOverflow font-weight-bold") {{i.name}}

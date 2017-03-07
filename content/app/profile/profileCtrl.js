@@ -101,7 +101,7 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMember
 	}
 	
 	function saveProfileInfo(profileInfo) {
-		familyMembersSvc.saveFamilyMemberById(profileInfo).then(function (resp) {
+		familyMembersSvc.saveFamilyMemberById(profileInfo._id, profileInfo).then(function (resp) {
 			if (resp.err) {
 				notificationService.error(resp.value);
 			} else {
