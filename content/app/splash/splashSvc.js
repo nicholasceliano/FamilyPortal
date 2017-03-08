@@ -16,16 +16,5 @@ familyPortalApp.factory('splashSvc', ['$q', 'portalApiSvc', 'msToTimeDiffFilter'
 		return array;
 	};
 	
-	service.getRecentUserActivity = function (ct) {
-		var deffered = $q.defer();
-		
-        portalApiSvc.Api('/api/userActivity', { ct: ct }).get(
-			function (resp) { deffered.resolve(resp); },
-			function () { deffered.reject(); }
-		);
-
-        return deffered.promise;
-	};
-	
 	return service;
 }]);

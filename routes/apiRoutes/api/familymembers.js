@@ -1,6 +1,6 @@
-module.exports = function(app, data, security, pageErrors, logger){	
+module.exports = function(app, apiVersion, data, security, pageErrors, logger){	
 
-	app.get('/api/familymembers', function (req, res) {
+	app.get('/api/' + apiVersion + '/familymembers', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - GET - /api/familymembers");
 			
@@ -20,7 +20,7 @@ module.exports = function(app, data, security, pageErrors, logger){
 		}
 	});
 	
-	app.get('/api/familymembers/:id', function (req, res) {
+	app.get('/api/' + apiVersion + '/familymembers/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - GET - /api/familymembers/:id");
 			
@@ -40,7 +40,7 @@ module.exports = function(app, data, security, pageErrors, logger){
 		}
 	});
 	
-	app.post('/api/familymembers/:id', function (req, res) {
+	app.post('/api/' + apiVersion + '/familymembers/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - POST - /api/familymembers");
 			

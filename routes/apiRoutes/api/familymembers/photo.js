@@ -1,6 +1,6 @@
-module.exports = function(app, data, security, apiUploadsHelper, pageErrors, logger){	
+module.exports = function(app, apiVersion, data, security, apiUploadsHelper, pageErrors, logger){	
 
-	app.get('/api/familymembers/photo/:id', function (req, res) {
+	app.get('/api/' + apiVersion + '/familymembers/photo/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - GET - /api/familymembers/photo");
 			
@@ -20,7 +20,7 @@ module.exports = function(app, data, security, apiUploadsHelper, pageErrors, log
 		}
 	});
 	
-	app.post('/api/familymembers/photo/:id', apiUploadsHelper.tempImgUpload, function (req, res) {
+	app.post('/api/' + apiVersion + '/familymembers/photo/:id', apiUploadsHelper.tempImgUpload, function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - POST - /api/familymembers/photo");
 		

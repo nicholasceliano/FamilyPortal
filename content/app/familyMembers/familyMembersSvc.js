@@ -7,7 +7,7 @@ familyPortalApp.factory('familyMembersSvc', ['$q', 'portalApiSvc', 'userInfoForm
     service.getFamilyMembers = function (ct, start) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/familymembers', { ct: ct, start: start }).get(
+        portalApiSvc.Api('/api/v1/familymembers', { ct: ct, start: start }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -18,7 +18,7 @@ familyPortalApp.factory('familyMembersSvc', ['$q', 'portalApiSvc', 'userInfoForm
 	service.getFamilyMemberById = function (id) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/familymembers/:id', { id: id }).get(
+        portalApiSvc.Api('/api/v1/familymembers/:id', { id: id }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -29,7 +29,7 @@ familyPortalApp.factory('familyMembersSvc', ['$q', 'portalApiSvc', 'userInfoForm
 	service.getFamilyMemberPhotoById = function (id) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/familymembers/photo/:id', { id: id }).get(
+        portalApiSvc.Api('/api/v1/familymembers/photo/:id', { id: id }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -40,7 +40,7 @@ familyPortalApp.factory('familyMembersSvc', ['$q', 'portalApiSvc', 'userInfoForm
 	service.saveFamilyMemberById = function (id, postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/familymembers/:id').save({ id: id }, postData,
+        portalApiSvc.Api('/api/v1/familymembers/:id').save({ id: id }, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -51,7 +51,7 @@ familyPortalApp.factory('familyMembersSvc', ['$q', 'portalApiSvc', 'userInfoForm
 	service.saveFamilyMemberProfileImageById = function (id, postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.ImageApi('/api/familymembers/photo/:id').saveImage({ id: id }, postData,
+        portalApiSvc.ImageApi('/api/v1/familymembers/photo/:id').saveImage({ id: id }, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

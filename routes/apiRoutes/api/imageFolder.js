@@ -1,6 +1,6 @@
-module.exports = function(app, security, config, fileAccess, logger){	
+module.exports = function(app, apiVersion, security, config, fileAccess, logger){	
 
-	app.get('/api/imageFolder', function (req, res) {
+	app.get('/api/' + apiVersion + '/imageFolder', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - GET - /api/images/folder");
 			
@@ -14,7 +14,7 @@ module.exports = function(app, security, config, fileAccess, logger){
 		}
 	});
 	
-	app.post('/api/imageFolder', function (req, res) {
+	app.post('/api/' + apiVersion + '/imageFolder', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - POST - /api/images/folder");
 			
@@ -28,7 +28,7 @@ module.exports = function(app, security, config, fileAccess, logger){
 		}
 	});
 	
-	app.delete('/api/imageFolder/:id', function (req, res) {
+	app.delete('/api/' + apiVersion + '/imageFolder/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - DELETE - /api/images/folder");
 			

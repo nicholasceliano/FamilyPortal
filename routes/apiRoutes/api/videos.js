@@ -1,6 +1,6 @@
-module.exports = function(app, data, security, pageErrors, logger){	
+module.exports = function(app, apiVersion, data, security, pageErrors, logger){	
 
-	app.get('/api/videos', function (req, res) {
+	app.get('/api/' + apiVersion + '/videos', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - GET - /api/videos");
 			
@@ -20,7 +20,7 @@ module.exports = function(app, data, security, pageErrors, logger){
 		}
 	});
 	
-	app.get('/api/videos/:id', function (req, res) {
+	app.get('/api/' + apiVersion + '/videos/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - GET - /api/videos/:id");
 			

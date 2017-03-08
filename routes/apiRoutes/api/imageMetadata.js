@@ -1,6 +1,6 @@
-module.exports = function(app, data, security, config, fileAccess, pageErrors, logger){	
+module.exports = function(app, apiVersion, data, security, config, fileAccess, pageErrors, logger){	
 
-	app.get('/api/imageMetadata', function (req, res) {
+	app.get('/api/' + apiVersion + '/imageMetadata', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - GET - /api/images/metadata");
 			
@@ -22,7 +22,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 		}
 	});
 	
-	app.get('/api/imageMetadata/:id', function (req, res) {
+	app.get('/api/' + apiVersion + '/imageMetadata/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - GET - /api/images/metadata/:id'");
 			
@@ -42,7 +42,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 		}
 	});
 	
-	app.post('/api/imageMetadata', function (req, res) {
+	app.post('/api/' + apiVersion + '/imageMetadata', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - POST(Insert) - /api/images/metadata");
 		
@@ -57,7 +57,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 		}
 	});
 	
-	app.post('/api/imageMetadata/:id', function (req, res) {
+	app.post('/api/' + apiVersion + '/imageMetadata/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - POST(Update) - /api/images/metadata/:id");
 		
@@ -75,7 +75,7 @@ module.exports = function(app, data, security, config, fileAccess, pageErrors, l
 		}
 	});
 	
-	app.delete('/api/imageMetadata/:id', function (req, res) {
+	app.delete('/api/' + apiVersion + '/imageMetadata/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - DELETE - /api/images/metadata/:id");
 			

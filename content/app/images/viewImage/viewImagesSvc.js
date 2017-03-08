@@ -7,7 +7,7 @@ familyPortalApp.factory('viewImagesSvc', ['$q', 'portalApiSvc', function ($q, po
     service.getImageMetaDataById = function (imageId) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/imageMetadata/:id', { id: imageId }).get(
+        portalApiSvc.Api('/api/v1/imageMetadata/:id', { id: imageId }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -18,7 +18,7 @@ familyPortalApp.factory('viewImagesSvc', ['$q', 'portalApiSvc', function ($q, po
 	service.insertImageMetaData = function (postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/imageMetadata').save({}, postData,
+        portalApiSvc.Api('/api/v1/imageMetadata').save({}, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -29,7 +29,7 @@ familyPortalApp.factory('viewImagesSvc', ['$q', 'portalApiSvc', function ($q, po
 	service.saveMetaDataInfoById = function (imageId, postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/imageMetadata/:id').save({ id: imageId }, postData,
+        portalApiSvc.Api('/api/v1/imageMetadata/:id').save({ id: imageId }, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -40,7 +40,7 @@ familyPortalApp.factory('viewImagesSvc', ['$q', 'portalApiSvc', function ($q, po
 	service.deleteImageMetaDataById = function (imageId) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/imageMetadata/:id').delete({ id: imageId },
+        portalApiSvc.Api('/api/v1/imageMetadata/:id').delete({ id: imageId },
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

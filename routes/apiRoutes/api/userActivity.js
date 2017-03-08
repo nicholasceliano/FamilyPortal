@@ -1,6 +1,6 @@
-module.exports = function(app, data, security, logger){	
+module.exports = function(app, apiVersion, data, security, logger){	
 
-	app.get('/api/userActivity', function (req, res) {
+	app.get('/api/' + apiVersion + '/userActivity', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - GET - /api/userActivity");
 			
@@ -19,7 +19,7 @@ module.exports = function(app, data, security, logger){
 		}
 	});
 	
-	app.get('/api/userActivity/:id', function (req, res) {
+	app.get('/api/' + apiVersion + '/userActivity/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {	
 			logger.info("API - GET - /api/userActivity/:id");
 			

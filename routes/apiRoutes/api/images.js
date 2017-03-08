@@ -1,5 +1,5 @@
-module.exports = function(app, security, config, fileAccess, apiUploadsHelper, logger){	
-	app.get('/api/images/:id', function (req, res) {
+module.exports = function(app, apiVersion, security, config, fileAccess, apiUploadsHelper, logger){	
+	app.get('/api/' + apiVersion + '/images/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - GET - /api/images/:id");
 			
@@ -13,7 +13,7 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper, l
 		}
 	});
 	
-	app.post('/api/images', function (req, res) {
+	app.post('/api/' + apiVersion + '/images', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - POST(Insert) - /api/images");
 		
@@ -34,7 +34,7 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper, l
 		}
 	});
 	
-	app.post('/api/images/:id', function (req, res) {
+	app.post('/api/' + apiVersion + '/images/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - POST(Update) - /api/images/:id");
 		
@@ -55,7 +55,7 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper, l
 		}
 	});
 	
-	app.delete('/api/images/:id', function (req, res) {
+	app.delete('/api/' + apiVersion + '/images/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - DELETE - /api/images/:id");
 			

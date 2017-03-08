@@ -1,6 +1,6 @@
 
-module.exports = function(app, security, config, fileAccess, apiUploadsHelper, logger) {	
-	app.get('/api/imageThumbnail/:id', function (req, res) {
+module.exports = function(app, apiVersion, security, config, fileAccess, apiUploadsHelper, logger) {	
+	app.get('/api/' + apiVersion + '/imageThumbnail/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - GET - /api/images/thumbnail/:id");
 			
@@ -14,7 +14,7 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper, l
 		}
 	});
 	
-	app.post('/api/imageThumbnail', function (req, res) {
+	app.post('/api/' + apiVersion + '/imageThumbnail', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - POST(Insert) - /api/images/thumbnail");
 		
@@ -34,7 +34,7 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper, l
 		}
 	});
 	
-	app.post('/api/imageThumbnail/:id', function (req, res) {
+	app.post('/api/' + apiVersion + '/imageThumbnail/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - POST(Update) - /api/images/thumbnail/:id");
 		
@@ -55,7 +55,7 @@ module.exports = function(app, security, config, fileAccess, apiUploadsHelper, l
 		}
 	});
 	
-	app.delete('/api/imageThumbnail/:id', function (req, res) {
+	app.delete('/api/' + apiVersion + '/imageThumbnail/:id', function (req, res) {
 		if (security.checkUserAccess(req)) {
 			logger.info("API - DELETE - /api/images/thumbnail/:id");
 			

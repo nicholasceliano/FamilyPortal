@@ -13,6 +13,7 @@ function devConfig() {
 		thumbnailsFileLoc: function(familyId) { return getThumbnailsFileLoc(true, familyId); },
 		videosBaseUri: 'https://s3.amazonaws.com/videos.celiano/',
 		api: {
+			version: 'v1',
 			maxRequestRecordCt: 1000
 		}
 	};
@@ -27,6 +28,7 @@ function prodConfig() {
 		thumbnailsFileLoc: function(familyId) { return getThumbnailsFileLoc(false, familyId); },
 		videosBaseUri: 'https://s3.amazonaws.com/videos.celiano/',
 		api: {
+			version: 'v1',
 			maxRequestRecordCt: 1000
 		}
 	};

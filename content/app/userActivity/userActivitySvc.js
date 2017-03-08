@@ -6,7 +6,7 @@ familyPortalApp.factory('userActivitySvc', ['$q', 'portalApiSvc', function ($q, 
 	service.getRecentUserActivity = function (ct) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/userActivity', { ct: ct }).get(
+        portalApiSvc.Api('/api/v1/userActivity', { ct: ct }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -17,7 +17,7 @@ familyPortalApp.factory('userActivitySvc', ['$q', 'portalApiSvc', function ($q, 
 	service.getRecentUserActivityById = function (id, ct, start) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/userActivity/:id', { id: id, ct: ct, start: start }).get(
+        portalApiSvc.Api('/api/v1/userActivity/:id', { id: id, ct: ct, start: start }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
