@@ -1,13 +1,24 @@
-familyPortalApp.factory('viewImagesSvc', ['$q', 'portalApiSvc', function ($q, portalApiSvc) {
+familyPortalApp.factory('imagesMetadataSvc', ['$q', 'portalApiSvc', function ($q, portalApiSvc) {
     'use strict';
 
     var service = {};
-
+	
     //API Calls
-    service.getImageMetaDataById = function (imageId) {
+    service.getImageMetaData = function (imgCt, start, searchTerm, folderPath) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/v1/imageMetadata/:id', { id: imageId }).get(
+        portalApiSvc.Api('/api/v1/images/metadata', { ct: imgCt, start: start, searchTerm: searchTerm, folderPath: folderPath }).get(
+			function (resp) { deffered.resolve(resp); },
+			function () { deffered.reject(); }
+		);
+
+        return deffered.promise;
+    };
+	
+	service.getImageMetaDataById = function (imageId) {
+		var deffered = $q.defer();
+		
+        portalApiSvc.Api('/api/v1/images/:id/metadata', { id: imageId }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -18,7 +29,7 @@ familyPortalApp.factory('viewImagesSvc', ['$q', 'portalApiSvc', function ($q, po
 	service.insertImageMetaData = function (postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/v1/imageMetadata').save({}, postData,
+        portalApiSvc.Api('/api/v1/images/metadata').save({}, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -29,7 +40,7 @@ familyPortalApp.factory('viewImagesSvc', ['$q', 'portalApiSvc', function ($q, po
 	service.saveMetaDataInfoById = function (imageId, postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/v1/imageMetadata/:id').save({ id: imageId }, postData,
+        portalApiSvc.Api('/api/v1/images/:id/metadata').save({ id: imageId }, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -40,7 +51,7 @@ familyPortalApp.factory('viewImagesSvc', ['$q', 'portalApiSvc', function ($q, po
 	service.deleteImageMetaDataById = function (imageId) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/v1/imageMetadata/:id').delete({ id: imageId },
+        portalApiSvc.Api('/api/v1/images/:id/metadata').delete({ id: imageId },
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

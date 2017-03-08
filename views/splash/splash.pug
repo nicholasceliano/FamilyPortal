@@ -47,7 +47,7 @@ block content
 						li(class="col-xs-12 list-group-item images-list-group-item" ng-repeat="image in imageMetaDataArray")
 							div(class="col-xs-2 no-side-padding")
 								a(href="./images/view?id={{image._id}}")
-									img(ng-src="/api/v1/imageThumbnail/{{image._id}}?path={{image.fileLocation}}{{image.fileName}}.thumbnail{{image.fileExt}}")
+									img(ng-src="/api/v1/images/{{image._id}}/thumbnail?path={{image.fileLocation}}{{image.fileName}}.thumbnail{{image.fileExt}}")
 							div(class="col-xs-7")
 								a(href="./images/view?id={{image._id}}") {{image.name}}
 							span(class="col-xs-3 badge") {{image.dateDiff}}

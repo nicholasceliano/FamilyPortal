@@ -1,5 +1,6 @@
 Short Term:
 - Allow splash page to have scrollable recent items sections
+- API middleware?
 - Images
 	- Need to clean up Images controller
 	- Need to have browser 'back' button save filtered search critera

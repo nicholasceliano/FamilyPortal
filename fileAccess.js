@@ -11,7 +11,7 @@ module.exports = function(logger) {
 					return callback(err, res);
 				} else {
 					logger.info("End: fileAccess.saveFile");
-					return callback(true, res);
+					return callback(false, res);
 				}
 			});
 		},
@@ -22,7 +22,7 @@ module.exports = function(logger) {
 			fs.mkdir(folderLocation, function(err) {
 				if (err){
 					logger.error(err);
-					return callback(true, err, req, res);
+					return callback(err, null, req, res);
 				} else  {
 					logger.info("End: fileAccess.saveFolder");
 					return callback(false, folderName, req, res);
@@ -39,7 +39,7 @@ module.exports = function(logger) {
 					return callback(err, res, id);
 				} else {
 					logger.info("End: fileAccess.renameFile");
-					return callback(true, res, id);
+					return callback(false, res, id);
 				}
 			});
 		},
@@ -53,7 +53,7 @@ module.exports = function(logger) {
 					return callback(err, res, id, user);
 				} else {
 					logger.info("End: fileAccess.deleteFile");
-					return callback(true, res, id, user);
+					return callback(false, res, id, user);
 				}
 			});
 		},
@@ -66,20 +66,20 @@ module.exports = function(logger) {
 					fs.readFile(baseFileLocation + path, function(err, data){
 						if (err) {
 							logger.error(err);
-							return callback('Error', res);
+							return callback(err, null, res);
 						} else {
 							logger.info("End: fileAccess.readFile");
-							callback(data, res);
+							callback(false, data, res);
 						}
 					});
 				} else {
 					fs.readFile((__dirname + '/dist/images/defaultImage.jpg'), function(err, data){
 						if (err) {
 							logger.error(err);
-							return callback('Error', res);
+							return callback(err, null, res);
 						} else {
 							logger.info("End: fileAccess.readFile");
-							callback(data, res);
+							callback(false, data, res);
 						}
 					});	
 				}
@@ -90,7 +90,7 @@ module.exports = function(logger) {
 			fs.readdir(folderLocation, function(err, data) {
 				if (err){
 					logger.error(err);
-					callback("Error", res);
+					callback(err, null, res);
 				} else {
 					logger.info("End: FileAccess.readFolders");
 					
@@ -103,7 +103,7 @@ module.exports = function(logger) {
 						}
 					}
 					
-					callback(data, res);
+					callback(false, data, res);
 				}
 			});
 			

@@ -29,7 +29,7 @@ familyPortalApp.factory('familyMembersSvc', ['$q', 'portalApiSvc', 'userInfoForm
 	service.getFamilyMemberPhotoById = function (id) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/v1/familymembers/photo/:id', { id: id }).get(
+        portalApiSvc.Api('/api/v1/familymembers/:id/photo', { id: id }).get(
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -51,7 +51,7 @@ familyPortalApp.factory('familyMembersSvc', ['$q', 'portalApiSvc', 'userInfoForm
 	service.saveFamilyMemberProfileImageById = function (id, postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.ImageApi('/api/v1/familymembers/photo/:id').saveImage({ id: id }, postData,
+        portalApiSvc.ImageApi('/api/v1/familymembers/:id/photo').saveImage({ id: id }, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

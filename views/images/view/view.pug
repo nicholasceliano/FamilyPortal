@@ -9,7 +9,7 @@ block content
 			img(src="/dist/images/loading.gif")
 		div(class="col-xs-12 no-side-padding" ng-hide="imageMetaDataInfoLoading")
 			div(class="col-xs-12 no-side-padding")
-				img(class="view-image-image" ng-src="/api/v1/images/{{imageMetaDataInfo_Original._id}}?path={{imageMetaDataInfo_Original.fileLocation}}{{imageMetaDataInfo_Original.fileName}}{{imageMetaDataInfo_Original.fileExt}}")
+				img(class="view-image-image" ng-src="/api/v1/images/{{imageMetaDataInfo_Original._id}}/photo?path={{imageMetaDataInfo_Original.fileLocation}}{{imageMetaDataInfo_Original.fileName}}{{imageMetaDataInfo_Original.fileExt}}")
 				span(class="col-xs-12 deleteImage" ng-click="deleteImage()") Perimently Delete Image
 			div(class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-2 no-side-padding")
 				div(class="col-xs-12 no-side-padding view-image-buttons")

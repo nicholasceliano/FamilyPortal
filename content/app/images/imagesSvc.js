@@ -27,21 +27,10 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
 	};
 	
     //API Calls
-    service.getImageMetaData = function (imgCt, start, searchTerm, folderPath) {
-		var deffered = $q.defer();
-		
-        portalApiSvc.Api('/api/v1/imageMetadata', { ct: imgCt, start: start, searchTerm: searchTerm, folderPath: folderPath }).get(
-			function (resp) { deffered.resolve(resp); },
-			function () { deffered.reject(); }
-		);
-
-        return deffered.promise;
-    };
-	
 	service.saveImage = function (postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.ImageApi('/api/v1/images').saveImage({}, postData,
+        portalApiSvc.ImageApi('/api/v1/images/photo').saveImage({}, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -52,7 +41,7 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
 	service.updateImage = function (postData) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/v1/images/:id').save({ id: postData.id }, postData,
+        portalApiSvc.Api('/api/v1/images/:id/photo').save({ id: postData.id }, postData,
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);
@@ -63,62 +52,7 @@ familyPortalApp.factory('imagesSvc', ['$q', 'portalApiSvc', function ($q, portal
 	service.deleteImage = function (imageId, fullFileName) {
 		var deffered = $q.defer();
 		
-        portalApiSvc.Api('/api/v1/images/:id').delete({ id: imageId, fileName: fullFileName },
-			function (resp) { deffered.resolve(resp); },
-			function () { deffered.reject(); }
-		);
-
-        return deffered.promise;
-	};
-	
-	service.saveImageThumbnail = function (postData) {
-		var deffered = $q.defer();
-		
-        portalApiSvc.ImageApi('/api/v1/imageThumbnail').saveImage({}, postData,
-			function (resp) { deffered.resolve(resp); },
-			function () { deffered.reject(); }
-		);
-
-        return deffered.promise;
-	};
-	
-	service.updateImageThumbnail = function (postData) {
-		var deffered = $q.defer();
-		
-        portalApiSvc.Api('/api/v1/imageThumbnail/:id').save({ id: postData.id }, postData,
-			function (resp) { deffered.resolve(resp); },
-			function () { deffered.reject(); }
-		);
-
-        return deffered.promise;
-	};
-	
-	service.deleteImageThumbnail = function (imageId, fullFileName) {
-		var deffered = $q.defer();
-		
-        portalApiSvc.Api('/api/v1/imageThumbnail/:id').delete({ id: imageId, fileName: fullFileName },
-			function (resp) { deffered.resolve(resp); },
-			function () { deffered.reject(); }
-		);
-
-        return deffered.promise;
-	};
-	
-	service.saveFolder = function (postData) {
-		var deffered = $q.defer();
-		
-        portalApiSvc.Api('/api/v1/imageFolder').save({}, postData,
-			function (resp) { deffered.resolve(resp); },
-			function () { deffered.reject(); }
-		);
-
-        return deffered.promise;
-	};
-	
-	service.getFolders = function (folderPath) {
-		var deffered = $q.defer();
-		
-        portalApiSvc.Api('/api/v1/imageFolder').get({ folderPath: folderPath },
+        portalApiSvc.Api('/api/v1/images/:id/photo').delete({ id: imageId, fileName: fullFileName },
 			function (resp) { deffered.resolve(resp); },
 			function () { deffered.reject(); }
 		);

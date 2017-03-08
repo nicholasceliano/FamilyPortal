@@ -1,4 +1,4 @@
-familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'userActivitySvc', 'videosSvc', 'imagesSvc', 'familyMembersSvc', 'notificationService', function($scope, splashSvc, userActivitySvc, videosSvc, imagesSvc, familyMembersSvc, notificationService) {
+familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'userActivitySvc', 'videosSvc', 'imagesMetadataSvc', 'familyMembersSvc', 'notificationService', function($scope, splashSvc, userActivitySvc, videosSvc, imagesMetadataSvc, familyMembersSvc, notificationService) {
     'use strict';
 	
 	var splash = $scope;
@@ -51,7 +51,7 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'userActivitySv
 	}
 	
 	function getRecentImageMetaData() {
-		imagesSvc.getImageMetaData(numRecentImageMetaData, 0, '').then(function (resp) {
+		imagesMetadataSvc.getImageMetaData(numRecentImageMetaData, 0, '').then(function (resp) {
 			if (resp.err)
 				notificationService.error(resp.value);
 			else 
@@ -59,7 +59,7 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'userActivitySv
 			
 			splash.imageMetaDataLoading = false;
         }, function () {
-            notificationService.error('Error: imagesSvc.getImageMetaData(numRecentImageMetaData)');
+            notificationService.error('Error: imagesMetadataSvc.getImageMetaData(numRecentImageMetaData)');
         });
 	}
 	

@@ -1,4 +1,4 @@
-familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 'imagesSvc', 'viewImagesSvc', 'pagingSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, urlHelperSvc, imagesSvc, viewImagesSvc, pagingSvc, imageHelperSvc, notificationService) {
+familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 'imagesSvc', 'imagesMetadataSvc', 'imagesThumbnailSvc', 'imagesFolderSvc', 'pagingSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, urlHelperSvc, imagesSvc, imagesMetadataSvc, imagesThumbnailSvc, imagesFolderSvc, pagingSvc, imageHelperSvc, notificationService) {
     'use strict';
 	
 	var images = $scope;
@@ -206,7 +206,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		
 	//API Calls
 	function insertImageMetaData(event, imageData) {
-		viewImagesSvc.insertImageMetaData(imageData).then(function(resp) {
+		imagesMetadataSvc.insertImageMetaData(imageData).then(function(resp) {
 			if(resp.err){
 				notificationService.err(resp.value);
 			} else {
@@ -221,28 +221,30 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 				notificationService.success('Sucessfully Inserted Image');
 			}
 		}, function () {
-			notificationService.error('Error: viewImagesSvc.insertImageMetaData(imageData)');
+			notificationService.error('Error: imagesMetadataSvc.insertImageMetaData(imageData)');
 		});
 	}
 	
 	function saveImage(imageFile) {
 		imagesSvc.saveImage(imageFile).then(function (resp) {
-			console.log(resp);
+			if (resp.err)
+				notificationService.info(resp.value);
         }, function () {
             notificationService.error('Error: imagesSvc.saveImage(imageName, imageTags, imageFile)');
         });
 	}
 	
 	function saveThumbnail(imageFile) {
-		imagesSvc.saveImageThumbnail(imageFile).then(function (resp) {
-			console.log(resp);
+		imagesThumbnailSvc.saveImageThumbnail(imageFile).then(function (resp) {
+			if (resp.err)
+				notificationService.info(resp.value);
 		}, function () {
-			notificationService.error('Error: imagesSvc.saveImageThumbnail(imageFile)');
+			notificationService.error('Error: imagesThumbnailSvc.saveImageThumbnail(imageFile)');
 		});
 	}
 	
 	function getFolders(folderPath) {
-		imagesSvc.getFolders(folderPath).then(function (resp) {
+		imagesFolderSvc.getFolders(folderPath).then(function (resp) {
 			if (resp.err)
 				notificationService.info(resp.value);
 			else {
@@ -261,11 +263,11 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	function saveFolder(event, folderName) {
 		var postData = { folderName: folderName };
 		
-		imagesSvc.saveFolder(postData).then(function (resp) {
+		imagesFolderSvc.saveFolder(postData).then(function (resp) {
 			if (resp.err) {
 				notificationService.info(resp.value);
 			} else {			
-				images.folders.push(resp.folderName);
+				images.folders.push(resp.value.folderName);
 				
 				images.cancelAdd(event);
 				notificationService.success('Sucessfully Added Folder');
@@ -278,7 +280,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	}
 	
 	function getImageMetaData(imgCt, startItem, searchTerm, folderPath) {
-		imagesSvc.getImageMetaData(imgCt, startItem, searchTerm, folderPath).then(function (resp) {
+		imagesMetadataSvc.getImageMetaData(imgCt, startItem, searchTerm, folderPath).then(function (resp) {
             if (resp.err)
 				notificationService.info(resp.value);
 			else {				
@@ -292,7 +294,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 			images.nextPageLoading = false;
 			images.imageMetaDataLoading = false;
         }, function () {
-            notificationService.error('Error: imagesSvc.getImageMetaData(imgCt)');
+            notificationService.error('Error: imagesMetadataSvc.getImageMetaData(imgCt)');
         });
 	}
 }]);
