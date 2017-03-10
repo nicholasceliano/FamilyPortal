@@ -3,8 +3,8 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'userActivitySv
 	
 	var splash = $scope;
 	
-	var numRecentUserActivity = 3;
-	var numRecentVideos = 8;
+	var numRecentUserActivity = 15;
+	var numRecentVideos = 15;
 	var numRecentImageMetaData = 8;
 	var numRecentFamilyMembers = 5;
 	

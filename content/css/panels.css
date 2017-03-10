@@ -19,12 +19,12 @@
 }
 
 .panel-container-lg {
-	height:400px;
+	height:406px;
 	margin-bottom:15px;	
 }
 
 .panel-container-lg .panel {
-	height:400px;
+	height:406px;
 }
 
 .panel > .panel-heading {
@@ -98,4 +98,9 @@ a.panel-title {
 	text-overflow:ellipsis;
 	overflow:hidden;
 	white-space:nowrap;
+}
+
+.scroll-panel {
+	border:15px solid white;
+	padding:0;
 }
