@@ -1,8 +1,5 @@
 Short Term:
-
-- Minor scroll bug(doesn't go all the way down on click scrolling - about 20 pixels off)
 - API middleware?
-- Add paging to splash content?
 - Images
 	- Need to clean up Images controller
 	- Need to have browser 'back' button save filtered search critera
@@ -17,6 +14,7 @@ Short Term:
 - Move dataAccess helper functions to stored procs in database
 - Tags/Video info in db, referencing file location where videos live - same for images
 - I might need to fix how config file works. need to make sure its editable while live. might need to manually declare at top of each module?
+- Add paging to splash content?
 
 Structure
 - Replace Grunt with Gulp and Browserify to serve JS to front end from node packages

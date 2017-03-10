@@ -1,4 +1,4 @@
-familyPortalApp.directive('scrollRepeatContent', function($timeout) {
+familyPortalApp.directive('scrollRepeatContent', ['$timeout', function($timeout) {
 	return {
 		restrict: 'A',
 		link: function (scope, element, attrs) {
@@ -61,6 +61,7 @@ familyPortalApp.directive('scrollRepeatContent', function($timeout) {
 		scrollbar.mousedown(function(event) {			
 			mouseDown = true;
 			var mousePosition = event.clientY;
+			
 			scrollbar.addClass('scrollbar-selected');
 			$('body').addClass('noselect');
 			
@@ -82,15 +83,14 @@ familyPortalApp.directive('scrollRepeatContent', function($timeout) {
 				
 				scrollbarPosition = scrollbarPosition - scrollbarContainterTop;
 				
-				var percentScrolled = (scrollbarPosition / scrollContainer.height());
-				var maxScrollHeight = scrollContent[0].scrollHeight - scrollContent.height()
+				var percentScrolled = scrollbarPosition / (scrollContainer.height() - scrollbar.height());
+				var maxScrollHeight = scrollContent[0].scrollHeight - scrollContent.height();
 				var scrollbarTop = percentScrolled * maxScrollHeight;
 				
 				scrollContent.scrollTop(scrollbarTop);
 								
 				scrollbar.css({top: scrollbarPosition});
 			});
-			
 		});
 				
 		$(window).mouseup(function() {
@@ -102,8 +102,8 @@ familyPortalApp.directive('scrollRepeatContent', function($timeout) {
 	}
 	
 	function recaulcuateScrollbarTop(scrollContent) {
-		var element = $(scrollContent).parent();
-		var scrollbar = $(element).find('.scrollbar');
+		var scrollContainer = $(scrollContent).parent();
+		var scrollbar = scrollContainer.find('.scrollbar');
 		
 		var percentScrolled = scrollContent.scrollTop / (scrollContent.scrollHeight - $(scrollContent).height());
 		var maxScrollHeight = $(scrollContent).height() - scrollbar.height();
@@ -112,4 +112,4 @@ familyPortalApp.directive('scrollRepeatContent', function($timeout) {
 		scrollbar.show();
 		scrollbar.css({top: scrollbarTop});
 	}
-});
+}]);
