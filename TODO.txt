@@ -1,6 +1,8 @@
 Short Term:
+
+- Minor scroll bug(doesn't go all the way down on click scrolling - about 20 pixels off)
 - API middleware?
-- fix scroll
+- Add paging to splash content?
 - Images
 	- Need to clean up Images controller
 	- Need to have browser 'back' button save filtered search critera

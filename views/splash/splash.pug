@@ -10,15 +10,14 @@ block content
 					div(ng-hide="!userActivityLoading" class="panel-loading")
 						img(src="/dist/images/loading.gif")
 					span(ng-hide="userActivityLoading || userActivityArray.length > 0" class="col-xs-12 no-side-padding text-center") No Recent User Activity
-					div(scroll-container)
-						div(ng-hide="userActivityLoading || userActivityArray.length === 0")
-							ul(class="list-group")
-								li(class="list-group-item" ng-repeat="userActivity in userActivityArray")
-									div(class="list-item-withbadge-text")
-										a(ng-href="family/family_member_profile?id={{userActivity.userId}}") {{userActivity.userName | capitalizeFirstLetter}}
-										span  {{userActivity.desc}} 
-										a(ng-href="{{userActivity.itemUrl}}") {{userActivity.item}}
-									span(class="badge list-item-withbadge-badge") {{userActivity.dateDiff}}
+					div(ng-hide="userActivityLoading || userActivityArray.length === 0")
+						ul(class="list-group")
+							li(class="list-group-item" ng-repeat="userActivity in userActivityArray" scroll-repeat-content)
+								div(class="list-item-withbadge-text")
+									a(ng-href="family/family_member_profile?id={{userActivity.userId}}") {{userActivity.userName | capitalizeFirstLetter}}
+									span  {{userActivity.desc}} 
+									a(ng-href="{{userActivity.itemUrl}}") {{userActivity.item}}
+								span(class="badge list-item-withbadge-badge") {{userActivity.dateDiff}}
 		div(class="panel-container-sm col-md-4")
 			div(class="panel panel-default")
 				div(class="panel-heading") 
@@ -33,13 +32,12 @@ block content
 					div(ng-hide="!videosLoading" class="panel-loading")
 						img(src="/dist/images/loading.gif")
 					span(ng-hide="videosLoading || videosArray.length > 0" class="col-xs-12 no-side-padding text-center") No Videos
-					div(scroll-container)
-						div(ng-hide="videosLoading || videosArray.length === 0")
-							ul(ng-hide="videosLoading" class="list-group")
-								li(class="list-group-item" ng-repeat="video in videosArray")
-									div(class="list-item-withbadge-text")
-										a(href="./videos/watch?id={{video._id}}") {{video.name}}
-									span(class="badge list-item-withbadge-badge") {{video.dateDiff}}
+					div(ng-hide="videosLoading || videosArray.length === 0")
+						ul(ng-hide="videosLoading" class="list-group")
+							li(class="list-group-item" ng-repeat="video in videosArray" scroll-repeat-content)
+								div(class="list-item-withbadge-text")
+									a(href="./videos/watch?id={{video._id}}") {{video.name}}
+								span(class="badge list-item-withbadge-badge") {{video.dateDiff}}
 		div(class="panel-container-lg col-md-4")
 			div(class="panel panel-default")
 				div(class="panel-heading") 
@@ -47,17 +45,16 @@ block content
 				div(class="panel-body scroll-panel" style="height:359px;")
 					div(ng-hide="!imageMetaDataLoading" class="panel-loading")
 						img(src="/dist/images/loading.gif")
-					span(ng-hide="imageMetaDataLoading || imageMetaDataArray.length > 0" class="col-xs-12 no-side-padding text-center") No Images
-					div(scroll-container)
-						div(ng-hide="imageMetaDataLoading || imageMetaDataArray.length === 0")
-							ul(ng-hide="imageMetaDataLoading" class="list-group")
-								li(class="col-xs-12 list-group-item images-list-group-item" ng-repeat="image in imageMetaDataArray")
-									div(class="col-xs-2 no-side-padding")
-										a(href="./images/view?id={{image._id}}")
-											img(ng-src="/api/v1/images/{{image._id}}/thumbnail?path={{image.fileLocation}}{{image.fileName}}.thumbnail{{image.fileExt}}")
-									div(class="col-xs-7")
-										a(href="./images/view?id={{image._id}}") {{image.name}}
-									span(class="col-xs-3 badge") {{image.dateDiff}}
+					span(ng-hide="imageMetaDataLoading || imageMetaDataArray.length > 0" class="col-xs-12 no-side-padding text-center") No Images					
+					div(ng-hide="imageMetaDataLoading || imageMetaDataArray.length === 0")
+						ul(ng-hide="imageMetaDataLoading" class="list-group")
+							li(class="col-xs-12 list-group-item images-list-group-item" ng-repeat="image in imageMetaDataArray" scroll-repeat-content)
+								div(class="col-xs-2 no-side-padding")
+									a(href="./images/view?id={{image._id}}")
+										img(ng-src="/api/v1/images/{{image._id}}/thumbnail?path={{image.fileLocation}}{{image.fileName}}.thumbnail{{image.fileExt}}")
+								div(class="col-xs-7")
+									a(href="./images/view?id={{image._id}}") {{image.name}}
+								span(class="col-xs-3 badge") {{image.dateDiff}}
 		div(class="panel-container-md col-md-4")
 			div(class="panel panel-default")
 				div(class="panel-heading") 
@@ -66,6 +63,6 @@ block content
 					div(ng-hide="!familyMembersLoading" class="panel-loading")
 						img(src="/dist/images/loading.gif")
 					ul(ng-hide="familyMembersLoading" class="list-group")
-						li(class="list-group-item" ng-repeat="familyMember in familyMembersArray")
+						li(class="list-group-item" ng-repeat="familyMember in familyMembersArray" scroll-repeat-content)
 							a(href="./family/family_member_profile?id={{familyMember._id}}") {{familyMember.firstName}} {{familyMember.lastName}}
 							
