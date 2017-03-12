@@ -3,7 +3,7 @@
 //References
 var express = require('express');
 var bodyParser = require('body-parser');
-var config = (process.env.NODE_ENV.toLowerCase() === 'prod' ? require('./config.js').prod : require('./config.js').dev);
+var config = (process.env.NODE_ENV.toLowerCase() === 'prod' ? require('./config/prod.js') : require('./config/dev.js'));
 var logger = require('./logger.js').getLogger();
 var dataAccess = require('./dataAccess.js')(config, logger);
 var fileAccess = require('./fileAccess.js')(logger);
