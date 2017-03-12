@@ -2,12 +2,10 @@ module.exports = function(app, dataAccess, security, config, fileAccess, pageErr
 	var fileLoc = './api';
 	var apiRouter = express.Router();
 	var apiUploadsHelper = require('./apiUploadsHelper.js');
-	var apiMiddleware = require('./middleware/apiMiddleware')(security, logger);
-	var apiErrorMiddleware = require('./middleware/apiErrorMiddleware')(pageErrors);
+	var apiMiddleware = require('./middleware/apiMiddleware.js')(security, logger);
 	
-	app.use(apiMiddleware);//order matters here
+	apiRouter.use(apiMiddleware);
 	app.use('/api/' + config.api.version, apiRouter);
-	app.use(apiErrorMiddleware);
 		
 	require(fileLoc + '/userActivity.js')(apiRouter, dataAccess, security);
 	require(fileLoc + '/videos.js')(apiRouter, dataAccess, security);

@@ -30,9 +30,15 @@ app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from
 require('./routes/webRoutes/web.js')(app, dataAccess, security, config, logger, express);
 require('./routes/apiRoutes/api.js')(app, dataAccess, security, config, fileAccess, pageErrors, logger, express);
 
-//Error Page Handling
+//Error Page Handling Middleware
 app.use(function(req, res, next) {
 	pageErrors.send(req, res, 404);
+});
+app.use(function (err, req, res, next) {
+	if (err.message == '500')
+		pageErrors.send(req, res, parseInt(err.message));
+	else 
+		res.send(JSON.stringify({ err: true, value: 'Error with ' + req.method + ' - ' + req.url + ' - ' + err.message }));
 });
 
 //App Start

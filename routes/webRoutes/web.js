@@ -3,7 +3,7 @@ module.exports = function(app, dataAccess, security, config, logger, express){
 	var webRouter = express.Router();
 	var webMiddleware = require('./middleware/webMiddleware')(security, logger);
 	
-	app.use(webMiddleware);//order matters here
+	webRouter.use(webMiddleware);//order matters here
 	app.use('/', webRouter);
 	
 	require('./web/calendar.js')(webRouter);
