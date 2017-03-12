@@ -1,8 +1,6 @@
 
-module.exports = function(app, security, logger){
-	app.get('/logout', function (req, res) {
-		logger.info("WEB - GET -  /logout");
-		
+module.exports = function(webRouter, security){
+	webRouter.get('/logout', function (req, res) {
 		security.logout(req, res);
 	});
 };

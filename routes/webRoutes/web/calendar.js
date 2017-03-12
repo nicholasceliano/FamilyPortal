@@ -1,12 +1,6 @@
-
-module.exports = function(app, security, logger){
-	app.get('/calendar', function(req, res) {
-		if (security.checkUserAccess(req)) {
-			logger.info("WEB - GET -  /calendar");
-			
-			res.render('calendar/calendar', { title: 'Calendar - Family Scrapbook' });
-		} else {
-			security.sessionExpiredResponse(res);
-		}
+module.exports = function(webRouter){
+	
+	webRouter.get('/calendar', function(req, res) {
+		res.render('calendar/calendar', { title: 'Calendar - Family Scrapbook' });
 	});
 };

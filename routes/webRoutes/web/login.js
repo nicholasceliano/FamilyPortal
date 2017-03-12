@@ -1,8 +1,6 @@
-
-module.exports = function(app, security, logger){
-	app.post('/login', function(req, res) {
-		logger.info("WEB - POST -  /login");
-		
+module.exports = function(webRouter, security){
+	
+	webRouter.post('/login', function(req, res) {
 		var user = req.body.username;
 		var pwd = req.body.pwd;
 		
