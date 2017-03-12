@@ -1,42 +1,30 @@
-module.exports = function(app, apiVersion, data, security, apiUploadsHelper, pageErrors, logger){	
+module.exports = function(apiRouter, dataAccess, security, apiUploadsHelper){	
 
-	app.get('/api/' + apiVersion + '/familymembers/:id/photo', function (req, res) {
-		if (security.checkUserAccess(req)) {	
-			logger.info('API - GET - /api/' + apiVersion + '/familymembers/photo');
-			
-			var id = req.params.id;
-			
-			if (id === undefined) {
-				res.send(JSON.stringify({ err: true, value: 'Error with GET /api/' + apiVersion + '/familymembers/:id/photo' }));
-			} else {
-				data.getFamilyMemberPhotoById(id).then(function(d) {
-					res.send(d);
-				}).catch(function() {
-					pageErrors.send(req, res, 500);
-				});
-			}
+	apiRouter.get('/familymembers/:id/photo', function (req, res, next) {
+		var id = req.params.id;
+		
+		if (id === undefined) {
+			next(new Error('id === undefined'));
 		} else {
-			security.sessionExpiredResponse(res);
+			dataAccess.getFamilyMemberPhotoById(id).then(function(d) {
+				res.send(d);
+			}).catch(function() {
+				next(new Error(500));
+			});
 		}
 	});
 	
-	app.post('/api/' + apiVersion + '/familymembers/:id/photo', apiUploadsHelper.tempImgUpload, function (req, res) {
-		if (security.checkUserAccess(req)) {	
-			logger.info('API - POST - /api/' + apiVersion + '/familymembers/photo');
+	apiRouter.post('/familymembers/:id/photo', apiUploadsHelper.tempImgUpload, function (req, res, next) {
+		var user = security.getActiveUser(req);
+		var id = req.params.id;
+		var buffer = req.file.buffer;
 		
-			var user = security.getActiveUser(req);
-			var id = req.params.id;
-			var buffer = req.file.buffer;
-			
-			if (id === undefined || buffer === undefined) {
-				res.send(JSON.stringify({ err: true, value: 'Error with POST /api/' + apiVersion + '/familymembers/:id/photo' }));
-			} else {
-				data.saveFamilyMemberPhotoById(user, id, buffer).then(function(d) {
-					res.send(d);	
-				});
-			}
+		if (id === undefined || buffer === undefined) {
+			next(new Error('id === undefined || buffer === undefined'));
 		} else {
-			security.sessionExpiredResponse(res);
+			dataAccess.saveFamilyMemberPhotoById(user, id, buffer).then(function(d) {
+				res.send(d);	
+			});
 		}
 	});
 };

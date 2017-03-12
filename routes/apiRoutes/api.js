@@ -1,18 +1,20 @@
-//API Routes - Data - Naming will be reworked once MongoDB is set up
-// /api/data/{dataContent}.json
-
-var apiUploadsHelper = require('./apiUploadsHelper.js');
-
-module.exports = function(app, dataAccess, security, config, fileAccess, pageErrors, logger){	
+module.exports = function(app, dataAccess, security, config, fileAccess, pageErrors, logger, express){	
 	var fileLoc = './api';
-	var apiVersion = config.api.version;
+	var apiRouter = express.Router();
+	var apiUploadsHelper = require('./apiUploadsHelper.js');
+	var apiMiddleware = require('./middleware/apiMiddleware')(security, logger);
+	var apiErrorMiddleware = require('./middleware/apiErrorMiddleware')(pageErrors);
 	
-	require(fileLoc + '/userActivity.js')(app, apiVersion, dataAccess, security, logger);
-	require(fileLoc + '/videos.js')(app, apiVersion, dataAccess, security, pageErrors, logger);
-	require(fileLoc + '/images/folder.js')(app, apiVersion, security, config, fileAccess, logger);
-	require(fileLoc + '/images/metadata.js')(app, apiVersion, dataAccess, security, config, fileAccess, pageErrors, logger);
-	require(fileLoc + '/images/photo.js')(app, apiVersion, security, config, fileAccess, apiUploadsHelper, logger);
-	require(fileLoc + '/images/thumbnail.js')(app, apiVersion, security, config, fileAccess, apiUploadsHelper, logger);
-	require(fileLoc + '/familymembers.js')(app, apiVersion, dataAccess, security, pageErrors, logger);
-	require(fileLoc + '/familymembers/photo.js')(app, apiVersion, dataAccess, security, apiUploadsHelper, pageErrors, logger);
+	app.use(apiMiddleware);//order matters here
+	app.use('/api/' + config.api.version, apiRouter);
+	app.use(apiErrorMiddleware);
+		
+	require(fileLoc + '/userActivity.js')(apiRouter, dataAccess, security);
+	require(fileLoc + '/videos.js')(apiRouter, dataAccess, security);
+	require(fileLoc + '/images/folder.js')(apiRouter, security, config, fileAccess);
+	require(fileLoc + '/images/metadata.js')(apiRouter, dataAccess, security, config);
+	require(fileLoc + '/images/photo.js')(apiRouter, security, config, fileAccess, apiUploadsHelper);
+	require(fileLoc + '/images/thumbnail.js')(apiRouter, security, config, fileAccess, apiUploadsHelper);
+	require(fileLoc + '/familymembers.js')(apiRouter, dataAccess, security);
+	require(fileLoc + '/familymembers/photo.js')(apiRouter, dataAccess, security, apiUploadsHelper);
 };

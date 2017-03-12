@@ -1,42 +1,30 @@
-module.exports = function(app, apiVersion, data, security, pageErrors, logger){	
-
-	app.get('/api/' + apiVersion + '/videos', function (req, res) {
-		if (security.checkUserAccess(req)) {	
-			logger.info('API - GET - /api/' + apiVersion + '/videos');
-			
-			var ct = req.query.ct;
-			var start = req.query.start;
-			
-			if (ct === undefined || start === undefined) {
-				res.send(JSON.stringify({ err: true, value: 'Error with GET /api/' + apiVersion + '/videos' }));
-			} else {				
-				ct = security.verifyRequstCount(ct);
-				data.getVideos(ct, start).then(function(d) {
-					res.send(d);
-				});
-			}
-		} else {
-			security.sessionExpiredResponse(res);
+module.exports = function(apiRouter, dataAccess, security){	
+	
+	apiRouter.get('/videos', function (req, res, next) {		
+		var ct = req.query.ct;
+		var start = req.query.start;
+		
+		if (ct === undefined || start === undefined) {
+			next(new Error('ct === undefined || start === undefined'));
+		} else {				
+			ct = security.verifyRequstCount(ct);
+			dataAccess.getVideos(ct, start).then(function(d) {
+				res.send(d);
+			});
 		}
 	});
 	
-	app.get('/api/' + apiVersion + '/videos/:id', function (req, res) {
-		if (security.checkUserAccess(req)) {	
-			logger.info('API - GET - /api/' + apiVersion + '/videos/:id');
-			
-			var id = req.params.id;
-			
-			if (id === undefined) {
-				res.send(JSON.stringify({ err: true, value: 'Error with GET /api/' + apiVersion + '/videos/:id' }));
-			} else {				
-				data.getVideoByID(id).then(function(d) {
-					res.send(d);
-				}).catch(function () {
-					pageErrors.send(req, res, 500);
-				});
-			}
+	apiRouter.get('/videos/:id', function (req, res, next) {
+		var id = req.params.id;
+		
+		if (id === undefined) {
+			next(new Error('id === undefined'));
 		} else {
-			security.sessionExpiredResponse(res);
+			dataAccess.getVideoByID(id).then(function(d) {
+				res.send(d);
+			}).catch(function () {
+				next(new Error(500));
+			});
 		}
 	});
 };

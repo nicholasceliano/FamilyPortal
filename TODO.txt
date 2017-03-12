@@ -1,5 +1,4 @@
 Short Term:
-- API middleware?
 - Images
 	- Need to clean up Images controller
 	- Need to have browser 'back' button save filtered search critera

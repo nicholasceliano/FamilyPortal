@@ -16,49 +16,49 @@ module.exports = function(logger) {
 			});
 		},
 		
-		saveFolder: function(folderLocation, folderName, callback, req, res) {
+		saveFolder: function(folderLocation, folderName, callback, req, res, next) {
 			logger.info("Begin: fileAccess.saveFolder - folderLocation:" + folderLocation);
 			
 			fs.mkdir(folderLocation, function(err) {
 				if (err){
 					logger.error(err);
-					return callback(err, null, req, res);
+					return callback(err, null, req, res, next);
 				} else  {
 					logger.info("End: fileAccess.saveFolder");
-					return callback(false, folderName, req, res);
+					return callback(false, folderName, req, res, next);
 				}	
 			});
 		},
 		
-		renameFile: function (originalFileName, newFileName, callback, res, id) {
+		renameFile: function (originalFileName, newFileName, callback, res, id, next) {
 			logger.info("Begin: fileAccess.renameFile - originalFileName:" + originalFileName + " newFileName:" + newFileName);
 			
 			fs.rename(originalFileName, newFileName, function(err) {
 				if (err) {
 					logger.error(err);
-					return callback(err, res, id);
+					return callback(err, res, id, next);
 				} else {
 					logger.info("End: fileAccess.renameFile");
-					return callback(false, res, id);
+					return callback(false, res, id, next);
 				}
 			});
 		},
 		
-		deleteFile: function (file, callback, res, id, user) {
+		deleteFile: function (file, callback, res, id, user, next) {
 			logger.info("Begin: fileAccess.deleteFile - file:" + file);
 			
 			return fs.unlink(file, function(err) {	
 				if (err) {
 					logger.error(err);
-					return callback(err, res, id, user);
+					return callback(err, res, id, user, next);
 				} else {
 					logger.info("End: fileAccess.deleteFile");
-					return callback(false, res, id, user);
+					return callback(false, res, id, user, next);
 				}
 			});
 		},
 		
-		readFile: function (baseFileLocation, path, callback, res) {
+		readFile: function (baseFileLocation, path, callback, res, next) {
 			logger.info("Begin: fileAccess.readFile - fileLoc:" + baseFileLocation + path);
 			
 			checkIfFile(baseFileLocation + path, function(err, isFile) {
@@ -66,31 +66,31 @@ module.exports = function(logger) {
 					fs.readFile(baseFileLocation + path, function(err, data){
 						if (err) {
 							logger.error(err);
-							return callback(err, null, res);
+							return callback(err, null, res, next);
 						} else {
 							logger.info("End: fileAccess.readFile");
-							callback(false, data, res);
+							callback(false, data, res, next);
 						}
 					});
 				} else {
 					fs.readFile((__dirname + '/dist/images/defaultImage.jpg'), function(err, data){
 						if (err) {
 							logger.error(err);
-							return callback(err, null, res);
+							return callback(err, null, res, next);
 						} else {
 							logger.info("End: fileAccess.readFile");
-							callback(false, data, res);
+							callback(false, data, res, next);
 						}
 					});	
 				}
 			});		
 		},
 		
-		readFolders: function (folderLocation, callback, res) {
+		readFolders: function (folderLocation, callback, res, next) {
 			fs.readdir(folderLocation, function(err, data) {
 				if (err){
 					logger.error(err);
-					callback(err, null, res);
+					callback(err, null, res, next);
 				} else {
 					logger.info("End: FileAccess.readFolders");
 					
@@ -103,7 +103,7 @@ module.exports = function(logger) {
 						}
 					}
 					
-					callback(false, data, res);
+					callback(false, data, res, next);
 				}
 			});
 			
