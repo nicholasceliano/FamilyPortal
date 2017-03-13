@@ -15,7 +15,8 @@ familyPortalApp.directive('scrollRepeatContent', ['$timeout', function($timeout)
 					var scrollContainer = scrollContent.parent('.scroll-container');
 					scrollContent.addClass('scroll-content');
 					
-					if (ul.height() > panelBody.height()) {					
+					if (ul.height() > panelBody.height()) {	
+						var scrollbarHeight = Math.round((panelBody.height() / ul.height()) * scrollContainer.height());
 						var offset = Math.round(getScrollBarWidth() + scrollContainer.width());
 						scrollContent.width(offset);
 						
@@ -24,7 +25,7 @@ familyPortalApp.directive('scrollRepeatContent', ['$timeout', function($timeout)
 							scrollContent.width(offset);
 						});
 						
-						buildScrollbar(scrollContainer, scrollContent);
+						buildScrollbar(scrollContainer, scrollContent, scrollbarHeight);
 					}
 				});
 			}
@@ -38,13 +39,14 @@ familyPortalApp.directive('scrollRepeatContent', ['$timeout', function($timeout)
 		return 100 - widthWithScroll;
 	}
 	
-	function buildScrollbar(scrollContainer, scrollContent) {
+	function buildScrollbar(scrollContainer, scrollContent, scrollbarHeight) {
 		var scrollbarContainerHeight = scrollContainer.height();
 		var scrollbarContainer = $('<div class="scrollbar-container"></div>').css({top: -scrollbarContainerHeight});
 		var scrollbar = $('<div class="scrollbar"></div>').css({top: 0});
 		var manualScroll;
 		var mouseDown = false;
 		
+		scrollbar.height(scrollbarHeight);
 		scrollContainer.append(scrollbarContainer);
 		scrollbarContainer.append(scrollbar);
 		
@@ -74,14 +76,14 @@ familyPortalApp.directive('scrollRepeatContent', ['$timeout', function($timeout)
 				var scrollbarContainterBottom = scrollContainer.offset().top + scrollContainer.height();
 				var scrollbarPosition = scrollbarContainterTop;
 				
-				if (mousePosition < (scrollbarContainterTop))
-					scrollbarPosition = scrollbarContainterTop;
-				else if (mousePosition > (scrollbarContainterBottom - scrollbar.height()))
-					scrollbarPosition = scrollbarContainterBottom - scrollbar.height();
+				if (mousePosition < (scrollbarContainterTop + (scrollbar.height() / 2)))
+					scrollbarPosition = scrollbarContainterTop + (scrollbar.height() / 2);
+				else if (mousePosition > (scrollbarContainterBottom - (scrollbar.height() / 2)))
+					scrollbarPosition = scrollbarContainterBottom - (scrollbar.height() / 2);
 				else 
 					scrollbarPosition = mousePosition;
 				
-				scrollbarPosition = scrollbarPosition - scrollbarContainterTop;
+				scrollbarPosition = scrollbarPosition - scrollbarContainterTop - (scrollbar.height() / 2);
 				
 				var percentScrolled = scrollbarPosition / (scrollContainer.height() - scrollbar.height());
 				var maxScrollHeight = scrollContent[0].scrollHeight - scrollContent.height();
