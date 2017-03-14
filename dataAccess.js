@@ -243,7 +243,7 @@ module.exports = function(config, logger) {
 			}).then(function(data) {
 				logger.info("End: dataAcces.deleteImageMetaDataByFolderLoc");
 				
-				insertUserActivity(new mongo.ObjectID(user.userId), user.userName, "deleted multiple Images");
+				insertUserActivity(new mongo.ObjectID(user.userId), user.userName, "deleted a Folder");
 				return (data === null) ? buildResponseMessage(true, 'Error Removing Image Metadata By Folder Loc') : buildResponseMessage(false, data);
 			});
 		}

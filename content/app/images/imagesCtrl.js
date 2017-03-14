@@ -152,8 +152,6 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		var r = confirm("Are you sure you want to perminantly delete this folder and all of its contents?");
 		if (r === true) {
 			deleteFolder(currentFolderName, selectedFolderName);
-			
-			deleteImageMetaDataByFolderLoc(currentFolderName + selectedFolderName);
 		}
 	};
 
