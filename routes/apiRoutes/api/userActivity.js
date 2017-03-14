@@ -2,12 +2,13 @@ module.exports = function(apiRouter, dataAccess, security){
 	
 	apiRouter.get('/userActivity', function (req, res, next) {
 		var ct = req.query.ct;
+		var start = req.query.start;
 		
-		if (ct === undefined) {
-			next(new Error('ct === undefined'));
+		if (ct === undefined || start === undefined) {
+			next(new Error('ct === undefined || start === undefined'));
 		} else {
 			ct = security.verifyRequstCount(ct);
-			dataAccess.getUserActivity(ct).then(function(d) {
+			dataAccess.getUserActivity(ct, start).then(function(d) {
 				res.send(d);
 			});
 		}

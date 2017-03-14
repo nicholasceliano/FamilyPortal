@@ -1,3 +1,5 @@
+- Fix scrolling on splash to recalculate dynamically when more pages are loaded
+- Back button go up 1 folder in directory
 Short Term:
 - Images
 	- Need to clean up Images controller
@@ -11,8 +13,6 @@ Short Term:
 - Fix UI on Videos page
 - Fix UI on Watch page
 - Move dataAccess helper functions to stored procs in database
-- Tags/Video info in db, referencing file location where videos live - same for images
-- Add paging to splash content?
 
 Structure
 - Replace Grunt with Gulp and Browserify to serve JS to front end from node packages

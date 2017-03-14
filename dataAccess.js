@@ -20,15 +20,15 @@ module.exports = function(config, logger) {
 			});
 		},
 		
-		getUserActivity: function (ct) {
+		getUserActivity: function (ct, start) {
 			 return mongoClient.connect(dbURL).then(function(db) {
-				 logger.info("Begin: dataAcces.getUserActivity - ct: " + ct);
+				 logger.info("Begin: dataAcces.getUserActivity - ct: " + ct + " start: " + start);
 				 
-				 return db.collection('userActivity').find().sort({createDate:-1}).limit(parseInt(ct)).toArray();
+				 return db.collection('userActivity').find().sort({createDate:-1}).skip(parseInt(start)).limit(parseInt(ct)).toArray();
 			}).then(function(data) {
 				logger.info("End: dataAcces.getUserActivity");
 				
-				return (data === null) ? buildResponseMessage(true, 'Error Retrieving User Activity') : buildResponseMessage(false, data);
+				return (data === null) ? buildResponseMessage(true, 'Error Retrieving User Activity') : buildResponseMessage(false, data, ct, start, 'userActivity');
 			});
 		},
 		

@@ -2,11 +2,11 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'userActivitySv
     'use strict';
 	
 	var splash = $scope;
-	
-	var numRecentUserActivity = 15;
-	var numRecentVideos = 15;
-	var numRecentImageMetaData = 8;
-	var numRecentFamilyMembers = 5;
+			
+	splash.userActivityPaging = { ct: 10, startItem: 0, totalRecords: 0, loading: false };
+	splash.videoPaging = { ct: 10, startItem: 0, totalRecords: 0, loading: false };
+	splash.imageMetaDataPaging = { ct: 10, startItem: 0, totalRecords: 0, loading: false };
+	splash.familyMembersPaging = { ct: 10, startItem: 0, totalRecords: 0, loading: false };
 	
 	splash.userActivityArray = [];
 	splash.userActivityLoading = true;
@@ -18,62 +18,90 @@ familyPortalApp.controller('splashCtrl', ['$scope', 'splashSvc', 'userActivitySv
 	splash.familyMembersLoading = true;
 	
 	splash.init = function () {
-		getRecentUserActivity();
-		getRecentVideos();
-		getRecentImageMetaData();
-		getRecentFamilyMembers();
+		splash.getRecentUserActivity(splash.userActivityPaging.ct, splash.userActivityPaging.startItem);
+		splash.getRecentVideos(splash.videoPaging.ct, splash.videoPaging.startItem);
+		splash.getRecentImageMetaData(splash.imageMetaDataPaging.ct, splash.imageMetaDataPaging.startItem);
+		splash.getRecentFamilyMembers(splash.familyMembersPaging.ct, splash.familyMembersPaging.startItem);
 	};
 	
-	function getRecentUserActivity() {
-		userActivitySvc.getRecentUserActivity(numRecentUserActivity).then(function (resp) {
+	splash.getRecentUserActivity = function(ct, startItem) {
+		userActivitySvc.getRecentUserActivity(ct, startItem).then(function (resp) {
 			  if (resp.err)
 				notificationService.error(resp.value);
-			else
-				splash.userActivityArray = splashSvc.calculateDayDiff(resp.value, 'ago');
-			
+			else {
+				$(splashSvc.calculateDayDiff(resp.value, 'ago')).each(function (i, e) {
+					splash.userActivityArray.push(e);
+				});
+				
+				splash.userActivityPaging.startItem = splash.userActivityPaging.startItem + resp.page.ct;
+				splash.userActivityPaging.totalRecords = resp.page.totalRecords;
+			}
+				
+			splash.userActivityPaging.loading = false;
 			splash.userActivityLoading = false;
 		}, function () {
 			notificationService.error('Error: videoSvc.getRecentUserActivity(numRecentUserActivity)');
 		});
-	}
+	};
 	
-	function getRecentVideos() {
-		videosSvc.getVideos(numRecentVideos, 0).then(function (resp) {
+	splash.getRecentVideos = function(ct, startItem) {
+		videosSvc.getVideos(ct, startItem).then(function (resp) {
             if (resp.err)
 				notificationService.error(resp.value);
-			else
-				splash.videosArray = splashSvc.calculateDayDiff(resp.value, 'old');
+			else {
+				$(splashSvc.calculateDayDiff(resp.value, 'old')).each(function (i, e) {
+					splash.videosArray.push(e);
+				});
+				
+				splash.videoPaging.startItem = splash.videoPaging.startItem + resp.page.ct;
+				splash.videoPaging.totalRecords = resp.page.totalRecords;
+			}
 			
+			splash.videoPaging.loading = false;
 			splash.videosLoading = false;
         }, function () {
             notificationService.error('Error: videoSvc.getRecentVideos(numRecentVideos)');
         });
-	}
+	};
 	
-	function getRecentImageMetaData() {
-		imagesMetadataSvc.getImageMetaData(numRecentImageMetaData, 0, '').then(function (resp) {
+	splash.getRecentImageMetaData = function (ct, startItem) {
+		imagesMetadataSvc.getImageMetaData(ct, startItem, '').then(function (resp) {
 			if (resp.err)
 				notificationService.error(resp.value);
-			else 
-				splash.imageMetaDataArray = splashSvc.calculateDayDiff(resp.value, 'old');
+			else {
+				$(splashSvc.calculateDayDiff(resp.value, 'old')).each(function (i, e) {
+					splash.imageMetaDataArray.push(e);
+				});
+				
+				splash.imageMetaDataPaging.startItem = splash.imageMetaDataPaging.startItem + resp.page.ct;
+				splash.imageMetaDataPaging.totalRecords = resp.page.totalRecords;
+			}
 			
+			splash.imageMetaDataPaging.loading = false;
 			splash.imageMetaDataLoading = false;
         }, function () {
             notificationService.error('Error: imagesMetadataSvc.getImageMetaData(numRecentImageMetaData)');
         });
-	}
+	};
 	
-	function getRecentFamilyMembers() {
-		familyMembersSvc.getFamilyMembers(numRecentFamilyMembers, 0).then(function (resp) {
+	splash.getRecentFamilyMembers = function(ct, startItem) {
+		familyMembersSvc.getFamilyMembers(ct, startItem).then(function (resp) {
 			if (resp.err)
 				notificationService.error(resp.value);
-			else 
-				splash.familyMembersArray = resp.value;
+			else {
+				$(resp.value).each(function (i, e) {
+					splash.familyMembersArray.push(e);
+				});
+				
+				splash.familyMembersPaging.startItem = splash.familyMembersPaging.startItem + resp.page.ct;
+				splash.familyMembersPaging.totalRecords = resp.page.totalRecords;
+			}
 			
+			splash.familyMembersPaging.loading = false;
 			splash.familyMembersLoading = false;
         }, function () {
             notificationService.error('Error: familyMembersSvc.getRecentFamilyMembers(numRecentFamilyMembers)');
         });
-	}
+	};
 	
 }]);
