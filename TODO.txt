@@ -2,9 +2,9 @@ Short Term:
 - Images
 	- Need to clean up Images controller
 	- Need to have browser 'back' button save filtered search critera
-	- Build in /images Delete Folder
 	- Some images arent uploading. Some bug idk. Maybe the MIME type??
 	- Allow users to click image to see full Image
+	- Add right click menu for folders/images
 - Set up Profile page
 	- Allow users to add new family members(set up HoH account)
 - Set up Calendar
@@ -12,7 +12,6 @@ Short Term:
 - Fix UI on Watch page
 - Move dataAccess helper functions to stored procs in database
 - Tags/Video info in db, referencing file location where videos live - same for images
-- I might need to fix how config file works. need to make sure its editable while live. might need to manually declare at top of each module?
 - Add paging to splash content?
 
 Structure

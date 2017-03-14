@@ -1,4 +1,4 @@
-var fs = require("fs");
+var fs = require("fs-extra");
 
 module.exports = function(logger) {
 	return {
@@ -106,7 +106,25 @@ module.exports = function(logger) {
 					callback(false, data, res, next);
 				}
 			});
-			
+		},
+		
+		deleteFolder: function (folderLocation, folderPath, callback, req, res, next) {
+			fs.ensureDir(folderLocation, function(err, data) {
+				if (err){
+					logger.error(err);
+					callback(err, folderPath, req, res, next);
+				} else {					
+					fs.remove(folderLocation, function(err){
+						if (err) {
+							logger.error(err);
+							return callback(err, folderPath, req, res, next);
+						} else {
+							logger.info("End: fileAccess.deleteFolder");
+							callback(false, folderPath, req, res, next);
+						}
+					});
+				}
+			});
 		}
 	};
 	

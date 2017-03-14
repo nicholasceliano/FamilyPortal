@@ -61,13 +61,27 @@ module.exports = function(apiRouter, dataAccess, security, config){
 	
 	apiRouter.delete('/images/:id/metadata', function (req, res, next) {
 		var id = req.params.id;
+		var folderLoc = req.params.folderLoc;
 		var user = security.getActiveUser(req);
 		
 		if (id === undefined) {
-			next(new Error('id === undefined || imgInfo === undefined'));
+			next(new Error('id === undefined'));
 		} else {
 			dataAccess.deleteImageMetaDataById(id, user).then(function(d) {
 				res.send(d);
+			});
+		}
+	});
+	
+	apiRouter.delete('/images/metadata', function (req, res, next) {
+		var folderLoc = req.query.folderLoc;
+		var user = security.getActiveUser(req);
+		
+		if (folderLoc === undefined) {
+			next(new Error('folderLoc === undefined'));
+		} else {		
+			dataAccess.deleteImageMetaDataByFolderLoc(folderLoc, user).then(function(d) { 
+				res.send(d); 
 			});
 		}
 	});

@@ -58,6 +58,17 @@ familyPortalApp.factory('imagesMetadataSvc', ['$q', 'portalApiSvc', function ($q
 
         return deffered.promise;
     };
+	
+	service.deleteImageMetaDataByFolderLoc = function (folderLoc) {
+		var deffered = $q.defer();
+		
+        portalApiSvc.Api('/api/v1/images/:id/metadata').delete({ folderLoc: folderLoc },
+			function (resp) { deffered.resolve(resp); },
+			function () { deffered.reject(); }
+		);
+
+        return deffered.promise;
+	};
 
 	return service;
 }]);

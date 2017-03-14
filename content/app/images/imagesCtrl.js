@@ -86,7 +86,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 				var resizedImgBlob = imageHelperSvc.dataURItoBlob(resizedImgUri);
 				thumbnailFormData.append('file', resizedImgBlob);
 				thumbnailFormData.append('fileName', fileName + '.thumbnail' + fileExt);
-				thumbnailFormData.append('fileLoc', '/');
+				thumbnailFormData.append('fileLoc', images.folderName);
 				saveThumbnail(thumbnailFormData);
 			};
 			thumbnailReader.readAsDataURL(originalImgBlob);
@@ -98,7 +98,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 				var imgBlob = imageHelperSvc.dataURItoBlob(e.currentTarget.result);
 				imageFormData.append('file', imgBlob);
 				imageFormData.append('fileName', fileName + fileExt);
-				imageFormData.append('fileLoc', '/');
+				imageFormData.append('fileLoc', images.folderName);
 				saveImage(imageFormData);
 			};
 			imageReader.readAsDataURL(originalImgBlob);
@@ -107,7 +107,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 			var postData = {
 				name: images.saveImageName,
 				tags: $.unique(images.saveImageTags.split(',').map(function(item) { return item.trim(); })),
-				fileLocation: '/',
+				fileLocation: images.folderName,
 				fileName: fileName,
 				fileExt: fileExt,
 				createdBy: images.currentUserId
@@ -146,6 +146,16 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		getFolders(images.folderName);
 		getImageMetaData(pagingCt, images.pagingStartItem, images.searchText, images.folderName);
 	};
+	
+	images.deleteFolder = function (currentFolderName, selectedFolderName) {
+		
+		var r = confirm("Are you sure you want to perminantly delete this folder and all of its contents?");
+		if (r === true) {
+			deleteFolder(currentFolderName, selectedFolderName);
+			
+			deleteImageMetaDataByFolderLoc(currentFolderName + selectedFolderName);
+		}
+	};
 
 	images.cancelAdd = function ($event) {
 		var e =  $event.currentTarget;
@@ -155,7 +165,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		outerContainer.find(icInner_AddFolder).hide();
 		outerContainer.find(icInner).show();
 	};
-
+	
 	//Hover Event
 	images.hoverAdd = function ($event, enter) {
 		var e =  $event.currentTarget;
@@ -279,6 +289,25 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
         });
 	}
 	
+	function deleteFolder(currentFolderName, selectedFolderName) {
+		imagesFolderSvc.deleteFolder(currentFolderName + selectedFolderName).then(function(resp) {
+			if (resp.err) {
+				notificationService.info(resp.value);
+			} else {
+				$(images.folders).each(function(i, e) {
+					if (e.indexOf(selectedFolderName) > -1)
+						images.folders.splice(i, 1);	
+				});
+				
+				deleteImageMetaDataByFolderLoc(currentFolderName + selectedFolderName, function () {
+					notificationService.success('Sucessfully Deleted Folder');
+				});
+			}
+		}, function () {
+            notificationService.error('Error: imagesSvc.deleteFolder(currentFolderName, selectedFolderName)');
+        });
+	}
+	
 	function getImageMetaData(imgCt, startItem, searchTerm, folderPath) {
 		imagesMetadataSvc.getImageMetaData(imgCt, startItem, searchTerm, folderPath).then(function (resp) {
             if (resp.err)
@@ -296,5 +325,16 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
         }, function () {
             notificationService.error('Error: imagesMetadataSvc.getImageMetaData(imgCt)');
         });
+	}
+	
+	function deleteImageMetaDataByFolderLoc(folderLoc, callback) {
+		imagesMetadataSvc.deleteImageMetaDataByFolderLoc(folderLoc).then(function (resp) {
+			if (resp.err)
+				notificationService.info(resp.value);
+			else
+				callback();
+		}, function () {
+			notificationService.error('Error: deleteImageMetaDataByFolderLoc(folderLoc)');
+		});
 	}
 }]);

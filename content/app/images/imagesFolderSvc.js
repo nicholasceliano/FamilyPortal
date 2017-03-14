@@ -24,6 +24,17 @@ familyPortalApp.factory('imagesFolderSvc', ['$q', 'portalApiSvc', function ($q, 
 
         return deffered.promise;
 	};
+	
+	service.deleteFolder = function (folderPath) {
+		var deffered = $q.defer();
+		
+        portalApiSvc.Api('/api/v1/images/folder').delete({ folderPath: folderPath },
+			function (resp) { deffered.resolve(resp); },
+			function () { deffered.reject(); }
+		);
+
+        return deffered.promise;
+	};
 
 	return service;
 }]);

@@ -15,12 +15,13 @@ block content
 					span(ng-class="{'font-weight-bold': $last === true}" ng-click="openFolder(f.folder)") {{f.text}}
 			div(class="panel-loading-cover-page" ng-hide="!pageLoading()")
 				img(src="/dist/images/loading.gif")
-			div(ng-hide="pageLoading()" ng-repeat="i in folders" class="image-container-outer col-xs-12 col-sm-6 col-md-4 col-lg-2" resize-height-to-square)
+			div(ng-hide="pageLoading()" ng-repeat="i in folders" class="image-container-outer col-xs-12 col-sm-6 col-md-4 col-lg-2" resize-height-to-square right-click-folder)
 				div(class="image-container-inner col-xs-12")
 					div
 						img(ng-click="openFolder(folderName + i)" ng-src="/dist/images/folder-icon.png" center-image-in-div)
 					div
 						span(class="col-xs-12 no-side-padding text-center hideOverflow font-weight-bold") {{i}}
+						span(class="col-xs-12 deleteFolder" ng-click="deleteFolder(folderName, i)") Perimently Delete Folder
 			div(ng-hide="pageLoading()" ng-repeat="i in imageMetaData" class="image-container-outer col-xs-12 col-sm-6 col-md-4 col-lg-2" resize-height-to-square)
 				div(class="image-container-inner col-xs-12")
 					div

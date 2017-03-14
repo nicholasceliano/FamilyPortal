@@ -29,14 +29,3 @@
 	margin:auto;
 	display:block;
 }
-
-.deleteImage {
-	text-align:center;
-	font-size:12px;
-	color:#cecece;
-	cursor:pointer;
-}
-
-.deleteImage:hover {
-	color: #d9534f;
-}

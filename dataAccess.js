@@ -231,7 +231,20 @@ module.exports = function(config, logger) {
 				logger.info("End: dataAcces.deleteImageMetaDataById");
 				
 				insertUserActivity(new mongo.ObjectID(user.userId), user.userName, "deleted an Image");
-				return (data === null) ? buildResponseMessage(true, 'Error Removing Image By Id') : buildResponseMessage(false, data);
+				return (data === null) ? buildResponseMessage(true, 'Error Removing Image Metadata By Id') : buildResponseMessage(false, data);
+			});
+		},
+		
+		deleteImageMetaDataByFolderLoc: function (folderLoc, user) {
+			return mongoClient.connect(dbURL).then(function(db) {
+				logger.info("Begin: dataAcces.deleteImageMetaDataByFolderLoc - folderLoc: " + folderLoc);
+				
+				return db.collection('images').remove({ fileLocation: { $regex :  '^' + folderLoc, $options : 'i' } });
+			}).then(function(data) {
+				logger.info("End: dataAcces.deleteImageMetaDataByFolderLoc");
+				
+				insertUserActivity(new mongo.ObjectID(user.userId), user.userName, "deleted multiple Images");
+				return (data === null) ? buildResponseMessage(true, 'Error Removing Image Metadata By Folder Loc') : buildResponseMessage(false, data);
 			});
 		}
 	};

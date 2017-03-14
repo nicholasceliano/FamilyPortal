@@ -98,3 +98,23 @@
 	color:#414042;
 	padding:8px;
 }
+
+.deleteImage,
+.deleteFolder {
+	text-align:center;
+	font-size:12px;
+	color:#cecece;
+	cursor:pointer;
+}
+
+.deleteImage:hover,
+.deleteFolder:hover,
+.image-container-inner:hover .deleteImage:hover,
+.image-container-inner:hover .deleteFolder:hover {
+	color: #d9534f;
+}
+
+.image-container-inner:hover .deleteImage,
+.image-container-inner:hover .deleteFolder {
+	color:#e8e8e8;
+}
