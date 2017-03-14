@@ -57,7 +57,7 @@ block content
 						label(class="control-label") Folder Name:
 						input(id="folderNameError" class="form-control" type="text" ng-model="saveFolderName")
 						span(class="control-label" for="folderNameError" ng-bind="saveFolderError")
-			load-next-page(ng-hide="pageLoading()" items="Images")
+			load-next-page(ng-hide="pageLoading()" items="Images" paging-variables="imagePaging" load-next-page-fn="getImageMetaData(ct, pagingStartItem)")
 			div(class="col-xs-12 no-side-padding" ng-hide="pageLoading()") 
 				h3 allow users to drag and drop images to folders
 				h3 maybe mirror all this for the video page

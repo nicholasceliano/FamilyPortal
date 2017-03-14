@@ -1,30 +1,17 @@
-familyPortalApp.controller('videosCtrl', ['$scope', 'videosSvc', 'pagingSvc', 'notificationService', function($scope, videosSvc, pagingSvc, notificationService) {
+familyPortalApp.controller('videosCtrl', ['$scope', 'videosSvc', 'notificationService', function($scope, videosSvc, notificationService) {
     'use strict';
 	
 	var videos = $scope;
 	
-	var pagingCt = 25;
-	videos.pagingStartItem = 0;
-	videos.pagingTotalRecords = 0;
-	videos.nextPageLoading = false;
-	
+	videos.videoPaging = { ct: 25, startItem: 0, totalRecords: 0, loading: false };
 	videos.videosArray = [];
 	videos.videosLoading = true;
 		
 	videos.init = function () {
-		//get json data through api
-		getVideos(pagingCt, videos.pagingStartItem);
-	};
-	
-	videos.loadNextPage = function () {
-		var ct = pagingSvc.getNextPageCt(pagingCt, videos.pagingStartItem, videos.pagingTotalRecords);
-		if (ct > 0){
-			videos.nextPageLoading = true;
-			getVideos(ct, videos.pagingStartItem);
-		}
+		videos.getVideos(videos.videoPaging.ct, videos.videoPaging.startItem);
 	};
 		
-	function getVideos(ct, startItem) {
+	videos.getVideos = function (ct, startItem) {
 		 videosSvc.getVideos(ct, startItem).then(function (resp) {
 			if (resp.err) 
 				 notificationService.error(resp.value);
@@ -33,14 +20,14 @@ familyPortalApp.controller('videosCtrl', ['$scope', 'videosSvc', 'pagingSvc', 'n
 					videos.videosArray.push(e);
 				});
 				
-				videos.pagingStartItem = videos.pagingStartItem + resp.page.ct;
-				videos.pagingTotalRecords = resp.page.totalRecords;
+				videos.videoPaging.startItem = videos.videoPaging.startItem + resp.page.ct;
+				videos.videoPaging.totalRecords = resp.page.totalRecords;
 			}
 				
-			videos.nextPageLoading = false;
+			videos.videoPaging.loading = false;
 			videos.videosLoading = false;
         }, function () {
             notificationService.error('Error: videoSvc.getVideos()');
         });
-	}
+	};
 }]);

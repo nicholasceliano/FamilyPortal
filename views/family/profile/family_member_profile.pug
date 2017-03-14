@@ -18,4 +18,4 @@ block content
 							span {{userActivity.userName | capitalizeFirstLetter}} {{userActivity.desc}} 
 							a(ng-href="{{userActivity.itemUrl}}") {{userActivity.item}}
 						span(class="badge list-item-withbadge-badge") {{userActivity.dateDiff}}
-				load-next-page(ng-hide="pageLoading()" items="User Activity")
+				load-next-page(ng-hide="pageLoading()" items="User Activity" paging-variables="userActivityPaging" load-next-page-fn="getUserRecentActivity(ct, pagingStartItem)")

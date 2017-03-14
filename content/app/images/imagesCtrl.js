@@ -1,4 +1,4 @@
-familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 'imagesSvc', 'imagesMetadataSvc', 'imagesThumbnailSvc', 'imagesFolderSvc', 'pagingSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, urlHelperSvc, imagesSvc, imagesMetadataSvc, imagesThumbnailSvc, imagesFolderSvc, pagingSvc, imageHelperSvc, notificationService) {
+familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 'imagesSvc', 'imagesMetadataSvc', 'imagesThumbnailSvc', 'imagesFolderSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, urlHelperSvc, imagesSvc, imagesMetadataSvc, imagesThumbnailSvc, imagesFolderSvc, imageHelperSvc, notificationService) {
     'use strict';
 	
 	var images = $scope;
@@ -10,10 +10,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		icInner_AddFolder = '.add-folder-container-inner',
 		icInner_AddImage = '.add-image-container-inner';
 	
-	var pagingCt = 18;
-	images.pagingStartItem = 0;
-	images.pagingTotalRecords = 0;
-	images.nextPageLoading = false;
+	images.imagePaging = { ct: 10, startItem: 0, totalRecords: 0, loading: false };
 
 	images.currentUserId = $cookies.get('userId');	
 	
@@ -39,7 +36,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	images.init = function () {
 		interpretQueryParams();
 		getFolders(images.folderName);
-		getImageMetaData(pagingCt, images.pagingStartItem, images.searchText, images.folderName);
+		images.getImageMetaData(images.imagePaging.ct, images.imagePaging.startItem);
 	};
 	
 	images.pageLoading = function() {
@@ -134,8 +131,8 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		images.folderName = (folderName.slice(-1) == '/' ? folderName : folderName + '/');
 		
 		//reset all variables to default
-		images.pagingStartItem = 0;
-		images.pagingTotalRecords = 0;
+		images.imagePaging.startItem = 0;
+		images.imagePaging.totalRecords = 0;
 		
 		images.folders = [];
 		images.foldersLoading = true;
@@ -144,7 +141,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		images.imageMetaDataLoading = true;
 		
 		getFolders(images.folderName);
-		getImageMetaData(pagingCt, images.pagingStartItem, images.searchText, images.folderName);
+		images.getImageMetaData(images.imagePaging.ct, images.imagePaging.startItem);
 	};
 	
 	images.deleteFolder = function (currentFolderName, selectedFolderName) {
@@ -186,23 +183,15 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		}
 	};
 	
-	images.loadNextPage = function () {
-		var ct = pagingSvc.getNextPageCt(pagingCt, images.pagingStartItem, images.pagingTotalRecords);
-		if (ct > 0){
-			images.nextPageLoading = true;
-			getImageMetaData(ct, images.pagingStartItem, images.searchText, images.folderName);
-		}
-	};
-	
 	images.search = function () {
 		//set page & imageMetaData to default values
-		images.pagingStartItem = 0;
-		images.pagingTotalRecords = 0;
+		images.imagePaging.startItem = 0;
+		images.imagePaging.totalRecords = 0;
 		
 		images.imageMetaData = [];
 		images.imageMetaDataLoading = true;
 		
-		getImageMetaData(pagingCt, images.pagingStartItem, images.searchText, images.folderName);
+		images.getImageMetaData(images.imagePaging.ct, images.imagePaging.startItem);
 	};
 	
 	function interpretQueryParams() {
@@ -306,8 +295,8 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
         });
 	}
 	
-	function getImageMetaData(imgCt, startItem, searchTerm, folderPath) {
-		imagesMetadataSvc.getImageMetaData(imgCt, startItem, searchTerm, folderPath).then(function (resp) {
+	images.getImageMetaData = function (imgCt, startItem) {
+		imagesMetadataSvc.getImageMetaData(imgCt, startItem, images.searchText, images.folderName).then(function (resp) {
             if (resp.err)
 				notificationService.info(resp.value);
 			else {				
@@ -315,15 +304,15 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 					images.imageMetaData.push(e);
 				});
 				
-				images.pagingStartItem = images.pagingStartItem + resp.page.ct;
-				images.pagingTotalRecords = resp.page.totalRecords;
+				images.imagePaging.startItem = images.imagePaging.startItem + resp.page.ct;
+				images.imagePaging.totalRecords = resp.page.totalRecords;
 			}
-			images.nextPageLoading = false;
+			images.imagePaging.loading = false;
 			images.imageMetaDataLoading = false;
         }, function () {
-            notificationService.error('Error: imagesMetadataSvc.getImageMetaData(imgCt)');
+            notificationService.error('Error: imagesMetadataSvc.getImageMetaData(imgCt, startItem)');
         });
-	}
+	};
 	
 	function deleteImageMetaDataByFolderLoc(folderLoc, callback) {
 		imagesMetadataSvc.deleteImageMetaDataByFolderLoc(folderLoc).then(function (resp) {
