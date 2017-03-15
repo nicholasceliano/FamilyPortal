@@ -4,31 +4,44 @@ familyPortalApp.directive('scrollRepeatContent', ['$timeout', function($timeout)
 		link: function (scope, element, attrs) {
 			var ul = $(element).parent();
 			var scrollContent = ul.parent();
-			var panelBody = scrollContent.parent('.panel-body');
-			ul.hide();
+			var initialLoad = (scrollContent.parent('.panel-body').length === 1) ? true : false;
 			
-			if (scope.$last === true) {
-                $timeout(function () {
-					ul.show();
-					
-					scrollContent.wrap('<div class="scroll-container"></div>');
-					var scrollContainer = scrollContent.parent('.scroll-container');
-					scrollContent.addClass('scroll-content');
-					
-					if (ul.height() > panelBody.height()) {	
-						var scrollbarHeight = Math.round((panelBody.height() / ul.height()) * scrollContainer.height());
-						var offset = Math.round(getScrollBarWidth() + scrollContainer.width());
-						scrollContent.width(offset);
+			if (initialLoad)
+				ul.hide();
+			
+			attrs.$observe('ngRepeat', function () {	
+				if (scope.$last === true) {
+					$timeout(function () {			
+						var panelBody;
+						var scrollContainer;
 						
-						$(window).resize(function (){
+						if (initialLoad) {
+							ul.show();
+							panelBody = scrollContent.parent('.panel-body');
+						
+							scrollContent.wrap('<div class="scroll-container"></div>');
+							scrollContainer = scrollContent.parent('.scroll-container');
+							scrollContent.addClass('scroll-content');
+						} else {
+							scrollContainer = scrollContent.parent('.scroll-container');
+							panelBody = scrollContainer.parent('.panel-body');
+						}
+						
+						if (ul.height() > panelBody.height()) {	
+							var scrollbarHeight = Math.round((panelBody.height() / ul.height()) * scrollContainer.height());
 							var offset = Math.round(getScrollBarWidth() + scrollContainer.width());
 							scrollContent.width(offset);
-						});
-						
-						buildScrollbar(scrollContainer, scrollContent, scrollbarHeight);
-					}
-				});
-			}
+							
+							$(window).resize(function (){
+								var offset = Math.round(getScrollBarWidth() + scrollContainer.width());
+								scrollContent.width(offset);
+							});
+							
+							buildScrollbar(scrollContainer, scrollContent, scrollbarHeight);
+						}
+					});
+				}
+			});
 		}
 	};
 		
@@ -40,6 +53,7 @@ familyPortalApp.directive('scrollRepeatContent', ['$timeout', function($timeout)
 	}
 	
 	function buildScrollbar(scrollContainer, scrollContent, scrollbarHeight) {
+		scrollContainer.find('.scrollbar-container').remove();
 		var scrollbarContainerHeight = scrollContainer.height();
 		var scrollbarContainer = $('<div class="scrollbar-container"></div>').css({top: -scrollbarContainerHeight});
 		var scrollbar = $('<div class="scrollbar"></div>').css({top: 0});
@@ -49,6 +63,8 @@ familyPortalApp.directive('scrollRepeatContent', ['$timeout', function($timeout)
 		scrollbar.height(scrollbarHeight);
 		scrollContainer.append(scrollbarContainer);
 		scrollbarContainer.append(scrollbar);
+		
+		recaulcuateScrollbarTop(scrollContent[0]);
 		
 		scrollContent.scroll(function(){
 			if (!mouseDown){
