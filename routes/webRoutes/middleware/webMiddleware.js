@@ -3,7 +3,10 @@ module.exports = function(security, logger){
 		logger.info('WEB - ' + req.method + ' - ' + req.url);
 		
 		if (security.checkUserAccess(req)) {
-			next();
+			if (req.url == '/logout')
+				security.logout(req, res);
+			else
+				next();
 		} else {
 			if (req.url == '/')
 				res.render('login/login', { title: 'Login - Family Scrapbook',  accessDenied: true, username: '', password: '', error: ''  });

@@ -1,20 +1,15 @@
 //Webpage Routes Only
-module.exports = function(app, dataAccess, security, config, logger, express){
+module.exports = function(app, security, logger, express){
 	var webRouter = express.Router();
 	var webMiddleware = require('./middleware/webMiddleware')(security, logger);
 	
-	webRouter.use(webMiddleware);//order matters here
-	app.use('/', webRouter);
+	app.get('/', function(req, res) {
+		res.redirect('/app');
+	});
 	
-	require('./web/calendar.js')(webRouter);
-	require('./web/family.js')(webRouter);
-	require('./web/family/family_member_profile.js')(webRouter);
+	webRouter.use(webMiddleware);//order matters here
+	app.use('/app', webRouter);
+	
 	require('./web/index.js')(webRouter);
-	require('./web/images.js')(webRouter);
-	require('./web/images/view.js')(webRouter);
 	require('./web/login.js')(webRouter, security);
-	require('./web/logout.js')(webRouter, security);
-	require('./web/profile.js')(webRouter, security);
-	require('./web/videos.js')(webRouter);
-	require('./web/videos/watch.js')(webRouter, dataAccess, config);
 };

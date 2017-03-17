@@ -4,7 +4,7 @@ familyPortalApp.factory('headerSvc', function () {
     var service = {};
 	
 	service.isActiveNavItem = function(route, pathName) {
-		return (route.indexOf(pathName) !== -1 && pathName !== '/' || route == pathName);
+		return (route.indexOf(pathName) !== -1 && pathName !== '/app' || route == pathName);
 	};
 	
 	service.buildBreadcrumbItem = function(route, currentRoute) {
@@ -16,7 +16,7 @@ familyPortalApp.factory('headerSvc', function () {
 		if (currentRoute)
 			return '<li>' + breadcrumbVal + '</li>';
 		else
-			return '<li><a href="/' + route + '">' + breadcrumbVal + '</a></li>';
+			return '<li><a href="/app/' + route + '">' + breadcrumbVal + '</a></li>';
 	};
 	
 	return service;

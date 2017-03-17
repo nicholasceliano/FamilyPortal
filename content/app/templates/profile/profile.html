@@ -1,0 +1,157 @@
+<div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1" ng-controller="profileCtrl" ng-init="init()">
+	<div class="col-md-10 col-md-offset-1">
+		<h1>Profile 
+			<i class="profile-btn fa fa-pencil" ng-hide="editMode" ng-click="toggleEditMode()"></i>
+			<i class="profile-btn fa fa-save" ng-hide="!editMode" ng-click="save()"></i>
+			<i class="profile-btn fa fa-close" ng-hide="!editMode" ng-click="toggleEditMode()"></i>
+		</h1>
+	</div>
+	<div class="panel-loading-cover-page" ng-hide="!profileInfoLoading &amp;&amp; !profilePhotoLoading">
+		<img src="/dist/images/loading.gif"/>
+	</div>
+	<div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1 no-side-padding" ng-hide="profileInfoLoading || profilePhotoLoading">
+		<div class="profile-image col-xs-12 col-md-2">
+			<img ng-src="data:image/jpeg;base64,{{photoInfo.userImage}}"/>
+			<input class="image-input" type="file" accept="image/*" inputfileread="fileToUpload"/>
+			<input type="button" value="Upload Image" ng-click="saveImage()"/>
+		</div>
+		<div class="col-xs-12 col-md-10 no-side-padding">
+			<table class="table-condensed table-bordered profile-table">
+				<tr>
+					<th colspan="2">Personal Info</th>
+				</tr>
+				<tr>
+					<td>Username:</td>
+					<td><span>{{info.username}}</span></td>
+				</tr>
+				<tr>
+					<td>First Name:</td>
+					<td>
+						<span ng-hide="editMode">{{info.firstName}}</span>
+						<input ng-hide="!editMode" type="textbox" ng-model="info.firstName"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Middle Name:</td>
+					<td>
+						<span ng-hide="editMode">{{info.middleName}}</span>
+						<input ng-hide="!editMode" type="textbox" ng-model="info.middleName"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Last Name:</td>
+					<td>
+						<span ng-hide="editMode">{{info.lastName}}</span>
+						<input ng-hide="!editMode" type="textbox" ng-model="info.lastName"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Email Address:</td>
+					<td>
+						<span ng-hide="editMode">{{info.email}}</span>
+						<input ng-hide="!editMode" type="textbox" ng-model="info.email"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Phone Number:</td>
+					<td>
+						<span ng-hide="editMode">{{info.phone}}</span>
+						<input ng-hide="!editMode" type="textbox" ng-model="info.phone"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Birth Date:</td>
+					<td>
+						<span ng-hide="editMode">{{info.birthDate}}</span>
+						<input ng-hide="!editMode" type="textbox" ng-model="info.birthDate"/>
+					</td>
+				</tr>
+			</table>
+			<table class="table-condensed table-bordered profile-table">
+				<tr>
+					<th colspan="2">Address Info</th>
+				</tr>
+				<tr>
+					<td>Line 1:</td>
+					<td>
+						<span ng-hide="editMode">{{info.line1}}</span>
+						<input ng-hide="!editMode" type="textbox" ng-model="info.line1"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Line 2:</td>
+					<td>
+						<span ng-hide="editMode">{{info.line2}}</span>
+						<input ng-hide="!editMode" type="textbox" ng-model="info.line2"/>
+					</td>
+				</tr>
+				<tr>
+					<td>City:</td>
+					<td>
+						<span ng-hide="editMode">{{info.city}}</span>
+						<input ng-hide="!editMode" type="textbox" ng-model="info.city"/>
+					</td>
+				</tr>
+				<tr>
+					<td>State:</td>
+					<td>
+						<span ng-hide="editMode">{{info.state}}</span>
+						<input ng-hide="!editMode" type="textbox" ng-model="info.state"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Postal Code:</td>
+					<td>
+						<span ng-hide="editMode">{{info.postalCode}}</span>
+						<input ng-hide="!editMode" type="textbox" ng-model="info.postalCode"/>
+					</td>
+				</tr>
+			</table>
+			<table class="table-condensed table-bordered profile-table" ng-class="{'disabled-table':shippingAddressSameToggle, 'test':'!shippingAddressSameToggle'}">
+				<tr>
+					<th colspan="2">
+						<span>Shipping Info</span>
+						<div class="duplicate-address-info">
+							<input type="checkbox" ng-checked="shippingAddressSameToggle" ng-disabled="!editMode" ng-click="toggleSameShippingAddress()"/><span>Same as Address Info</span>
+						</div>
+					</th>
+				</tr>
+				<tr>
+					<td>Line 1:</td>
+					<td>
+						<span ng-hide="editMode || shippingAddressSameToggle">{{info.shipLine1}}</span>
+						<input ng-hide="!editMode || shippingAddressSameToggle" type="textbox" ng-model="info.shipLine1"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Line 2:</td>
+					<td>
+						<span ng-hide="editMode || shippingAddressSameToggle">{{info.shipLine2}}</span>
+						<input ng-hide="!editMode || shippingAddressSameToggle" type="textbox" ng-model="info.shipLine2"/>
+					</td>
+				</tr>
+				<tr>
+					<td>City:</td>
+					<td>
+						<span ng-hide="editMode || shippingAddressSameToggle">{{info.shipCity}}</span>
+						<input ng-hide="!editMode || shippingAddressSameToggle" type="textbox" ng-model="info.shipCity"/>
+					</td>
+				</tr>
+				<tr>
+					<td>State:</td>
+					<td>
+						<span ng-hide="editMode || shippingAddressSameToggle">{{info.shipState}}</span>
+						<input ng-hide="!editMode || shippingAddressSameToggle" type="textbox" ng-model="info.shipState"/>
+					</td>
+				</tr>
+				<tr>
+					<td>Postal Code:</td>
+					<td>
+						<span ng-hide="editMode || shippingAddressSameToggle">{{info.shipPostalCode}}</span>
+						<input ng-hide="!editMode || shippingAddressSameToggle" type="textbox" ng-model="info.shipPostalCode"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

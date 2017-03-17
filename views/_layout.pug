@@ -2,6 +2,7 @@ html(ng-app="familyPortalApp" ng-cloak)
 	head
 		title=title
 		meta(name="viewport" content="width=device-width, initial-scale=1")
+		base(href="/app/")
 		link(rel="stylesheet" href="/dist/thirdPartyCSS.css")
 		link(rel="stylesheet" href="/dist/familyPortal.css")
 		link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pnotify/3.0.0/pnotify.min.css")
@@ -11,6 +12,7 @@ html(ng-app="familyPortalApp" ng-cloak)
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-resource.min.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-cookies.js")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.min.js")
 		script(src="/dist/thirdPartyJS.js")
 		script(src="/dist/familyPortal.js")
 	body
@@ -24,32 +26,32 @@ html(ng-app="familyPortalApp" ng-cloak)
 						div(class="dropdown-menu pull-right nav-dropdown-menu")
 							ul(class="nav nav-pills nav-stacked")
 								li
-									a(href="/") 
+									a(href="/app") 
 										i(class="fa fa-home")
 											span Home
 								li
-									a(href="/videos") 
+									a(href="/app/videos") 
 										i(class="fa fa-video-camera")
 											span Videos
 								li
-									a(href="/images") 
+									a(href="/app/images") 
 										i(class="fa fa-file-image-o")
 											span Images
 								li
-									a(href="/calendar") 
+									a(href="/app/calendar") 
 										i(class="fa fa-calendar")
 											span Calendar
 								li
-									a(href="/family")
+									a(href="/app/family")
 										i(class="fa fa-group")
 											span Family Members
 								li(class="divider")
 								li
-									a(href="/profile")
+									a(href="/app/profile")
 										i(class="fa fa-user")
 											span Profile
 								li
-									a(href="/logout")
+									a(href="/app/logout" target="_self")
 										i(class="fa fa-power-off")
 											span Logout
 		if !accessDenied

@@ -1,0 +1,27 @@
+<div class="col-md-10 col-md-offset-1" ng-controller="familyMemberProfileCtrl" ng-init="init()">
+	<div class="panel-loading-cover-page" ng-hide="!pageLoading()">
+		<img src="/dist/images/loading.gif"/>
+	</div>
+	<div class="profile-image col-xs-12 col-xs-offset-0 col-md-2 col-md-offset-2" ng-hide="pageLoading()">
+		<img ng-src="data:image/jpeg;base64,{{photoInfo.userImage}}"/>
+	</div>
+	<div class=" col-xs-12 col-md-6 no-side-padding" ng-hide="pageLoading()">
+		<family-member-info is-profile="true" watch="info" familymember="{{info}}"></family-member-info>
+	</div>
+	<div class="col-xs-12 col-md-8 col-md-offset-2 no-side-padding" ng-hide="pageLoading()">
+		<h3>Recent User Activity</h3>
+		<span class="col-xs-12 no-side-padding text-center" ng-hide="pageLoading()|| recentUserActivity.length &gt; 0">No User Activity</span>
+		<div ng-hide="pageLoading() || recentUserActivity.length === 0">
+			<ul class="list-group">
+				<li class="list-group-item" ng-repeat="userActivity in recentUserActivity">
+					<div class="list-item-withbadge-text">
+						<span>{{userActivity.userName | capitalizeFirstLetter}} {{userActivity.desc}} </span>
+						<a ng-href="{{userActivity.itemUrl}}">{{userActivity.item}}</a>
+					</div>
+					<span class="badge list-item-withbadge-badge">{{userActivity.dateDiff}}</span>
+				</li>
+			</ul>
+			<load-next-page ng-hide="pageLoading()" items="User Activity" paging-variables="userActivityPaging" load-next-page-fn="getUserRecentActivity(ct, pagingStartItem)"></load-next-page>
+		</div>
+	</div>
+</div>

@@ -1,4 +1,4 @@
-familyPortalApp.controller('watchCtrl', ['$scope', 'videosSvc', 'notificationService', function($scope, videosSvc, notificationService) {
+familyPortalApp.controller('watchCtrl', ['$scope', 'videosSvc', 'urlHelperSvc', 'notificationService', function($scope, videosSvc, urlHelperSvc, notificationService) {
     'use strict';
 	
 	var watch = $scope;
@@ -6,7 +6,8 @@ familyPortalApp.controller('watchCtrl', ['$scope', 'videosSvc', 'notificationSer
 	watch.videoInfo = undefined;
 	watch.videoInfoLoading = true;
 	
-	watch.init = function (videoId) {
+	watch.init = function () {
+		var videoId = urlHelperSvc.getUrlVars().id;
 		getVideoInfo(videoId);
 	};
 

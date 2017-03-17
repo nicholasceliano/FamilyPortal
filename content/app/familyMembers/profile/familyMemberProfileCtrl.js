@@ -1,4 +1,4 @@
-familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMembersSvc', 'userInfoFormattingSvc', 'userActivitySvc', 'splashSvc', 'notificationService', function($scope, familyMembersSvc, userInfoFormattingSvc, userActivitySvc, splashSvc, notificationService) {
+familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMembersSvc', 'urlHelperSvc', 'userInfoFormattingSvc', 'userActivitySvc', 'splashSvc', 'notificationService', function($scope, familyMembersSvc, urlHelperSvc, userInfoFormattingSvc, userActivitySvc, splashSvc, notificationService) {
     'use strict';
 	
 	var profile = $scope;
@@ -14,8 +14,8 @@ familyPortalApp.controller('familyMemberProfileCtrl', ['$scope', 'familyMembersS
 	
 	profile.userActivityPaging = { ct: 10, startItem: 0, totalRecords: 0, loading: false };
 		
-	profile.init = function (userId) {
-		profileUserId = userId;
+	profile.init = function () {
+		profileUserId = urlHelperSvc.getUrlVars().id;
 		getProfileInfo(profileUserId);
 		getProfilePhoto(profileUserId);
 		profile.getUserRecentActivity(profile.userActivityPaging.ct, profile.userActivityPaging.startItem);

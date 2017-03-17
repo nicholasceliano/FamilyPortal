@@ -1,0 +1,94 @@
+<div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1" ng-controller="viewImagesCtrl" ng-init="init()">
+	<div class="col-xs-12 no-side-padding">
+		<h1>View Image
+			<span ng-hide="imageMetaDataInfoLoading"> - {{imageMetaDataInfo_Original.name}}</span>
+		</h1>
+	</div>
+	<div class="panel-loading-cover-page" ng-hide="!imageMetaDataInfoLoading">
+		<img src="/dist/images/loading.gif"/>
+	</div>
+	<div class="col-xs-12 no-side-padding" ng-hide="imageMetaDataInfoLoading">
+		<div class="col-xs-12 no-side-padding">
+			<img class="view-image-image" ng-src="/api/v1/images/{{imageMetaDataInfo_Original._id}}/photo?path={{imageMetaDataInfo_Original.fileLocation}}{{imageMetaDataInfo_Original.fileName}}{{imageMetaDataInfo_Original.fileExt}}"/>
+			<span class="col-xs-12 deleteImage" ng-click="deleteImage()">Perimently Delete Image</span>
+		</div>
+		<div class="col-xs-12 col-xs-offset-0 col-md-8 col-md-offset-2 no-side-padding">
+			<div class="col-xs-12 no-side-padding view-image-buttons">
+				<i class="fa fa-pencil fa-3x" ng-hide="editMode" ng-click="editMetaDataInfoToggle()"></i>
+				<i class="fa fa-save fa-3x" ng-hide="!editMode || saving" ng-click="saveMetaDataInfo()"></i>
+				<i class="fa fa-close fa-3x" ng-hide="!editMode || saving" ng-click="editMetaDataInfoToggle()"></i>
+				<img src="/dist/images/loading.gif" ng-show="saving"/>
+				<span ng-show="saving">Saving...</span>
+			</div>
+			<table class="table table-condensed table-bordered profile-table view-image-table">
+				<tr>
+					<td>
+						<span class="hideOverflow">Name:</span>
+					</td>
+					<td ng-class="{'no-side-padding': editMode}">
+						<span ng-hide="editMode">{{imageMetaDataInfo_Original.name}}</span>
+						<input class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.name" ng-enter="saveMetaDataInfo()"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="hideOverflow">Tags:</span>
+					</td>
+					<td ng-class="{'no-side-padding': editMode}">
+						<span ng-hide="editMode" ng-repeat="t in imageMetaDataInfo_Original.tags">{{t}}{{$last ? '' : ', '}}</span>
+						<input class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.tags" ng-enter="saveMetaDat	aInfo()"/>
+					</td>
+				</tr>
+				<tr>
+					<td> 
+						<span class="hideOverflow">File Name:</span>
+					</td>
+					<td ng-class="{'no-side-padding': editMode}">
+						<span ng-hide="editMode">{{imageMetaDataInfo_Original.fileName}}</span>
+						<input class="form-control" type="text" ng-hide="!editMode" ng-model="imageMetaDataInfo.fileName" ng-enter="saveMetaDataInfo()"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="hideOverflow">File Extension:</span>
+					</td>
+					<td>
+						<span>{{imageMetaDataInfo_Original.fileExt}}</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="hideOverflow">Create Date:</span>
+					</td>
+					<td>
+						<span>{{imageMetaDataInfo_Original.createDate | date:'MM/dd/yyyy'}}</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="hideOverflow">Create By:</span>
+					</td>
+					<td>
+						<span>{{imageMetaDataInfo_Original.createdBy}}</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="hideOverflow">Update Date:</span>
+					</td>
+					<td>
+						<span>{{imageMetaDataInfo.updateDate | date:'MM/dd/yyyy'}}</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="hideOverflow">Update By:</span>
+					</td>
+					<td>
+						<span>{{imageMetaDataInfo.updatedBy}}</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

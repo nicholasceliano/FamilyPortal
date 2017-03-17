@@ -1,4 +1,4 @@
-module.exports = function(apiRouter, dataAccess, security){	
+module.exports = function(apiRouter, dataAccess, security, config){	
 	
 	apiRouter.get('/videos', function (req, res, next) {		
 		var ct = req.query.ct;
@@ -21,7 +21,11 @@ module.exports = function(apiRouter, dataAccess, security){
 			next(new Error('id === undefined'));
 		} else {
 			dataAccess.getVideoByID(id).then(function(d) {
-				res.send(d);
+				var data = JSON.parse(d);
+				if (data.err === false)
+					data.value.url = config.videosBaseUri + data.value.url;
+				
+				res.send(JSON.stringify(data));
 			}).catch(function () {
 				next(new Error(500));
 			});

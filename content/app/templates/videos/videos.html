@@ -1,0 +1,12 @@
+<div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1" ng-controller="videosCtrl" ng-init="init()">
+	<h1>Celiano Family Videos</h1>
+	<div class="panel-loading-cover-page" ng-hide="!videosLoading">
+		<img src="/dist/images/loading.gif"/>
+	</div>
+	<ul ng-hide="videosLoading">
+		<li ng-repeat="video in videosArray">
+			<a href="./videos/watch?id={{video._id}}">{{video.name}}</a>
+		</li>
+	</ul>
+	<load-next-page ng-hide="videosLoading" items="Videos" paging-variables="videoPaging" load-next-page-fn="getVideos(ct, pagingStartItem)"></load-next-page>
+</div>

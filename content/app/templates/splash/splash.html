@@ -1,0 +1,117 @@
+<div class="col-md-10 col-xs-12 col-xs-offset-0 col-md-offset-1 no-side-padding" ng-controller="splashCtrl" ng-init="init()">
+	<div class="panel-container-sm col-md-8">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<a class="panel-title">Recent User Activity</a>
+			</div>
+			<div class="panel-body scroll-panel" style="height:155px;">
+				<div ng-hide="!userActivityLoading" class="panel-loading">
+					<img src="/dist/images/loading.gif" />
+				</div>
+				<span ng-hide="userActivityLoading || userActivityArray.length > 0" class="col-xs-12 no-side-padding text-center">No Recent User Activity</span>
+				<div ng-hide="userActivityLoading || userActivityArray.length === 0">
+					<ul class="list-group">
+						<li class="list-group-item" ng-repeat="userActivity in userActivityArray" scroll-repeat-content>
+							<div class="list-item-withbadge-text">
+								<a ng-href="family/family_member_profile?id={{userActivity.userId}}">{{userActivity.userName | capitalizeFirstLetter}}</a>
+								<span>  {{userActivity.desc}}</span>
+								<a ng-href="{{userActivity.itemUrl}}">{{userActivity.item}}</a>
+							</div>
+							<span class="badge list-item-withbadge-badge">{{userActivity.dateDiff}}</span>
+						</li>
+						<li class="col-xs-12 list-group-item" ng-hide="userActivityPaging.startItem >= userActivityPaging.totalRecords">
+							<load-next-page ng-hide="userActivityLoading" items="User Activity" paging-variables="userActivityPaging" load-next-page-fn="getRecentUserActivity(ct, pagingStartItem)"></load-next-page>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-container-sm col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<a class="panel-title"  href ="/app/calendar">Calendar</a>
+			</div>
+			<div class="panel-body">
+				<p>blank</p>
+			</div>
+		</div>
+	</div>
+	<div class="panel-container-lg col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 
+				<a class="panel-title" href ="/app/videos">Recent Videos</a>
+			</div>
+			<div class="panel-body scroll-panel" style="height:359px;">
+				<div ng-hide="!videosLoading" class="panel-loading">
+					<img src="/dist/images/loading.gif" />
+				</div>
+				<span ng-hide="videosLoading || videosArray.length > 0" class="col-xs-12 no-side-padding text-center">No Videos</span>
+				<div ng-hide="videosLoading || videosArray.length === 0">
+					<ul ng-hide="videosLoading" class="list-group">
+						<li class="list-group-item" ng-repeat="video in videosArray" scroll-repeat-content>
+							<div class="list-item-withbadge-text">
+								<a href="./videos/watch?id={{video._id}}">{{video.name}}</a>
+							</div>
+							<span class="badge list-item-withbadge-badge">{{video.dateDiff}}</span>
+						</li>
+						<li class="col-xs-12 list-group-item" ng-hide="videoPaging.startItem >= videoPaging.totalRecords">
+							<load-next-page ng-hide="videosLoading" items="Videos" paging-variables="videoPaging" load-next-page-fn="getRecentVideos(ct, pagingStartItem)"></load-next-page>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-container-lg col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 
+				<a class="panel-title"  href ="/app/images">Images</a>
+			</div>
+			<div class="panel-body scroll-panel" style="height:359px;">
+				<div ng-hide="!imageMetaDataLoading" class="panel-loading">
+					<img src="/dist/images/loading.gif" />
+				</div>
+				<span ng-hide="imageMetaDataLoading || imageMetaDataArray.length > 0" class="col-xs-12 no-side-padding text-center">No Images</span>
+				<div ng-hide="imageMetaDataLoading || imageMetaDataArray.length === 0">
+					<ul ng-hide="imageMetaDataLoading" class="list-group">
+						<li class="col-xs-12 list-group-item images-list-group-item" ng-repeat="image in imageMetaDataArray" scroll-repeat-content>
+							<div class="col-xs-2 no-side-padding">
+								<a href="./images/view?id={{image._id}}">
+									<img ng-src="/api/v1/images/{{image._id}}/thumbnail?path={{image.fileLocation}}{{image.fileName}}.thumbnail{{image.fileExt}}" />
+								</a>
+							</div>
+							<div class="col-xs-7">
+								<a href="./images/view?id={{image._id}}">{{image.name}}</a>
+							</div>
+							<span class="col-xs-3 badge">{{image.dateDiff}}</span>
+						</li>
+						<li class="col-xs-12 list-group-item" ng-hide="imageMetaDataPaging.startItem >= imageMetaDataPaging.totalRecords">
+							<load-next-page ng-hide="imageMetaDataLoading" items="Images" paging-variables="imageMetaDataPaging" load-next-page-fn="getRecentImageMetaData(ct, pagingStartItem)"></load-next-page>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel-container-md col-md-4">
+		<div class="panel panel-default">
+			<div class="panel-heading"> 
+				<a class="panel-title"  href ="/app/family">Family Members</a>
+			</div>
+			<div class="panel-body">
+				<div ng-hide="!familyMembersLoading" class="panel-loading">
+					<img src="/dist/images/loading.gif" />
+				</div>
+				<ul ng-hide="familyMembersLoading" class="list-group">
+					<li class="list-group-item" ng-repeat="familyMember in familyMembersArray" scroll-repeat-content>
+						<a href="./family/family_member_profile?id={{familyMember._id}}">{{familyMember.firstName}} {{familyMember.lastName}}</a>
+					</li>
+					<li class="col-xs-12 list-group-item" ng-hide="familyMembersPaging.startItem >= familyMembersPaging.totalRecords">
+						<load-next-page ng-hide="familyMembersLoading" items="Family Members" paging-variables="familyMembersPaging" load-next-page-fn="getRecentFamilyMembers(ct, pagingStartItem)"></load-next-page>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

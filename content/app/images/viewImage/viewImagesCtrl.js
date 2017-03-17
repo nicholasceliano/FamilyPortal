@@ -1,4 +1,4 @@
-familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'imagesMetadataSvc', 'imagesThumbnailSvc', 'imagesSvc', 'notificationService', function($scope, $cookies, imagesMetadataSvc, imagesThumbnailSvc, imagesSvc, notificationService) {
+familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'imagesMetadataSvc', 'urlHelperSvc', 'imagesThumbnailSvc', 'imagesSvc', 'notificationService', function($scope, $cookies, imagesMetadataSvc, urlHelperSvc, imagesThumbnailSvc, imagesSvc, notificationService) {
     'use strict';
 	
 	var view = $scope;
@@ -12,7 +12,8 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'imagesMetad
 	view.saving = false;
 	view.editMode = false;
 	
-	view.init = function (imageId) {
+	view.init = function () {
+		var imageId = urlHelperSvc.getUrlVars().id;
 		getImageMetaDataInfo(imageId);
 	};
 	

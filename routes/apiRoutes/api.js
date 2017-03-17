@@ -8,7 +8,7 @@ module.exports = function(app, dataAccess, security, config, fileAccess, pageErr
 	app.use('/api/' + config.api.version, apiRouter);
 		
 	require(fileLoc + '/userActivity.js')(apiRouter, dataAccess, security);
-	require(fileLoc + '/videos.js')(apiRouter, dataAccess, security);
+	require(fileLoc + '/videos.js')(apiRouter, dataAccess, security, config);
 	require(fileLoc + '/images/folder.js')(apiRouter, security, config, fileAccess);
 	require(fileLoc + '/images/metadata.js')(apiRouter, dataAccess, security, config);
 	require(fileLoc + '/images/photo.js')(apiRouter, security, config, fileAccess, apiUploadsHelper);

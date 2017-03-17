@@ -1,0 +1,12 @@
+<div class="col-xs-12 col-xs-offset-0 col-md-10 col-md-offset-1" ng-controller="watchCtrl" ng-init="init()">
+	<div class="panel-loading-cover-page" ng-hide="!videoInfoLoading">
+		<img src="/dist/images/loading.gif"/>
+	</div>
+	<div ng-hide="videoInfoLoading">
+		<h1>Celiano Family Videos - {{videoInfo.name}}</h1>
+		<video class="video-player" controls="">
+			<source ng-repeat="source in [videoInfo.url]" vsrc="{{source}}" type="video/mp4" value="Your browser does not support the video tag" html5vfix>
+		</video>
+		<h4>Please be patient while the video buffers. You must be using a browser compatible with HTML5 video.</h4>
+	</div>
+</div>

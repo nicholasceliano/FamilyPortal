@@ -1,4 +1,4 @@
-familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMembersSvc', 'imageHelperSvc', 'notificationService', function($scope, profileSvc, familyMembersSvc, imageHelperSvc, notificationService) {
+familyPortalApp.controller('profileCtrl', ['$scope', '$cookies', 'profileSvc', 'familyMembersSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, profileSvc, familyMembersSvc, imageHelperSvc, notificationService) {
     'use strict';
 	
 	var profile = $scope;
@@ -13,7 +13,8 @@ familyPortalApp.controller('profileCtrl', ['$scope', 'profileSvc', 'familyMember
 	profile.profileInfoLoading = true;
 	profile.profilePhotoLoading = true;
 		
-	profile.init = function (userId) {
+	profile.init = function () {
+		var userId = $cookies.get('userId');
 		getProfileInfo(userId);
 		getProfilePhoto(userId);
 	};

@@ -27,7 +27,7 @@ app.use('/dist', express.static('dist'));//makes /dist folder accessable from cl
 app.use('/fonts', express.static('fonts'));//makes /fonts folder accessable from client side
 
 //Routes
-require('./routes/webRoutes/web.js')(app, dataAccess, security, config, logger, express);
+require('./routes/webRoutes/web.js')(app, security, logger, express);
 require('./routes/apiRoutes/api.js')(app, dataAccess, security, config, fileAccess, pageErrors, logger, express);
 
 //Error Page Handling Middleware
