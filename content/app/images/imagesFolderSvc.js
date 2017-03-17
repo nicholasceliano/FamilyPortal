@@ -3,6 +3,10 @@ familyPortalApp.factory('imagesFolderSvc', ['$q', 'portalApiSvc', function ($q, 
 
     var service = {};
 	
+	service.setFolderName = function (folderName) {
+		return (folderName.slice(-1) == '/' ? folderName : folderName + '/');
+	};
+	
 	service.saveFolder = function (postData) {
 		var deffered = $q.defer();
 		

@@ -1,4 +1,4 @@
-familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 'imagesSvc', 'imagesMetadataSvc', 'imagesThumbnailSvc', 'imagesFolderSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, urlHelperSvc, imagesSvc, imagesMetadataSvc, imagesThumbnailSvc, imagesFolderSvc, imageHelperSvc, notificationService) {
+familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'urlHelperSvc', 'imagesSvc', 'imagesMetadataSvc', 'imagesThumbnailSvc', 'imagesFolderSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, $location, urlHelperSvc, imagesSvc, imagesMetadataSvc, imagesThumbnailSvc, imagesFolderSvc, imageHelperSvc, notificationService) {
     'use strict';
 	
 	var images = $scope;
@@ -33,10 +33,18 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	images.saveImageFile = undefined;
 	images.saveImageError = '';
 	
+	images.$on('$locationChangeStart',function(event, next, current) {//handles folder navigation
+		var nextFolderRoute = urlHelperSvc.getUrlVarsFromString(next).folderName;
+		
+		if (nextFolderRoute === undefined)
+			retrievePageData('/');
+		else
+			retrievePageData(nextFolderRoute);
+	});
+	
+	
 	images.init = function () {
 		interpretQueryParams();
-		getFolders(images.folderName);
-		images.getImageMetaData(images.imagePaging.ct, images.imagePaging.startItem);
 	};
 	
 	images.pageLoading = function() {
@@ -127,10 +135,26 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		}
 	};
 	
-	images.openFolder = function(folderName) {
-		images.folderName = (folderName.slice(-1) == '/' ? folderName : folderName + '/');
+	images.openFolder = function(folder) {
+		images.folderName = imagesFolderSvc.setFolderName(folder);
+		$location.search('folderName', images.folderName);
+	};
+	
+	function retrievePageData(folderRoute) {
+		var folder;
 		
-		//reset all variables to default
+		if (folderRoute == '/') {
+			folder = folderRoute;
+		} else {
+			var routes = decodeURIComponent(folderRoute).split('/');
+				
+			if (routes[routes.length - 1].length === 0)
+				routes.pop();
+			
+			folder = (routes.length == 1 ? '/' : routes.join('/'));
+		}
+		
+		images.folderName = imagesFolderSvc.setFolderName(folder);
 		images.imagePaging.startItem = 0;
 		images.imagePaging.totalRecords = 0;
 		
@@ -142,7 +166,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 		
 		getFolders(images.folderName);
 		images.getImageMetaData(images.imagePaging.ct, images.imagePaging.startItem);
-	};
+	}
 	
 	images.deleteFolder = function (currentFolderName, selectedFolderName) {
 		
@@ -197,8 +221,13 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', 'urlHelperSvc', 
 	function interpretQueryParams() {
 		var params = urlHelperSvc.getUrlVars();
 		
-		if (params.msg !== undefined)
+		if (params.msg)
 			notificationService.success(decodeURI(params.msg));
+		
+		if (params.folderName)
+			retrievePageData(params.folderName);
+		else
+			retrievePageData('/');
 	}
 		
 	//API Calls

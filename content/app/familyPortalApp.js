@@ -14,7 +14,8 @@ familyPortalApp.config(['$routeProvider', '$locationProvider', function($routePr
 						templateUrl: '/dist/templates/videos_watch.html'
 					})
 					.when('/images', {
-						templateUrl: '/dist/templates/images.html'
+						templateUrl: '/dist/templates/images.html',
+						reloadOnSearch: false
 					})
 					.when('/images/view', {
 						templateUrl: '/dist/templates/images_view.html'
