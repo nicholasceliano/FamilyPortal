@@ -5,7 +5,7 @@
 			<div>
 				<i class="fa fa-search" ng-click="search()"></i>
 			</div>
-			<input class="form-control" type="text" placeholder="Search..." ng-model="searchText" ng-enter="search()"/>
+			<input class="form-control" type="text" placeholder="Search..." ng-model="searchText" ng-change="changeSearchText()" ng-enter="search()"/>
 		</div>
 	</div>
 	<div class="col-xs-12 no-side-padding">
@@ -77,9 +77,5 @@
 			</div>
 		</div>
 		<load-next-page ng-hide="pageLoading()" items="Images" paging-variables="imagePaging" load-next-page-fn="getImageMetaData(ct, pagingStartItem)"></load-next-page>
-		<div class="col-xs-12 no-side-padding" ng-hide="pageLoading()"> 
-			<h3>allow users to drag and drop images to folders</h3>
-			<h3>maybe mirror all this for the video page</h3>
-		</div>
 	</div>
 </div>

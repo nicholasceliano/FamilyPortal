@@ -35,11 +35,12 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'ur
 	
 	images.$on('$locationChangeStart',function(event, next, current) {//handles folder navigation
 		var nextFolderRoute = urlHelperSvc.getUrlVarsFromString(next).folderName;
+		var nextSearchTerm = urlHelperSvc.getUrlVarsFromString(next).searchTerm;
 		
 		if (nextFolderRoute === undefined)
-			retrievePageData('/');
+			retrievePageData('/', nextSearchTerm);
 		else
-			retrievePageData(nextFolderRoute);
+			retrievePageData(nextFolderRoute, nextSearchTerm);
 	});
 	
 	
@@ -140,7 +141,18 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'ur
 		$location.search('folderName', images.folderName);
 	};
 	
-	function retrievePageData(folderRoute) {
+	images.search = function () {
+		$location.search('searchTerm', images.searchText);
+	};
+	
+	images.changeSearchText = function() {
+		var params = urlHelperSvc.getUrlVars();
+		
+		if (images.searchText === '' && params.searchTerm)
+			images.search();
+	};
+	
+	function retrievePageData(folderRoute, searchTerm) {
 		var folder;
 		
 		if (folderRoute == '/') {
@@ -159,12 +171,19 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'ur
 		images.imagePaging.totalRecords = 0;
 		
 		images.folders = [];
-		images.foldersLoading = true;
-		
 		images.imageMetaData = [];
-		images.imageMetaDataLoading = true;
 		
-		getFolders(images.folderName);
+		if (searchTerm) {
+			images.searchText = searchTerm;
+			images.folderName = undefined;
+			$location.search('folderName', null);
+		} else {
+			images.searchText = '';
+		}
+		
+		if (images.folderName)
+			getFolders(images.folderName);
+		
 		images.getImageMetaData(images.imagePaging.ct, images.imagePaging.startItem);
 	}
 	
@@ -207,17 +226,6 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'ur
 		}
 	};
 	
-	images.search = function () {
-		//set page & imageMetaData to default values
-		images.imagePaging.startItem = 0;
-		images.imagePaging.totalRecords = 0;
-		
-		images.imageMetaData = [];
-		images.imageMetaDataLoading = true;
-		
-		images.getImageMetaData(images.imagePaging.ct, images.imagePaging.startItem);
-	};
-	
 	function interpretQueryParams() {
 		var params = urlHelperSvc.getUrlVars();
 		
@@ -225,9 +233,9 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'ur
 			notificationService.success(decodeURI(params.msg));
 		
 		if (params.folderName)
-			retrievePageData(params.folderName);
+			retrievePageData(params.folderName, params.searchTerm);
 		else
-			retrievePageData('/');
+			retrievePageData('/', params.searchTerm);
 	}
 		
 	//API Calls
@@ -270,6 +278,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'ur
 	}
 	
 	function getFolders(folderPath) {
+		images.foldersLoading = true;	
 		imagesFolderSvc.getFolders(folderPath).then(function (resp) {
 			if (resp.err)
 				notificationService.info(resp.value);
@@ -325,6 +334,7 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'ur
 	}
 	
 	images.getImageMetaData = function (imgCt, startItem) {
+		images.imageMetaDataLoading = true;
 		imagesMetadataSvc.getImageMetaData(imgCt, startItem, images.searchText, images.folderName).then(function (resp) {
             if (resp.err)
 				notificationService.info(resp.value);

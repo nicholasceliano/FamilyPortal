@@ -1,7 +1,6 @@
 Short Term:
 - Images
 	- Need to clean up Images controller
-	- Need to have browser 'back' button save filtered search critera
 	- Some images arent uploading. Some bug idk. Maybe the MIME type??
 	- Allow users to click image to see full Image
 	- Add right click menu for folders/images
@@ -24,16 +23,12 @@ AWS
 Future:
 - Family Calendar
 	- Can integrate to google calendars, aol calendars?
-- Recent comments activity feed
-	- this can be hooked up to twitter/facebook/youtube, etc if we want
 - Pictures section
-	- add tags for videos
 	- can integrate to facebook, pisca, etc
 - Videos section
 	- Add tags for videos
 	- Allow users to upload videos
 	- Can integrate to youtube
-- Instant messaging section? not sure
 - Profile Page
 	- Allows users to change password
 - Admin panel
