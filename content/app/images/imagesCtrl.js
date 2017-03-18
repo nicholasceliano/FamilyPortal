@@ -1,4 +1,4 @@
-familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'urlHelperSvc', 'imagesSvc', 'imagesMetadataSvc', 'imagesThumbnailSvc', 'imagesFolderSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, $location, urlHelperSvc, imagesSvc, imagesMetadataSvc, imagesThumbnailSvc, imagesFolderSvc, imageHelperSvc, notificationService) {
+familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'urlHelperSvc', 'imagesSvc', 'viewImagesSvc', 'imagesMetadataSvc', 'imagesThumbnailSvc', 'imagesFolderSvc', 'imageHelperSvc', 'notificationService', function($scope, $cookies, $location, urlHelperSvc, imagesSvc, viewImagesSvc, imagesMetadataSvc, imagesThumbnailSvc, imagesFolderSvc, imageHelperSvc, notificationService) {
     'use strict';
 	
 	var images = $scope;
@@ -32,6 +32,30 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'ur
 	images.saveImageTags = '';
 	images.saveImageFile = undefined;
 	images.saveImageError = '';
+	
+	images.folderOptions = [
+		['Open Folder', function($itemScope){
+			images.openFolder(images.folderName + $itemScope.i);
+		}],
+		['Delete Folder', function($itemScope){
+			images.deleteFolder(images.folderName, $itemScope.i);
+		}]
+	];
+	  
+	images.imageOptions = [
+		['Open Image', function($itemScope){
+			$location.url($location.path());
+			$location.path('/images/view').search('id', $itemScope.i._id);
+		}],
+		['Delete Image', function($itemScope){
+			var r = confirm("Are you sure you want to perminantly delete this image?");
+			if (r === true) {
+				viewImagesSvc.deleteImage($itemScope.i._id, $itemScope.i);
+				viewImagesSvc.deleteImageThumbnail($itemScope.i._id, $itemScope.i);
+				viewImagesSvc.deleteImageMetaData($itemScope.i._id);
+			}
+		}]
+	];
 	
 	images.$on('$locationChangeStart',function(event, next, current) {//handles folder navigation
 		var nextFolderRoute = urlHelperSvc.getUrlVarsFromString(next).folderName;
@@ -228,9 +252,6 @@ familyPortalApp.controller('imagesCtrl', ['$scope', '$cookies', '$location', 'ur
 	
 	function interpretQueryParams() {
 		var params = urlHelperSvc.getUrlVars();
-		
-		if (params.msg)
-			notificationService.success(decodeURI(params.msg));
 		
 		if (params.folderName)
 			retrievePageData(params.folderName, params.searchTerm);

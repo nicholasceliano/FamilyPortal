@@ -1,4 +1,4 @@
-var familyPortalApp = angular.module('familyPortalApp',  ['ngResource', 'ngRoute', 'ngCookies', 'jlareau.pnotify']);
+var familyPortalApp = angular.module('familyPortalApp',  ['ngResource', 'ngRoute', 'ngCookies', 'jlareau.pnotify', 'ui.bootstrap.contextMenu']);
 
 familyPortalApp.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/', {

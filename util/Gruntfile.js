@@ -27,6 +27,7 @@ module.exports = function(grunt) {
 			thirdPartyJS_Dev : {
 				src: [
 						'content/thirdParty/js/angular-pnotify.js',
+						'content/thirdParty/js/contextMenu.js',
 						'content/thirdParty/js/bootstrap.js'
 					],
 				dest: 'dist/thirdPartyJS.js'
@@ -76,6 +77,7 @@ module.exports = function(grunt) {
 				mangle: true,
 				src: [
 						'content/thirdParty/js/angular-pnotify.js',
+						'content/thirdParty/js/contextMenu.js',
 						'content/thirdParty/js/bootstrap.js'
 					],
 				dest: 'dist/thirdPartyJS.js'

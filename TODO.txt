@@ -3,7 +3,6 @@ Short Term:
 	- Need to clean up Images controller
 	- Some images arent uploading. Some bug idk. Maybe the MIME type??
 	- Allow users to click image to see full Image
-	- Add right click menu for folders/images
 - Set up Profile page
 	- Allow users to add new family members(set up HoH account)
 - Set up Calendar

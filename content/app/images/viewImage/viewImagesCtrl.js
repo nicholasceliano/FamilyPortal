@@ -1,4 +1,4 @@
-familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'imagesMetadataSvc', 'urlHelperSvc', 'imagesThumbnailSvc', 'imagesSvc', 'notificationService', function($scope, $cookies, imagesMetadataSvc, urlHelperSvc, imagesThumbnailSvc, imagesSvc, notificationService) {
+familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'viewImagesSvc', 'imagesMetadataSvc', 'urlHelperSvc', 'imagesThumbnailSvc', 'imagesSvc', 'notificationService', function($scope, $cookies, viewImagesSvc, imagesMetadataSvc, urlHelperSvc, imagesThumbnailSvc, imagesSvc, notificationService) {
     'use strict';
 	
 	var view = $scope;
@@ -30,44 +30,11 @@ familyPortalApp.controller('viewImagesCtrl', ['$scope', '$cookies', 'imagesMetad
 	view.deleteImage = function () {
 		var r = confirm("Are you sure you want to perminantly delete this image?");
 		if (r === true) {
-			deleteImage(view.imageMetaDataInfo._id, view.imageMetaDataInfo_Original);
-			deleteImageThumbnail(view.imageMetaDataInfo._id, view.imageMetaDataInfo_Original);
-			deleteImageMetaData(view.imageMetaDataInfo._id);
+			viewImagesSvc.deleteImage(view.imageMetaDataInfo._id, view.imageMetaDataInfo_Original);
+			viewImagesSvc.deleteImageThumbnail(view.imageMetaDataInfo._id, view.imageMetaDataInfo_Original);
+			viewImagesSvc.deleteImageMetaData(view.imageMetaDataInfo._id);
 		}
 	};
-	
-	function deleteImageMetaData(imageId) {
-		imagesMetadataSvc.deleteImageMetaDataById(imageId).then(function (resp) {
-			if (resp.err)
-				notificationService.error(resp.value);
-			else 
-				window.location.href = encodeURI('/images?msg=Image Successfully Deleted');
-        }, function () {
-            notificationService.error('Error: imagesMetadataSvc.deleteImageById(imageId, fullFileName)');
-        });
-	}
-	
-	function deleteImageThumbnail(imageId, imageMetaDataInfo_Original) {
-		var fullFileName =  imageMetaDataInfo_Original.fileLocation + imageMetaDataInfo_Original.fileName + '.thumbnail' + imageMetaDataInfo_Original.fileExt;
-		
-		imagesThumbnailSvc.deleteImageThumbnail(imageId, fullFileName).then(function (resp) {
-			if (resp.err)
-				notificationService.info(resp.value);
-        }, function () {
-            notificationService.error('Error: imagesThumbnailSvc.deleteImageThumbnail(imageId, fullFileName)');
-        });
-	}
-	
-	function deleteImage(imageId, imageMetaDataInfo_Original) {
-		var fullFileName =  imageMetaDataInfo_Original.fileLocation + imageMetaDataInfo_Original.fileName + imageMetaDataInfo_Original.fileExt;
-		
-		imagesSvc.deleteImage(imageId, fullFileName).then(function (resp) {
-			if (resp.err)
-				notificationService.info(resp.value);
-        }, function () {
-            notificationService.error('Error: viewImagesSvc.deleteImage(imageId, fullFileName)');
-        });
-	}
 	
 	function updateImageFileName (imageMetaDataInfo, imageMetaDataInfo_Original) {
 		var postData = {
